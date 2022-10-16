@@ -13,8 +13,8 @@ typedef struct ball_data {
     gfx_sprite_t* sprite;
     float x;
     float y;
-    float v;
-    float d;
+    float vx;
+    float vy;
 } ball_data;
 
 void collideballs(ball_data* ball1, ball_data* ball2);

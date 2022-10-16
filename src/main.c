@@ -44,6 +44,9 @@ int zero_counter;
 //speed multiplier for power and angle change
 float speedmult = 1;
 
+//queue starting pos
+float q_dir = PI;
+
 // acceleration
 #define A 0.02
 
@@ -91,11 +94,10 @@ void begin(void){
         balls[i].sprite = initballsprite[i];
         balls[i].x = initballx[i];
         balls[i].y = initbally[i];
-        balls[i].v = 0;
-        balls[i].d = 0;
+        balls[i].vx = 0;
+        balls[i].vy = 0;
     }
 
-    balls[15].d = PI;
 }
 
 bool step(void) {
@@ -114,10 +116,10 @@ bool step(void) {
 
         //chnage angle
         if (kb_Data[7] & kb_Up) {
-            balls[15].d += 0.04 * speedmult;
+            q_dir += 0.04 * speedmult;
         }
         if (kb_Data[7] & kb_Down) {
-            balls[15].d -= 0.04 * speedmult;
+            q_dir -= 0.04 * speedmult;
         }
 
         //change power with some funny logic so it doesnt go over or under
@@ -145,7 +147,8 @@ bool step(void) {
         if (frame > 40) {
             frame = 0;
             gamestate = run;
-            balls[15].v = q_power/5;
+            balls[15].vx = cos(q_dir) * (q_power/5);
+            balls[15].vy = sin(q_dir) * (q_power/5);
         }
     }
 
@@ -161,27 +164,40 @@ bool step(void) {
         for (int i = 15; i >= 0; i--) {
 
             //movement
-            balls[i].x -= balls[i].v * cos(balls[i].d);
-            balls[i].y -= balls[i].v * sin(balls[i].d);
+            balls[i].x -= balls[i].vx;
+            balls[i].y -= balls[i].vy;
 
-            if (balls[i].v <= A) {
-                balls[i].v = 0;
+            //not using d does come with some downsides, also might be slow af
+            float ax = A * cos(atan(balls[i].vy/balls[i].vx));
+            float ay = A * sin(atan(balls[i].vy/balls[i].vx));
+            if (balls[i].vx >= ax) { 
+                balls[i].vx -= ax;
+            } else if (balls[i].vx <= -ax) {
+                balls[i].vx += ax;
             } else {
-                balls[i].v -= A;
+                balls[i].vx = 0;
+            }
+            
+            if (balls[i].vy >= ay) {
+                balls[i].vy -= ay;
+            } else if (balls[i].vy <= -ay) {
+                balls[i].vy += ay;
+            } else {
+                balls[i].vy = 0;
             }
 
             collidewalls(&balls[i]);
 
             for (int j = 15; j >= 0; j--) {
                 if (i != j) {
-                    if(pow(balls[i].x - balls[j].x, 2) + pow(balls[i].y - balls[j].y, 2) <= 64 && (balls[i].v != 0 || balls[j].v != 0)) {
+                    if(pow(balls[i].x - balls[j].x, 2) + pow(balls[i].y - balls[j].y, 2) <= 64 && (balls[i].vx != 0 || balls[j].vx != 0 || balls[i].vy != 0 || balls[j].vy != 0)) {
                         collideballs(&balls[i], &balls[j]);
                     }
                 }
             }
 
             //increment the coumter if the x and y velocities are zero
-            if (!balls[i].v) {
+            if (!(balls[i].vx || balls[i].vy)) {
                 zero_counter ++;
             }
         }
@@ -221,7 +237,7 @@ void draw(void) {
     for (int i = 15; i >= 0; i--) {
         gfx_TransparentSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
         //velocity vectors test
-        //gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].v * cos(balls[i].d), balls[i].y - balls[i].v * sin(balls[i].d));
+        gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
     }
 
     //test
@@ -232,7 +248,7 @@ void draw(void) {
     if (gamestate == setup) {
         //queue
         gfx_SetColor(5);
-        gfx_Line(balls[15].x + cos(balls[15].d) * (10 + q_power/4), balls[15].y + sin(balls[15].d) * (10 + q_power/4), balls[15].x + cos(balls[15].d) * (100 + q_power/4), balls[15].y + sin(balls[15].d) * (100 + q_power/4));
+        gfx_Line(balls[15].x + cos(q_dir) * (10 + q_power/4), balls[15].y + sin(q_dir) * (10 + q_power/4), balls[15].x + cos(q_dir) * (100 + q_power/4), balls[15].y + sin(q_dir) * (100 + q_power/4));
 
         //power bar
         gfx_SetColor(3);
@@ -244,7 +260,7 @@ void draw(void) {
     //animate queue
     if (gamestate == animate) {
         gfx_SetColor(5);
-        gfx_Line(balls[15].x + cos(balls[15].d) * (30 + q_power/4 - frame), balls[15].y + sin(balls[15].d) * (30 + q_power/4 - frame), balls[15].x + cos(balls[15].d) * (120 + q_power/4 - frame), balls[15].y + sin(balls[15].d) * (120 + q_power/4 - frame));
+        gfx_Line(balls[15].x + cos(q_dir) * (30 + q_power/4 - frame), balls[15].y + sin(q_dir) * (30 + q_power/4 - frame), balls[15].x + cos(q_dir) * (120 + q_power/4 - frame), balls[15].y + sin(q_dir) * (120 + q_power/4 - frame));
     }
 }
 
