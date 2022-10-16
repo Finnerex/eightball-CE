@@ -168,23 +168,23 @@ bool step(void) {
             balls[i].y -= balls[i].vy;
 
             //not using d does come with some downsides, also might be slow af
-            // float ax = A * cos(atan(balls[i].vy/balls[i].vx));
-            // float ay = A * sin(atan(balls[i].vy/balls[i].vx));
-            // if (balls[i].vx >= ax) { 
-            //     balls[i].vx -= ax;
-            // } else if (balls[i].vx <= -ax) {
-            //     balls[i].vx += ax;
-            // } else {
-            //     balls[i].vx = 0;
-            // }
+            float ax = A * cos(atan(balls[i].vy/balls[i].vx));
+            float ay = A * sin(atan(balls[i].vy/balls[i].vx));
+            if (balls[i].vx >= ax) { 
+                balls[i].vx -= ax;
+            } else if (balls[i].vx <= -ax) {
+                balls[i].vx += ax;
+            } else {
+                balls[i].vx = 0;
+            }
             
-            // if (balls[i].vy >= ay) {
-            //     balls[i].vy -= ay;
-            // } else if (balls[i].vy <= -ay) {
-            //     balls[i].vy += ay;
-            // } else {
-            //     balls[i].vy = 0;
-            // }
+            if (balls[i].vy >= ay) {
+                balls[i].vy -= ay;
+            } else if (balls[i].vy <= -ay) {
+                balls[i].vy += ay;
+            } else {
+                balls[i].vy = 0;
+            }
 
             collidewalls(&balls[i]);
 

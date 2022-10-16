@@ -274,7 +274,7 @@ BB1_2:
 	section	.text,"ax",@progbits
 	public	_step
 _step:
-	ld	hl, -18
+	ld	hl, -24
 	call	__frameset
 	call	_kb_Scan
 	ld	de, (_gamestate)
@@ -423,7 +423,8 @@ BB2_4:
 	sbc	hl, hl
 	ld	(_zero_counter), hl
 	ld	bc, 0
-	ld	(ix - 6), hl
+	push	hl
+	pop	iy
 BB2_7:
 	push	de
 	pop	hl
@@ -431,51 +432,209 @@ BB2_7:
 	sbc	hl, bc
 	call	pe, __setflag
 	jq	m, BB2_8
-	ld	(ix - 12), de
+	ld	(ix - 12), iy
+	ld	(ix - 21), de
 	ex	de, hl
 	ld	bc, 19
 	call	__imulu
 	push	hl
 	pop	de
-	ld	iy, _balls
-	add	iy, de
-	ld	hl, (iy + 11)
-	ld	a, (iy + 14)
-	ld	(ix - 9), a
-	ld	(ix - 3), iy
-	lea	de, iy + 3
-	ld	bc, (iy + 3)
-	push	de
+	ld	hl, _balls
+	push	hl
 	pop	iy
-	lea	iy, iy + 3
-	ld	a, (iy)
-	ld	e, (ix - 9)
+	add	iy, de
+	lea	hl, iy + 11
+	ld	de, (iy + 11)
+	lea	bc, iy
+	ld	(ix - 9), de
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	ld	(ix - 15), hl
+	ld	a, (hl)
+	ld	(ix - 6), a
+	push	bc
+	pop	iy
+	ld	(ix - 3), iy
+	lea	hl, iy + 3
+	ld	bc, (iy + 3)
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	ld	a, (hl)
+	ex	de, hl
+	ld	e, (ix - 6)
 	call	__fsub
 	ld	iy, (ix - 3)
 	ld	(iy + 3), bc
 	ld	(iy + 6), a
-	ld	hl, (iy + 15)
-	ld	a, (iy + 18)
-	ld	(ix - 9), a
-	lea	de, iy + 7
-	ld	bc, (iy + 7)
-	push	de
+	lea	hl, iy + 15
+	ld	de, (iy + 15)
+	lea	bc, iy
+	ld	(ix - 24), de
+	push	hl
 	pop	iy
-	lea	iy, iy + 3
-	ld	a, (iy)
-	ld	e, (ix - 9)
+	lea	hl, iy + 3
+	ld	a, (hl)
+	ld	(ix - 18), a
+	push	bc
+	pop	iy
+	lea	hl, iy + 7
+	ld	bc, (iy + 7)
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	ld	a, (hl)
+	ex	de, hl
+	ld	e, (ix - 18)
 	call	__fsub
 	ld	iy, (ix - 3)
 	ld	(iy + 7), bc
 	ld	(iy + 10), a
+	ld	bc, (ix - 24)
+	ld	a, e
+	ld	hl, (ix - 9)
+	ld	e, (ix - 6)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	call	_atan
+	pop	bc
+	pop	bc
+	push	de
+	push	hl
+	call	_cos
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	ld	hl, -6039798
+	ld	e, 60
+	call	__fmul
+	ld	(ix - 9), bc
+	ld	(ix - 6), a
+	ld	iy, (ix - 3)
+	ld	bc, (iy + 15)
+	ld	a, (iy + 18)
+	ld	hl, (iy + 11)
+	ld	iy, (ix - 15)
+	ld	e, (iy)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	call	_atan
+	pop	bc
+	pop	bc
+	push	de
+	push	hl
+	call	_sin
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	ld	hl, -6039798
+	ld	e, 60
+	call	__fmul
+	ld	(ix - 18), bc
+	ld	(ix - 15), a
+	ld	iy, (ix - 3)
+	ld	hl, (iy + 11)
+	ld	d, (iy + 14)
+	push	hl
+	pop	iy
+	ld	e, d
+	ld	bc, (ix - 9)
+	ld	a, (ix - 6)
+	call	__fcmp
+	jq	p, BB2_41
+	ld	bc, (ix - 9)
+	ld	a, (ix - 6)
+	call	__fneg
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB2_44
+	ld	a, 0
+BB2_44:
+	bit	0, a
+	ld	bc, 0
+	ld	a, 0
+	jq	nz, BB2_46
+	ld	bc, (ix - 9)
+	ld	a, (ix - 6)
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	jq	BB2_46
+BB2_41:
+	lea	bc, iy
+	ld	a, d
+	ld	hl, (ix - 9)
+	ld	e, (ix - 6)
+	call	__fsub
+BB2_46:
+	ld	iy, (ix - 3)
+	ld	(iy + 11), bc
+	ld	(iy + 14), a
+	ld	hl, (iy + 15)
+	ld	e, (iy + 18)
+	ld	(ix - 9), hl
+	ld	(ix - 6), e
+	ld	iy, (ix - 18)
+	lea	bc, iy
+	ld	d, (ix - 15)
+	ld	a, d
+	call	__fcmp
+	jq	p, BB2_47
+	lea	bc, iy
+	ld	a, d
+	call	__fneg
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 9)
+	ld	a, (ix - 6)
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB2_50
+	ld	a, 0
+BB2_50:
+	bit	0, a
+	ld	bc, 0
+	ld	a, 0
+	jq	nz, BB2_52
+	ld	bc, (ix - 18)
+	ld	a, (ix - 15)
+	ld	hl, (ix - 9)
+	ld	e, (ix - 6)
+	call	__fadd
+	jq	BB2_52
+BB2_47:
+	ld	bc, (ix - 9)
+	ld	a, (ix - 6)
+	lea	hl, iy
+	ld	e, d
+	call	__fsub
+BB2_52:
+	ld	iy, (ix - 3)
+	ld	(iy + 15), bc
+	ld	(iy + 18), a
 	push	iy
 	call	_collidewalls
-	ld	bc, 0
 	pop	hl
+	ld	bc, 0
 	ld	hl, _balls+285
 	push	hl
 	pop	iy
-BB2_41:
+BB2_53:
 	push	bc
 	pop	hl
 	ld	de, 15
@@ -484,31 +643,31 @@ BB2_41:
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jq	m, BB2_42
-	ld	hl, (ix - 6)
-	ld	(ix - 15), bc
+	jq	m, BB2_54
+	ld	hl, (ix - 12)
+	ld	(ix - 9), bc
 	or	a, a
 	sbc	hl, bc
-	jq	z, BB2_53
-	ld	(ix - 9), iy
+	jq	z, BB2_65
+	ld	(ix - 6), iy
 	ld	iy, (ix - 3)
 	ld	bc, (iy + 3)
 	ld	a, (iy + 6)
-	ld	iy, (ix - 9)
+	ld	iy, (ix - 6)
 	ld	hl, (iy + 3)
-	ld	iy, (ix - 9)
+	ld	iy, (ix - 6)
 	ld	e, (iy + 6)
 	call	__fsub
 	push	bc
 	pop	hl
 	ld	e, a
 	call	__fmul
-	ld	(ix - 18), bc
+	ld	(ix - 15), bc
 	ld	d, a
 	ld	iy, (ix - 3)
 	ld	bc, (iy + 7)
 	ld	a, (iy + 10)
-	ld	iy, (ix - 9)
+	ld	iy, (ix - 6)
 	ld	hl, (iy + 7)
 	ld	e, (iy + 10)
 	call	__fsub
@@ -519,77 +678,76 @@ BB2_41:
 	push	bc
 	pop	hl
 	ld	e, a
-	ld	bc, (ix - 18)
+	ld	bc, (ix - 15)
 	ld	a, d
 	call	__fadd
 	ld	hl, -8388608
 	ld	e, 66
 	call	__fcmp
-	jq	m, BB2_53
+	jq	m, BB2_65
 	ld	iy, (ix - 3)
 	ld	hl, (iy + 11)
 	ld	e, (iy + 14)
-	ld	iy, (ix - 9)
+	ld	iy, (ix - 6)
 	ld	bc, 0
 	xor	a, a
 	call	__fcmp
-	jq	nz, BB2_52
+	jq	nz, BB2_64
 	ld	hl, (iy + 11)
 	ld	e, (iy + 14)
 	ld	bc, 0
 	xor	a, a
 	call	__fcmp
-	jq	nz, BB2_52
+	jq	nz, BB2_64
 	ld	iy, (ix - 3)
 	ld	hl, (iy + 15)
 	ld	e, (iy + 18)
-	ld	iy, (ix - 9)
+	ld	iy, (ix - 6)
 	ld	bc, 0
 	xor	a, a
 	call	__fcmp
-	jq	nz, BB2_52
+	jq	nz, BB2_64
 	ld	hl, (iy + 15)
 	ld	e, (iy + 18)
 	ld	bc, 0
 	xor	a, a
 	call	__fcmp
-	jq	z, BB2_53
-BB2_52:
+	jq	z, BB2_65
+BB2_64:
 	push	iy
 	ld	hl, (ix - 3)
 	push	hl
 	call	_collideballs
-	ld	iy, (ix - 9)
+	ld	iy, (ix - 6)
 	pop	hl
 	pop	hl
-BB2_53:
+BB2_65:
 	lea	iy, iy - 19
-	ld	bc, (ix - 15)
+	ld	bc, (ix - 9)
 	dec	bc
-	jq	BB2_41
-BB2_42:
+	jq	BB2_53
+BB2_54:
 	ld	iy, (ix - 3)
 	ld	hl, (iy + 11)
 	ld	e, (iy + 14)
 	ld	bc, 0
 	xor	a, a
 	call	__fcmp
-	jq	nz, BB2_45
+	jq	nz, BB2_57
 	ld	hl, (iy + 15)
 	ld	e, (iy + 18)
 	ld	bc, 0
 	xor	a, a
 	call	__fcmp
-	jq	nz, BB2_45
+	jq	nz, BB2_57
 	ld	hl, (_zero_counter)
 	inc	hl
 	ld	(_zero_counter), hl
-BB2_45:
-	ld	de, (ix - 12)
+BB2_57:
+	ld	de, (ix - 21)
 	dec	de
-	ld	hl, (ix - 6)
-	dec	hl
-	ld	(ix - 6), hl
+	ld	iy, (ix - 12)
+	dec	iy
 	ld	bc, 0
 	jq	BB2_7
 BB2_12:
@@ -821,10 +979,10 @@ BB2_38:
 	bit	6, a
 	jq	z, BB2_39
 	ld	a, 0
-	jq	BB2_55
+	jq	BB2_67
 BB2_39:
 	ld	a, -1
-BB2_55:
+BB2_67:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -1602,6 +1760,7 @@ L_.str:
 	db	"test: ", 0
 
 	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project 6d5b49201c74730cf332608210c1d55a002e1768)"
+	extern	_atan
 	extern	_collideballs
 	extern	__Unwind_SjLj_Register
 	extern	_solid_data
@@ -1632,15 +1791,17 @@ L_.str:
 	extern	_qball_data
 	extern	__Unwind_SjLj_Unregister
 	extern	_stripe_data
-	extern	_collidewalls
+	extern	__fneg
 	extern	_Table_tl_data
+	extern	_collidewalls
+	extern	__fdiv
 	extern	__imulu
 	extern	_gfx_SetColor
 	extern	__ltof
 	extern	_gfx_TransparentSprite_NoClip
 	extern	_gfx_End
-	extern	_gfx_Sprite_NoClip
 	extern	_cos
-	extern	_gfx_SetTextXY
+	extern	_gfx_Sprite_NoClip
 	extern	__fcmp
+	extern	_gfx_SetTextXY
 	extern	__fsub
