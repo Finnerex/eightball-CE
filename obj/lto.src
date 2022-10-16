@@ -1,0 +1,1955 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_collideballs
+_collideballs:
+	ld	hl, -30
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	bc, (ix + 9)
+	ld	hl, (iy + 3)
+	ld	e, (iy + 6)
+	push	bc
+	pop	iy
+	ld	bc, (iy + 3)
+	ld	iy, (ix + 9)
+	ld	iy, (iy + 7)
+	ld	(ix - 6), iy
+	ld	iy, (ix + 9)
+	ld	a, (iy + 10)
+	ld	(ix - 7), a
+	ld	iy, (ix + 9)
+	ld	a, (iy + 6)
+	call	__fsub
+	ld	(ix - 3), bc
+	ld	d, a
+	ld	(ix - 14), d
+	ld	bc, (ix - 6)
+	ld	a, (ix - 7)
+	call	__fsub
+	ld	(ix - 6), bc
+	ld	(ix - 7), a
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	ld	(ix - 10), bc
+	ld	iyl, a
+	ld	bc, (ix - 3)
+	ld	a, d
+	push	bc
+	pop	hl
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 10)
+	ld	e, iyl
+	call	__fadd
+	ld	(ix - 10), bc
+	ld	(ix - 25), a
+	ld	iy, (ix + 6)
+	lea	de, iy + 11
+	ld	hl, (iy + 11)
+	lea	bc, iy
+	ld	(ix - 13), hl
+	push	de
+	pop	iy
+	lea	hl, iy + 3
+	ld	d, (hl)
+	ld	(ix - 26), d
+	push	bc
+	pop	iy
+	lea	bc, iy + 15
+	ld	hl, (iy + 15)
+	ld	(ix - 17), hl
+	push	bc
+	pop	iy
+	lea	iy, iy + 3
+	ld	e, (iy)
+	ld	(ix - 18), e
+	ld	bc, (ix - 6)
+	ld	a, (ix - 7)
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	(ix - 21), a
+	ld	bc, (ix - 13)
+	ld	a, d
+	ld	hl, (ix - 3)
+	ld	d, (ix - 14)
+	ld	e, d
+	call	__fmul
+	lea	hl, iy
+	ld	e, (ix - 21)
+	call	__fadd
+	ld	(ix - 24), bc
+	ld	(ix - 29), a
+	ld	iy, (ix + 9)
+	lea	hl, iy + 11
+	ld	bc, (iy + 11)
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	ld	(ix - 21), hl
+	ld	a, (hl)
+	call	__fneg
+	ld	hl, (ix - 3)
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 24)
+	ld	e, (ix - 29)
+	call	__fadd
+	ld	(ix - 29), bc
+	ld	d, a
+	ld	iy, (ix + 9)
+	lea	hl, iy + 15
+	ld	bc, (iy + 15)
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	ld	(ix - 24), hl
+	ld	a, (hl)
+	call	__fneg
+	ld	hl, (ix - 6)
+	ld	e, (ix - 7)
+	call	__fmul
+	ld	hl, (ix - 29)
+	ld	e, d
+	call	__fadd
+	ld	(ix - 29), bc
+	ld	(ix - 30), a
+	ld	hl, (ix - 10)
+	ld	d, (ix - 25)
+	ld	e, d
+	call	__fdiv
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 14)
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	(ix - 3), hl
+	ld	e, a
+	ld	(ix - 14), e
+	ld	bc, (ix - 13)
+	ld	a, (ix - 26)
+	call	__fsub
+	ld	iy, (ix + 6)
+	ld	(iy + 11), bc
+	ld	(iy + 14), a
+	ld	bc, (ix - 6)
+	ld	a, (ix - 7)
+	ld	hl, (ix - 10)
+	ld	e, d
+	call	__fdiv
+	ld	hl, (ix - 29)
+	ld	e, (ix - 30)
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	(ix - 6), hl
+	ld	d, a
+	ld	bc, (ix - 17)
+	ld	a, (ix - 18)
+	ld	e, d
+	call	__fsub
+	ld	(iy + 15), bc
+	ld	(iy + 18), a
+	ld	iy, (ix + 9)
+	ld	bc, (iy + 11)
+	ld	hl, (ix - 21)
+	ld	a, (hl)
+	ld	hl, (ix - 3)
+	ld	e, (ix - 14)
+	call	__fadd
+	ld	(iy + 11), bc
+	ld	(iy + 14), a
+	ld	hl, (iy + 15)
+	ld	bc, (ix - 6)
+	ld	a, d
+	ld	iy, (ix - 24)
+	ld	e, (iy)
+	call	__fadd
+	ld	iy, (ix + 9)
+	ld	(iy + 15), bc
+	ld	(iy + 18), a
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_collidewalls
+_collidewalls:
+	ld	hl, -7
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	bc, -6291456
+	ld	a, 65
+	ld	d, 67
+	ld	hl, (iy + 3)
+	ld	e, (iy + 6)
+	ld	(ix - 6), hl
+	ld	(ix - 7), e
+	call	__fcmp
+	ld	hl, -5767168
+	ld	(ix - 3), hl
+	jp	m, BB1_3
+	ld	hl, -6946816
+	ld	e, d
+	ld	bc, (ix - 6)
+	ld	a, (ix - 7)
+	call	__fcmp
+	jp	p, BB1_4
+	ld	hl, -6979584
+	ld	a, 67
+BB1_3:
+	ld	iy, (ix + 6)
+	ld	(iy + 3), hl
+	ld	(iy + 6), a
+	lea	hl, iy + 11
+	ld	bc, (iy + 11)
+	lea	de, iy
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	push	de
+	pop	iy
+	ld	a, (hl)
+	call	__fneg
+	ld	(iy + 11), bc
+	ld	(iy + 14), a
+BB1_4:
+	ld	hl, (ix + 6)
+	push	hl
+	pop	iy
+	ld	hl, (iy + 7)
+	ld	d, (iy + 10)
+	ld	(ix - 6), hl
+	ld	e, d
+	ld	bc, -6291456
+	ld	a, 65
+	call	__fcmp
+	jp	m, BB1_7
+	ld	hl, 983040
+	ld	e, 67
+	ld	bc, (ix - 6)
+	ld	a, d
+	call	__fcmp
+	jp	p, BB1_8
+	ld	hl, 917504
+	ld	(ix - 3), hl
+	ld	a, e
+BB1_7:
+	ld	hl, (ix - 3)
+	ld	de, (ix + 6)
+	push	de
+	pop	iy
+	ld	(iy + 7), hl
+	ld	(iy + 10), a
+	lea	hl, iy + 15
+	ld	bc, (iy + 15)
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	ld	a, (hl)
+	call	__fneg
+	push	de
+	pop	iy
+	ld	(iy + 15), bc
+	ld	(iy + 18), a
+BB1_8:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_main
+_main:
+	call	_begin
+	call	_gfx_Begin
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 50
+	push	hl
+	ld	hl, _global_palette
+	push	hl
+	call	_gfx_SetPalette
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetDraw
+	pop	hl
+BB2_1:
+	call	_step
+	bit	0, a
+	jr	z, BB2_3
+	call	_draw
+	call	_gfx_SwapDraw
+	jr	BB2_1
+BB2_3:
+	call	_gfx_End
+	or	a, a
+	sbc	hl, hl
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_begin
+_begin:
+	ld	hl, -149
+	call	__frameset
+	ld	hl, _Table_l_data
+	ld	de, _balls+7
+	ld	bc, -137
+	lea	iy, ix
+	add	iy, bc
+	ld	(iy), de
+	ld	de, ___const.begin.initballsprite
+	push	ix
+	ld	bc, -140
+	add	ix, bc
+	ld	(ix), de
+	pop	ix
+	lea	de, ix - 70
+	push	ix
+	ld	bc, -146
+	add	ix, bc
+	ld	(ix), de
+	pop	ix
+	push	ix
+	ld	bc, -134
+	add	ix, bc
+	lea	de, ix
+	pop	ix
+	push	ix
+	ld	bc, -149
+	add	ix, bc
+	ld	(ix), de
+	pop	ix
+	ld	de, (_Table_r)
+	push	de
+	push	hl
+	call	_gfx_RotateSpriteHalf
+	pop	hl
+	pop	hl
+	ld	hl, (_Table_br)
+	push	hl
+	ld	hl, _Table_tl_data
+	push	hl
+	call	_gfx_RotateSpriteHalf
+	pop	hl
+	pop	hl
+	ld	hl, (_Table_bl)
+	push	hl
+	ld	hl, _Table_tr_data
+	push	hl
+	call	_gfx_RotateSpriteHalf
+	pop	hl
+	pop	hl
+	ld	hl, 7143424
+	ld	(ix - 70), hl
+	ld	(ix - 67), 67
+	ld	hl, 7667712
+	ld	(ix - 66), hl
+	ld	(ix - 63), 67
+	ld	(ix - 62), hl
+	ld	(ix - 59), 67
+	ld	hl, 8192000
+	ld	(ix - 58), hl
+	ld	(ix - 55), 67
+	ld	(ix - 54), hl
+	ld	(ix - 51), 67
+	ld	(ix - 50), hl
+	ld	(ix - 47), 67
+	ld	hl, -8224768
+	ld	(ix - 46), hl
+	ld	(ix - 43), 67
+	ld	(ix - 42), hl
+	ld	(ix - 39), 67
+	ld	(ix - 38), hl
+	ld	(ix - 35), 67
+	ld	(ix - 34), hl
+	ld	(ix - 31), 67
+	ld	hl, -7962624
+	ld	(ix - 30), hl
+	ld	(ix - 27), 67
+	ld	(ix - 26), hl
+	ld	(ix - 23), 67
+	ld	(ix - 22), hl
+	ld	(ix - 19), 67
+	ld	(ix - 18), hl
+	ld	(ix - 15), 67
+	ld	(ix - 14), hl
+	ld	(ix - 11), 67
+	ld	hl, -7995392
+	ld	(ix - 10), hl
+	ld	(ix - 7), 66
+	ld	hl, -6160384
+	ld	de, -134
+	lea	iy, ix
+	add	iy, de
+	ld	(iy), hl
+	push	ix
+	ld	de, -131
+	add	ix, de
+	ld	(ix), 66
+	pop	ix
+	ld	bc, -6684672
+	push	ix
+	inc	de
+	add	ix, de
+	ld	(ix), bc
+	pop	ix
+	ld	(ix - 127), 66
+	ld	iy, -5636096
+	ld	(ix - 126), iy
+	ld	(ix - 123), 66
+	ld	de, -7208960
+	ld	(ix - 122), de
+	ld	(ix - 119), 66
+	ld	(ix - 118), hl
+	ld	(ix - 115), 66
+	ld	hl, -5111808
+	ld	(ix - 114), hl
+	ld	(ix - 111), 66
+	ld	de, -7645867
+	ld	(ix - 110), de
+	ld	(ix - 107), 66
+	ld	(ix - 106), bc
+	ld	(ix - 103), 66
+	ld	(ix - 102), iy
+	ld	(ix - 99), 66
+	ld	de, -4543829
+	ld	(ix - 98), de
+	ld	(ix - 95), 66
+	ld	de, -8257536
+	ld	(ix - 94), de
+	ld	(ix - 91), 66
+	ld	de, -7208960
+	ld	(ix - 90), de
+	ld	(ix - 87), 66
+	ld	bc, -6160384
+	ld	(ix - 86), bc
+	ld	(ix - 83), 66
+	ld	(ix - 82), hl
+	ld	(ix - 79), 66
+	ld	de, -4063232
+	ld	(ix - 78), de
+	ld	(ix - 75), 66
+	ld	(ix - 74), bc
+	ld	(ix - 71), 66
+	ld	de, 64
+	ld	iy, 0
+BB3_1:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	jp	z, BB3_3
+	ld	de, -140
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	ld	hl, (hl)
+	push	ix
+	ld	de, -143
+	add	ix, de
+	ld	(ix), iy
+	pop	ix
+	ld	de, -137
+	lea	iy, ix
+	add	iy, de
+	ld	iy, (iy)
+	ld	(iy - 7), hl
+	ld	de, -143
+	lea	hl, ix
+	add	hl, de
+	ld	bc, (hl)
+	ld	de, -146
+	lea	iy, ix
+	add	iy, de
+	ld	iy, (iy)
+	add	iy, bc
+	lea	hl, iy
+	ld	hl, (hl)
+	ld	a, (iy + 3)
+	ld	de, -137
+	lea	iy, ix
+	add	iy, de
+	ld	iy, (iy)
+	ld	(iy - 4), hl
+	ld	(iy - 1), a
+	ld	de, -149
+	lea	hl, ix
+	add	hl, de
+	ld	iy, (hl)
+	add	iy, bc
+	lea	hl, iy
+	ld	hl, (hl)
+	ld	a, (iy + 3)
+	ld	bc, -137
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	ld	(iy), hl
+	ld	(iy + 3), a
+	or	a, a
+	sbc	hl, hl
+	ld	(iy + 4), hl
+	ld	(iy + 7), h
+	ld	(iy + 8), hl
+	ld	(iy + 11), h
+	lea	hl, iy
+	ld	bc, -140
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	lea	iy, iy + 3
+	push	ix
+	add	ix, bc
+	ld	(ix), iy
+	pop	ix
+	push	hl
+	pop	iy
+	lea	iy, iy + 19
+	ld	bc, -137
+	lea	hl, ix
+	add	hl, bc
+	ld	(hl), iy
+	ld	bc, -143
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	ld	de, 64
+	ld	bc, 4
+	add	iy, bc
+	jp	BB3_1
+BB3_3:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_step
+_step:
+	ld	hl, -69
+	call	__frameset
+	call	_kb_Scan
+	ld	de, (_gamestate)
+	ld	bc, 1
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	jr	nz, BB4_4
+	ld	hl, -720878
+	ld	c, 63
+	ld	iy, -720866
+	ld	b, 64
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	5, a
+	ld	de, 0
+	push	de
+	pop	hl
+	ld	a, b
+	jp	nz, BB4_29
+	ld	hl, -720876
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	6, a
+	jp	z, BB4_25
+	ld	a, 0
+	jp	BB4_26
+BB4_4:
+	ld	bc, 2
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	jp	nz, BB4_7
+	ld	hl, (_frame)
+	push	hl
+	pop	iy
+	ld	de, 2
+	add	iy, de
+	ld	(_frame), iy
+	ld	de, 39
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	m, BB4_52
+	ld	hl, 3
+	ld	de, 0
+	ld	(_frame), de
+	ld	(_gamestate), hl
+	ld	de, (_q_dir)
+	ld	iy, _q_dir
+	lea	hl, iy + 3
+	ld	l, (hl)
+	push	hl
+	push	de
+	call	_cos
+	ld	(ix - 39), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 5
+	call	__idivs
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 39)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	(_balls+296), bc
+	ld	(_balls+299), a
+	ld	hl, (_q_dir)
+	ld	a, (_q_dir+3)
+	ld	e, a
+	push	de
+	push	hl
+	call	_sin
+	ld	(ix - 39), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 5
+	call	__idivs
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 39)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	(_balls+300), bc
+	ld	(_balls+303), a
+	ld	de, (_gamestate)
+BB4_7:
+	ld	bc, 3
+	ex	de, hl
+	or	a, a
+	sbc	hl, bc
+	jp	nz, BB4_52
+	ld	hl, -720868
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	4, a
+	jp	z, BB4_52
+	ld	de, 15
+	lea	hl, ix - 9
+	ld	(ix - 51), hl
+	lea	hl, ix - 18
+	ld	(ix - 42), hl
+	lea	hl, ix - 27
+	ld	(ix - 54), hl
+	lea	hl, ix - 36
+	ld	(ix - 57), hl
+	ld	hl, (_frame)
+	inc	hl
+	ld	(_frame), hl
+	or	a, a
+	sbc	hl, hl
+	ld	(_zero_counter), hl
+	ld	bc, 0
+	ld	(ix - 45), hl
+BB4_10:
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jp	m, BB4_50
+	ld	(ix - 60), de
+	ex	de, hl
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	hl, _balls
+	push	hl
+	pop	iy
+	add	iy, de
+	ld	(ix - 39), iy
+	ld	hl, (iy + 11)
+	ld	(ix - 48), hl
+	ld	e, (iy + 14)
+	ld	(ix - 63), e
+	lea	bc, iy + 3
+	ld	(ix - 66), bc
+	ld	bc, (iy + 3)
+	ld	(ix - 69), bc
+	ld	iy, (ix - 66)
+	lea	iy, iy + 3
+	ld	(ix - 66), iy
+	ld	bc, (ix - 69)
+	ld	iy, (ix - 66)
+	ld	a, (iy)
+	call	__fsub
+	ld	iy, (ix - 39)
+	ld	(iy + 3), bc
+	ld	(iy + 6), a
+	ld	de, (iy + 15)
+	ld	(ix - 66), de
+	ld	a, (iy + 18)
+	ld	(ix - 69), a
+	lea	hl, iy + 7
+	ld	bc, (iy + 7)
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	ld	a, (hl)
+	ex	de, hl
+	ld	e, (ix - 69)
+	call	__fsub
+	ld	iy, (ix - 39)
+	ld	(iy + 7), bc
+	ld	(iy + 10), a
+	ld	bc, (ix - 66)
+	ld	a, e
+	ld	hl, (ix - 48)
+	ld	e, (ix - 63)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	ld	hl, (ix - 51)
+	push	hl
+	call	_os_FloatToReal
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 51)
+	push	hl
+	ld	hl, (ix - 42)
+	push	hl
+	call	_os_RealAtanRad
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 42)
+	push	hl
+	ld	hl, (ix - 54)
+	push	hl
+	call	_os_RealCosRad
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 42)
+	push	hl
+	ld	hl, (ix - 57)
+	push	hl
+	call	_os_RealSinRad
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 54)
+	push	hl
+	call	_os_RealToFloat
+	pop	hl
+	ld	hl, (ix - 57)
+	push	hl
+	call	_os_RealToFloat
+	pop	hl
+	ld	hl, (ix - 39)
+	push	hl
+	call	_collidewalls
+	ld	bc, 0
+	pop	hl
+	ld	hl, _balls+285
+	push	hl
+	pop	iy
+BB4_12:
+	push	bc
+	pop	hl
+	ld	de, 15
+	add	hl, de
+	ld	de, 0
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	m, BB4_21
+	ld	hl, (ix - 45)
+	ld	(ix - 63), bc
+	or	a, a
+	sbc	hl, bc
+	jp	z, BB4_20
+	ld	(ix - 48), iy
+	ld	iy, (ix - 39)
+	ld	bc, (iy + 3)
+	ld	iy, (ix - 48)
+	ld	hl, (iy + 3)
+	ld	iy, (ix - 39)
+	ld	a, (iy + 6)
+	ld	iy, (ix - 48)
+	ld	e, (iy + 6)
+	call	__fsub
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	ld	(ix - 66), bc
+	ld	d, a
+	ld	iy, (ix - 39)
+	ld	bc, (iy + 7)
+	ld	iy, (ix - 48)
+	ld	hl, (iy + 7)
+	ld	iy, (ix - 39)
+	ld	a, (iy + 10)
+	ld	iy, (ix - 48)
+	ld	e, (iy + 10)
+	call	__fsub
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 66)
+	ld	a, d
+	call	__fadd
+	ld	hl, -8388608
+	ld	e, 66
+	call	__fcmp
+	jp	m, BB4_20
+	ld	iy, (ix - 39)
+	ld	hl, (iy + 11)
+	ld	e, (iy + 14)
+	ld	iy, (ix - 48)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB4_19
+	ld	hl, (iy + 11)
+	ld	e, (iy + 14)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB4_19
+	ld	iy, (ix - 39)
+	ld	hl, (iy + 15)
+	ld	e, (iy + 18)
+	ld	iy, (ix - 48)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB4_19
+	ld	hl, (iy + 15)
+	ld	e, (iy + 18)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	z, BB4_20
+BB4_19:
+	push	iy
+	ld	hl, (ix - 39)
+	push	hl
+	call	_collideballs
+	ld	iy, (ix - 48)
+	pop	hl
+	pop	hl
+BB4_20:
+	lea	iy, iy - 19
+	ld	bc, (ix - 63)
+	dec	bc
+	jp	BB4_12
+BB4_21:
+	ld	iy, (ix - 39)
+	ld	hl, (iy + 11)
+	ld	e, (iy + 14)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB4_24
+	ld	hl, (iy + 15)
+	ld	e, (iy + 18)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB4_24
+	ld	hl, (_zero_counter)
+	inc	hl
+	ld	(_zero_counter), hl
+BB4_24:
+	ld	de, (ix - 60)
+	dec	de
+	ld	hl, (ix - 45)
+	dec	hl
+	ld	(ix - 45), hl
+	ld	bc, 0
+	jp	BB4_10
+BB4_25:
+	ld	a, -1
+BB4_26:
+	bit	0, a
+	ld	hl, -8388608
+	jr	nz, BB4_28
+	ex	de, hl
+BB4_28:
+	bit	0, a
+	ld	a, c
+BB4_29:
+	ld.sis	bc, 1
+	ld	(ix - 39), hl
+	ld	(_speedmult), hl
+	ld	(ix - 42), a
+	ld	(_speedmult+3), a
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	bit	3, a
+	jr	z, BB4_31
+	ld	e, 61
+	ld	hl, (_q_dir)
+	ld	(ix - 45), hl
+	ld	iy, _q_dir
+	lea	hl, iy + 3
+	ld	d, (hl)
+	ld	bc, (ix - 39)
+	ld	a, (ix - 42)
+	ld	hl, 2348810
+	call	__fmul
+	ld	hl, (ix - 45)
+	ld	iy, -720866
+	ld	e, d
+	call	__fadd
+	ld	(_q_dir), bc
+	ld.sis	bc, 1
+	ld	(_q_dir+3), a
+BB4_31:
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	call	__sand
+	bit	0, l
+	jr	z, BB4_33
+	ld	e, -67
+	ld	hl, (_q_dir)
+	ld	(ix - 45), hl
+	ld	iy, _q_dir
+	lea	hl, iy + 3
+	ld	d, (hl)
+	ld	bc, (ix - 39)
+	ld	a, (ix - 42)
+	ld	hl, 2348810
+	call	__fmul
+	ld	hl, (ix - 45)
+	ld	iy, -720866
+	ld	e, d
+	call	__fadd
+	ld	(_q_dir), bc
+	ld	(_q_dir+3), a
+BB4_33:
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	ld	bc, (_q_power)
+	bit	2, a
+	jr	z, BB4_36
+	push	bc
+	pop	hl
+	push	bc
+	pop	iy
+	add	iy, iy
+	ld	iy, -720866
+	sbc	hl, hl
+	ld	(ix - 45), bc
+	ld	bc, (ix - 45)
+	ld	a, l
+	call	__ltof
+	ld	(ix - 48), bc
+	ld	d, a
+	ld	bc, -3670016
+	ld	a, 66
+	ld	hl, (ix - 39)
+	ld	e, (ix - 42)
+	call	__fsub
+	ld	hl, (ix - 48)
+	ld	e, d
+	call	__fcmp
+	ld	bc, (ix - 45)
+	jp	p, BB4_36
+	ld	bc, (ix - 39)
+	ld	a, (ix - 42)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 64
+	call	__fmul
+	ld	hl, (ix - 48)
+	ld	e, d
+	call	__fadd
+	call	__ftol
+	jr	BB4_39
+BB4_36:
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	bit	2, a
+	jr	z, BB4_40
+	ld	de, 100
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	p, BB4_40
+	ld	bc, 100
+BB4_39:
+	ld	(_q_power), bc
+BB4_40:
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	bit	1, a
+	jr	z, BB4_43
+	push	bc
+	pop	hl
+	push	bc
+	pop	iy
+	add	iy, iy
+	ld	iy, -720866
+	sbc	hl, hl
+	ld	(ix - 45), bc
+	ld	bc, (ix - 45)
+	ld	a, l
+	call	__ltof
+	ld	(ix - 48), bc
+	ld	d, a
+	ld	bc, (ix - 39)
+	ld	a, (ix - 42)
+	ld	hl, -8388608
+	ld	e, 63
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 48)
+	ld	a, d
+	call	__fcmp
+	ld	bc, (ix - 45)
+	jp	p, BB4_43
+	ld	e, -64
+	ld	bc, (ix - 39)
+	ld	a, (ix - 42)
+	or	a, a
+	sbc	hl, hl
+	call	__fmul
+	ld	hl, (ix - 48)
+	ld	e, d
+	call	__fadd
+	call	__ftol
+	jr	BB4_45
+BB4_43:
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	bit	1, a
+	jr	z, BB4_46
+	push	bc
+	pop	iy
+	push	bc
+	pop	hl
+	ld	de, 1
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	ld	bc, 0
+	jp	m, BB4_47
+BB4_45:
+	ld	(_q_power), bc
+BB4_46:
+	push	bc
+	pop	iy
+BB4_47:
+	ld	hl, -720868
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld.sis	bc, 1
+	call	__sand
+	bit	0, l
+	jr	z, BB4_52
+	lea	hl, iy
+	ld	de, 1
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	m, BB4_52
+	ld	hl, 2
+	ld	(_gamestate), hl
+	ld	(_frame), hl
+	jr	BB4_52
+BB4_50:
+	ld	hl, (_zero_counter)
+	ld	de, 16
+	or	a, a
+	sbc	hl, de
+	jr	nz, BB4_52
+	ld	hl, 1
+	ld	(_gamestate), hl
+BB4_52:
+	ld	hl, -720868
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	6, a
+	jr	z, BB4_54
+	ld	a, 0
+	jr	BB4_55
+BB4_54:
+	ld	a, -1
+BB4_55:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_draw
+_draw:
+	ld	hl, -27
+	call	__frameset
+	ld	hl, _balls+285
+	ld	(ix - 3), hl
+	ld	hl, 2
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, -127
+	push	hl
+	ld	hl, 268
+	push	hl
+	ld	hl, 17
+	push	hl
+	ld	hl, 26
+	push	hl
+	call	_gfx_FillRectangle_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	push	hl
+	ld	hl, _Table_l_data
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 26
+	push	hl
+	ld	hl, _Table_tl_data
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 161
+	push	hl
+	ld	hl, _Table_tr_data
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (_Table_bl)
+	ld	de, -110
+	push	de
+	ld	de, 26
+	push	de
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (_Table_br)
+	ld	de, -110
+	push	de
+	ld	de, 161
+	push	de
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (_Table_r)
+	ld	de, 0
+	push	de
+	ld	de, 294
+	push	de
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 77
+	push	hl
+	ld	hl, 320
+	push	hl
+	ld	hl, -93
+	push	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillRectangle_NoClip
+	ld	de, 15
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	bc, 0
+BB5_1:
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jp	m, BB5_3
+	ld	iy, (ix - 3)
+	ld	hl, (iy)
+	ld	(ix - 12), hl
+	ld	bc, (iy + 3)
+	ld	(ix - 9), bc
+	ld	(ix - 6), de
+	ld	d, (iy + 6)
+	ld	a, (hl)
+	srl	a
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	pop	bc
+	ld	c, a
+	xor	a, a
+	call	__ultof
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 9)
+	ld	a, d
+	call	__fsub
+	call	__ftoul
+	ld	(ix - 9), bc
+	ld	(ix - 3), iy
+	ld	hl, (iy + 7)
+	ld	(ix - 15), hl
+	ld	e, (iy + 10)
+	ld	iy, (ix - 12)
+	ld	a, (iy + 1)
+	srl	a
+	ld	bc, 0
+	ld	c, a
+	xor	a, a
+	call	__ultof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 15)
+	ld	a, e
+	ld	e, d
+	call	__fsub
+	call	__ftoul
+	push	bc
+	ld	hl, (ix - 9)
+	push	hl
+	push	iy
+	call	_gfx_TransparentSprite_NoClip
+	ld	bc, 0
+	ld	de, (ix - 6)
+	pop	hl
+	pop	hl
+	pop	hl
+	dec	de
+	ld	iy, (ix - 3)
+	lea	iy, iy - 19
+	ld	(ix - 3), iy
+	jp	BB5_1
+BB5_3:
+	ld	hl, 170
+	push	hl
+	ld	hl, 10
+	push	hl
+	call	_gfx_SetTextXY
+	pop	hl
+	pop	hl
+	ld	hl, _.str
+	push	hl
+	call	_gfx_PrintString
+	pop	hl
+	ld	hl, (_zero_counter)
+	ld	de, 1
+	push	de
+	push	hl
+	call	_gfx_PrintInt
+	pop	hl
+	pop	hl
+	ld	de, (_gamestate)
+	ld	bc, 1
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	ld	bc, 5
+	ld	iy, _balls+288
+	lea	hl, iy + 3
+	ld	(ix - 9), hl
+	ld	iy, _q_dir
+	lea	hl, iy + 3
+	ld	(ix - 3), hl
+	ld	iy, _balls+292
+	lea	hl, iy + 3
+	ld	(ix - 6), hl
+	jp	nz, BB5_5
+	push	bc
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (_balls+288)
+	ld	(ix - 12), hl
+	ld	hl, (ix - 9)
+	ld	a, (hl)
+	ld	(ix - 15), a
+	ld	bc, (_q_dir)
+	ld	hl, (ix - 3)
+	ld	e, (hl)
+	push	de
+	push	bc
+	call	_cos
+	ld	(ix - 18), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 4
+	call	__idivs
+	push	hl
+	pop	iy
+	ld	hl, 10
+	push	hl
+	pop	bc
+	add	iy, bc
+	lea	hl, iy
+	lea	bc, iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 18)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 12)
+	ld	e, (ix - 15)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 12), bc
+	ld	hl, (_balls+292)
+	ld	(ix - 15), hl
+	ld	hl, (ix - 6)
+	ld	a, (hl)
+	ld	(ix - 18), a
+	ld	bc, (_q_dir)
+	ld	hl, (ix - 3)
+	ld	e, (hl)
+	push	de
+	push	bc
+	call	_sin
+	ld	(ix - 21), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 4
+	call	__idivs
+	ld	bc, 10
+	add	hl, bc
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 21)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 15)
+	ld	e, (ix - 18)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 15), bc
+	ld	hl, (_balls+288)
+	ld	(ix - 18), hl
+	ld	a, (_balls+291)
+	ld	(ix - 21), a
+	ld	bc, (_q_dir)
+	ld	hl, (ix - 3)
+	ld	e, (hl)
+	push	de
+	push	bc
+	call	_cos
+	ld	(ix - 24), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 4
+	call	__idivs
+	push	hl
+	pop	iy
+	ld	hl, 100
+	push	hl
+	pop	bc
+	add	iy, bc
+	lea	hl, iy
+	lea	bc, iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 24)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 18)
+	ld	e, (ix - 21)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 18), bc
+	ld	hl, (_balls+292)
+	ld	(ix - 21), hl
+	ld	a, (_balls+295)
+	ld	(ix - 24), a
+	ld	hl, (_q_dir)
+	ld	a, (_q_dir+3)
+	ld	e, a
+	push	de
+	push	hl
+	call	_sin
+	ld	(ix - 27), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 4
+	call	__idivs
+	ld	bc, 100
+	add	hl, bc
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 27)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 21)
+	ld	e, (ix - 24)
+	call	__fadd
+	call	__ftol
+	push	bc
+	ld	hl, (ix - 18)
+	push	hl
+	ld	hl, (ix - 15)
+	push	hl
+	ld	hl, (ix - 12)
+	push	hl
+	call	_gfx_Line
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 3
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 5
+	push	hl
+	ld	hl, 103
+	push	hl
+	ld	hl, -26
+	push	hl
+	ld	hl, 109
+	push	hl
+	call	_gfx_Rectangle_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 4
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (_q_power)
+	inc	hl
+	ld	de, 3
+	push	de
+	push	hl
+	ld	hl, -25
+	push	hl
+	ld	hl, 110
+	push	hl
+	call	_gfx_FillRectangle_NoClip
+	ld	bc, 5
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	de, (_gamestate)
+BB5_5:
+	ld	iy, 2
+	ex	de, hl
+	lea	de, iy
+	or	a, a
+	sbc	hl, de
+	jp	nz, BB5_7
+	push	bc
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (_balls+288)
+	ld	(ix - 12), hl
+	ld	hl, (ix - 9)
+	ld	a, (hl)
+	ld	(ix - 9), a
+	ld	bc, (_q_dir)
+	ld	hl, (ix - 3)
+	ld	e, (hl)
+	push	de
+	push	bc
+	call	_cos
+	ld	(ix - 15), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 4
+	call	__idivs
+	ld	bc, 30
+	add	hl, bc
+	ld	bc, (_frame)
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 15)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 12)
+	ld	e, (ix - 9)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 9), bc
+	ld	hl, (_balls+292)
+	ld	(ix - 12), hl
+	ld	hl, (ix - 6)
+	ld	a, (hl)
+	ld	(ix - 6), a
+	ld	bc, (_q_dir)
+	ld	hl, (ix - 3)
+	ld	e, (hl)
+	push	de
+	push	bc
+	call	_sin
+	ld	(ix - 15), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 4
+	call	__idivs
+	ld	bc, 30
+	add	hl, bc
+	ld	bc, (_frame)
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 15)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 12)
+	ld	e, (ix - 6)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 6), bc
+	ld	hl, (_balls+288)
+	ld	(ix - 12), hl
+	ld	a, (_balls+291)
+	ld	(ix - 15), a
+	ld	bc, (_q_dir)
+	ld	hl, (ix - 3)
+	ld	e, (hl)
+	push	de
+	push	bc
+	call	_cos
+	ld	(ix - 3), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 4
+	call	__idivs
+	ld	bc, 120
+	add	hl, bc
+	ld	bc, (_frame)
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 3)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 12)
+	ld	e, (ix - 15)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 3), bc
+	ld	hl, (_balls+292)
+	ld	(ix - 12), hl
+	ld	a, (_balls+295)
+	ld	(ix - 15), a
+	ld	hl, (_q_dir)
+	ld	a, (_q_dir+3)
+	ld	e, a
+	push	de
+	push	hl
+	call	_sin
+	ld	(ix - 18), hl
+	pop	hl
+	pop	hl
+	ld	hl, (_q_power)
+	ld	bc, 4
+	call	__idivs
+	ld	bc, 120
+	add	hl, bc
+	ld	bc, (_frame)
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	d, a
+	ld	bc, (ix - 18)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 12)
+	ld	e, (ix - 15)
+	call	__fadd
+	call	__ftol
+	push	bc
+	ld	hl, (ix - 3)
+	push	hl
+	ld	hl, (ix - 6)
+	push	hl
+	ld	hl, (ix - 9)
+	push	hl
+	call	_gfx_Line
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+BB5_7:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_end
+_end:
+	ret
+	section	.text,"ax",@progbits
+
+	section	.data,"aw",@progbits
+	public	_Table_r_data
+_Table_r_data:
+	db	26
+	db	163
+	db	4238 dup 0
+
+	section	.data,"aw",@progbits
+	public	_Table_r
+_Table_r:
+	dl	_Table_r_data
+
+	section	.data,"aw",@progbits
+	public	_Table_br_data
+_Table_br_data:
+	db	17
+	db	135
+	db	2295 dup 0
+
+	section	.data,"aw",@progbits
+	public	_Table_br
+_Table_br:
+	dl	_Table_br_data
+
+	section	.data,"aw",@progbits
+	public	_Table_bl_data
+_Table_bl_data:
+	db	17
+	db	135
+	db	2295 dup 0
+
+	section	.data,"aw",@progbits
+	public	_Table_bl
+_Table_bl:
+	dl	_Table_bl_data
+
+	section	.bss,"aw",@nobits
+	public	_q_power
+_q_power:
+	rb	3
+
+	section	.data,"aw",@progbits
+	public	_gamestate
+_gamestate:
+	dl	1
+
+	section	.bss,"aw",@nobits
+	public	_frame
+_frame:
+	rb	3
+
+	section	.data,"aw",@progbits
+	public	_speedmult
+_speedmult:
+	dd	0x3f800000
+
+	section	.data,"aw",@progbits
+	public	_q_dir
+_q_dir:
+	dd	0x40490fdb
+
+	section	.data,"aw",@progbits
+	public	_global_palette
+_global_palette:
+	db	"ŒåÿÿÆÇœ´""(b", 0, 0, "c„…”f7žG""k­ã45%½×ÒµV÷^¤å9gÄézk"
+
+	section	.data,"aw",@progbits
+	public	_Table_l_data
+_Table_l_data:
+	db	26, "£", 0, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, "", 10, 13, 13, 13, 13, "", 10, 13, 13, 13, "", 10, 13, 13, "", 10, 13, "", 10, "", 13, 13, "", 10, "", 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 10, "", 13, 13, "", 10, "", 10, "", 10, 13, "", 10, 13, 13, "", 10, 13, 13, 13, "", 10, 13, 13, 13, 13, "", 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 0, ""
+
+	section	.data,"aw",@progbits
+	public	_Table_tl_data
+_Table_tl_data:
+	db	"‡", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, ""
+
+	section	.data,"aw",@progbits
+	public	_Table_tr_data
+_Table_tr_data:
+	db	"‡", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, ""
+
+	section	.data,"aw",@progbits
+	public	_stripe_data
+_stripe_data:
+	db	"", 0, 0, "", 0, 0, 0, "", 0, "", 0, "", 0, 0, 0, "", 0, 0
+
+	section	.data,"aw",@progbits
+	public	_solid_data
+_solid_data:
+	db	"", 0, 0, "", 0, 0, 0, "", 0, "", 0, "", 0, 0, 0, "", 0, 0
+
+	section	.data,"aw",@progbits
+	public	_eightball_data
+_eightball_data:
+	db	"", 0, 0, "				", 0, 0, 0, "		", 0, "								", 0, "		", 0, 0, 0, "				", 0, 0
+
+	section	.data,"aw",@progbits
+	public	_qball_data
+_qball_data:
+	db	"", 0, 0, "", 0, 0, 0, "", 0, "", 0, "", 0, 0, 0, "", 0, 0
+
+	section	.rodata,"a",@progbits
+	private	___const.begin.initballsprite
+___const.begin.initballsprite:
+	dl	_stripe_data
+	dl	_solid_data
+	dl	_stripe_data
+	dl	_stripe_data
+	dl	_eightball_data
+	dl	_solid_data
+	dl	_stripe_data
+	dl	_solid_data
+	dl	_solid_data
+	dl	_stripe_data
+	dl	_solid_data
+	dl	_stripe_data
+	dl	_solid_data
+	dl	_stripe_data
+	dl	_solid_data
+	dl	_qball_data
+
+	section	.bss,"aw",@nobits
+	public	_balls
+_balls:
+	rb	304
+
+	section	.bss,"aw",@nobits
+	public	_zero_counter
+_zero_counter:
+	rb	3
+
+	section	.rodata,"a",@progbits
+	private	_.str
+_.str:
+	db	"test: ", 0
+
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	ident	"clang version 15.0.0 (https://github.com/jacobly0/llvm-project 6d9aa7a16db70f3d02ae304b08d4a03011281fef)"
+	extern	__Unwind_SjLj_Register
+	extern	__frameset
+	extern	_gfx_Rectangle_NoClip
+	extern	_gfx_FillRectangle_NoClip
+	extern	__fadd
+	extern	_gfx_Begin
+	extern	_kb_Scan
+	extern	_gfx_Line
+	extern	_sin
+	extern	_gfx_SetPalette
+	extern	_os_RealCosRad
+	extern	_gfx_RotateSpriteHalf
+	extern	_gfx_SwapDraw
+	extern	__sand
+	extern	_gfx_PrintString
+	extern	__fmul
+	extern	__ftol
+	extern	__ultof
+	extern	_gfx_PrintInt
+	extern	_gfx_SetDraw
+	extern	__idivs
+	extern	__setflag
+	extern	_os_RealSinRad
+	extern	__Unwind_SjLj_Unregister
+	extern	__ftoul
+	extern	__fneg
+	extern	_os_FloatToReal
+	extern	__fdiv
+	extern	__imulu
+	extern	_gfx_SetColor
+	extern	__ltof
+	extern	_os_RealAtanRad
+	extern	_gfx_TransparentSprite_NoClip
+	extern	_gfx_End
+	extern	_gfx_Sprite_NoClip
+	extern	__fcmp
+	extern	_cos
+	extern	_gfx_SetTextXY
+	extern	__fsub
+	extern	_os_RealToFloat

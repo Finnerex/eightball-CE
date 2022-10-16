@@ -1,0 +1,4172 @@
+	section	.text,"ax",@progbits
+	assume	adl = 1
+	section	.text,"ax",@progbits
+	public	_angle_shift
+_angle_shift:
+	call	__frameset0
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	ld	iy, (ix + 12)
+	ld	d, (ix + 15)
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jq	p, BB0_2
+	lea	bc, iy
+	ld	a, d
+	call	__fsub
+	ld	l, a
+	ld	de, 64
+	push	de
+	ld	de, -3600421
+	push	de
+	push	hl
+	push	bc
+	call	_fmod
+	pop	bc
+	pop	bc
+	pop	bc
+	pop	bc
+	ld	bc, (ix + 12)
+	ld	a, (ix + 15)
+	call	__fsub
+	ld	hl, -3600421
+	ld	e, 64
+	jq	BB0_3
+BB0_2:
+	push	hl
+	pop	bc
+	ld	a, e
+	lea	hl, iy
+	ld	e, d
+	call	__fsub
+	ld	l, a
+	ld	de, 64
+	push	de
+	ld	de, -3600421
+	push	de
+	push	hl
+	push	bc
+	call	_fmod
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+BB0_3:
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_arccos_cordic
+_arccos_cordic:
+	ld	hl, -46
+	call	__frameset
+	ld	de, (ix + 6)
+	ld	a, (ix + 9)
+	ld	(ix - 4), a
+	ld	l, a
+	push	hl
+	ld	(ix - 3), de
+	push	de
+	call	_fabsf
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	ld	hl, -8388608
+	ld	e, 63
+	call	__fcmp
+	jq	p, BB1_1
+	ld	hl, 10
+	ld	de, 2
+	push	de
+	push	hl
+	call	_fputc
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 29
+	push	hl
+	ld	hl, L_.str.1
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 13
+	push	hl
+	ld	hl, L_.str.2
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_exit
+	pop	hl
+BB1_1:
+	ld	bc, (ix + 12)
+	ld	de, 1
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jq	p, BB1_3
+	ld	bc, 0
+BB1_3:
+	inc	bc
+	ld	hl, -8388608
+	ld	(ix - 14), hl
+	ld	a, 63
+	ld	(ix - 15), a
+	ld	iy, 0
+	ld	(ix - 10), iy
+	push	bc
+	pop	de
+	ld	c, 0
+	ld	(ix - 11), c
+	ld	(ix - 19), hl
+	ld	(ix - 20), a
+	ld	(ix - 7), iy
+	ld	(ix - 16), c
+	inc	iy
+BB1_4:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	jq	z, BB1_22
+	ld	(ix - 38), de
+	ld	hl, (ix - 7)
+	ld	e, (ix - 16)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB1_7
+	ld	a, 0
+BB1_7:
+	bit	0, a
+	bit	0, a
+	ld	d, -65
+	jq	nz, BB1_9
+	ld	d, 63
+BB1_9:
+	ld	hl, (ix - 19)
+	ld	e, (ix - 20)
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	call	__fcmp
+	ld	l, 1
+	jq	m, BB1_11
+	ld	l, 0
+BB1_11:
+	ld	bc, -8388608
+	ld	a, d
+	call	__fneg
+	ld	(ix - 23), bc
+	ld	(ix - 24), a
+	bit	0, l
+	jq	nz, BB1_13
+	ld	bc, -8388608
+	ld	(ix - 23), bc
+BB1_13:
+	bit	0, l
+	jq	nz, BB1_15
+	ld	(ix - 24), d
+BB1_15:
+	lea	hl, iy
+	ld	de, 61
+	or	a, a
+	sbc	hl, de
+	ld	(ix - 35), iy
+	jq	nc, BB1_17
+	dec	iy
+	lea	hl, iy
+	ld	c, 2
+	call	__ishl
+	push	hl
+	pop	de
+	ld	iy, L___const.tan_cordic.angles
+	add	iy, de
+	ld	hl, (iy)
+	ld	(ix - 31), hl
+	ld	a, (iy + 3)
+	jq	BB1_18
+BB1_17:
+	ld	bc, (ix - 31)
+	ld	a, (ix - 32)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 31), bc
+BB1_18:
+	ld	(ix - 32), a
+	ld	bc, (ix - 14)
+	ld	a, (ix - 15)
+	ld	hl, (ix - 23)
+	ld	e, (ix - 24)
+	call	__fmul
+	ld	(ix - 41), bc
+	ld	(ix - 42), a
+	call	__fneg
+	ld	iy, 2
+BB1_19:
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB1_21
+	ld	(ix - 27), bc
+	ld	bc, (ix - 27)
+	ld	(ix - 28), a
+	ld	a, (ix - 28)
+	ld	hl, (ix - 7)
+	ld	d, (ix - 16)
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 19)
+	ld	e, (ix - 20)
+	call	__fadd
+	ld	(ix - 45), bc
+	ld	(ix - 46), a
+	ld	bc, (ix - 41)
+	ld	a, (ix - 42)
+	call	__fmul
+	ld	hl, (ix - 7)
+	ld	e, d
+	call	__fadd
+	ld	(ix - 7), bc
+	ld	bc, (ix - 27)
+	ld	(ix - 16), a
+	ld	a, (ix - 28)
+	dec	iy
+	ld	hl, (ix - 45)
+	ld	(ix - 19), hl
+	ld	l, (ix - 46)
+	ld	(ix - 20), l
+	jq	BB1_19
+BB1_21:
+	ld	bc, (ix - 23)
+	ld	a, (ix - 24)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 64
+	call	__fmul
+	ld	hl, (ix - 31)
+	ld	e, (ix - 32)
+	call	__fmul
+	ld	hl, (ix - 10)
+	ld	e, (ix - 11)
+	call	__fadd
+	ld	(ix - 10), bc
+	ld	(ix - 11), a
+	ld	iy, (ix - 14)
+	lea	bc, iy
+	ld	d, (ix - 15)
+	ld	a, d
+	ld	hl, (ix - 3)
+	ld	e, (ix - 4)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 3)
+	ld	e, (ix - 4)
+	call	__fadd
+	ld	(ix - 3), bc
+	ld	(ix - 4), a
+	lea	bc, iy
+	ld	a, d
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 14), bc
+	ld	(ix - 15), a
+	ld	iy, (ix - 35)
+	inc	iy
+	ld	de, (ix - 38)
+	jq	BB1_4
+BB1_22:
+	ld	hl, (ix - 10)
+	ld	e, (ix - 11)
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_arccos_values
+_arccos_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB2_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB2_2
+BB2_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 12
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB2_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB2_5
+BB2_2:
+	ld	iy, _arcsin_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _arccos_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB2_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_arcsin_cordic
+_arcsin_cordic:
+	ld	hl, -46
+	call	__frameset
+	ld	de, (ix + 6)
+	ld	a, (ix + 9)
+	ld	(ix - 4), a
+	ld	l, a
+	push	hl
+	ld	(ix - 3), de
+	push	de
+	call	_fabsf
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	ld	hl, -8388608
+	ld	e, 63
+	call	__fcmp
+	jq	p, BB3_1
+	ld	hl, 10
+	ld	de, 2
+	push	de
+	push	hl
+	call	_fputc
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 29
+	push	hl
+	ld	hl, L_.str.3
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 13
+	push	hl
+	ld	hl, L_.str.2
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_exit
+	pop	hl
+BB3_1:
+	ld	bc, (ix + 12)
+	ld	de, 1
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jq	p, BB3_3
+	ld	bc, 0
+BB3_3:
+	inc	bc
+	ld	hl, -8388608
+	ld	(ix - 14), hl
+	ld	a, 63
+	ld	(ix - 15), a
+	ld	iy, 0
+	ld	(ix - 10), iy
+	push	bc
+	pop	de
+	ld	c, 0
+	ld	(ix - 11), c
+	ld	(ix - 19), hl
+	ld	(ix - 20), a
+	ld	(ix - 7), iy
+	ld	(ix - 16), c
+	inc	iy
+BB3_4:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	jq	z, BB3_22
+	ld	(ix - 38), de
+	ld	hl, (ix - 19)
+	ld	e, (ix - 20)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB3_7
+	ld	a, 0
+BB3_7:
+	bit	0, a
+	bit	0, a
+	ld	d, -65
+	jq	nz, BB3_9
+	ld	d, 63
+BB3_9:
+	ld	hl, (ix - 3)
+	ld	e, (ix - 4)
+	ld	bc, (ix - 7)
+	ld	a, (ix - 16)
+	call	__fcmp
+	ld	l, 1
+	jq	m, BB3_11
+	ld	l, 0
+BB3_11:
+	ld	bc, -8388608
+	ld	a, d
+	call	__fneg
+	ld	(ix - 23), bc
+	ld	(ix - 24), a
+	bit	0, l
+	jq	nz, BB3_13
+	ld	bc, -8388608
+	ld	(ix - 23), bc
+BB3_13:
+	bit	0, l
+	jq	nz, BB3_15
+	ld	(ix - 24), d
+BB3_15:
+	lea	hl, iy
+	ld	de, 61
+	or	a, a
+	sbc	hl, de
+	ld	(ix - 35), iy
+	jq	nc, BB3_17
+	dec	iy
+	lea	hl, iy
+	ld	c, 2
+	call	__ishl
+	push	hl
+	pop	de
+	ld	iy, L___const.tan_cordic.angles
+	add	iy, de
+	ld	hl, (iy)
+	ld	(ix - 31), hl
+	ld	a, (iy + 3)
+	jq	BB3_18
+BB3_17:
+	ld	bc, (ix - 31)
+	ld	a, (ix - 32)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 31), bc
+BB3_18:
+	ld	(ix - 32), a
+	ld	bc, (ix - 14)
+	ld	a, (ix - 15)
+	ld	hl, (ix - 23)
+	ld	e, (ix - 24)
+	call	__fmul
+	ld	(ix - 41), bc
+	ld	(ix - 42), a
+	call	__fneg
+	ld	iy, 2
+BB3_19:
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB3_21
+	ld	(ix - 27), bc
+	ld	bc, (ix - 27)
+	ld	(ix - 28), a
+	ld	a, (ix - 28)
+	ld	hl, (ix - 7)
+	ld	d, (ix - 16)
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 19)
+	ld	e, (ix - 20)
+	call	__fadd
+	ld	(ix - 45), bc
+	ld	(ix - 46), a
+	ld	bc, (ix - 41)
+	ld	a, (ix - 42)
+	call	__fmul
+	ld	hl, (ix - 7)
+	ld	e, d
+	call	__fadd
+	ld	(ix - 7), bc
+	ld	bc, (ix - 27)
+	ld	(ix - 16), a
+	ld	a, (ix - 28)
+	dec	iy
+	ld	hl, (ix - 45)
+	ld	(ix - 19), hl
+	ld	l, (ix - 46)
+	ld	(ix - 20), l
+	jq	BB3_19
+BB3_21:
+	ld	bc, (ix - 23)
+	ld	a, (ix - 24)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 64
+	call	__fmul
+	ld	hl, (ix - 31)
+	ld	e, (ix - 32)
+	call	__fmul
+	ld	hl, (ix - 10)
+	ld	e, (ix - 11)
+	call	__fadd
+	ld	(ix - 10), bc
+	ld	(ix - 11), a
+	ld	iy, (ix - 14)
+	lea	bc, iy
+	ld	d, (ix - 15)
+	ld	a, d
+	ld	hl, (ix - 3)
+	ld	e, (ix - 4)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 3)
+	ld	e, (ix - 4)
+	call	__fadd
+	ld	(ix - 3), bc
+	ld	(ix - 4), a
+	lea	bc, iy
+	ld	a, d
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 14), bc
+	ld	(ix - 15), a
+	ld	iy, (ix - 35)
+	inc	iy
+	ld	de, (ix - 38)
+	jq	BB3_4
+BB3_22:
+	ld	hl, (ix - 10)
+	ld	e, (ix - 11)
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_arcsin_values
+_arcsin_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB4_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB4_2
+BB4_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 12
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB4_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB4_5
+BB4_2:
+	ld	iy, _arcsin_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _arcsin_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB4_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_arctan_cordic
+_arctan_cordic:
+	ld	hl, -38
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	bc, 0
+	xor	a, a
+	ld	e, (ix + 9)
+	call	__fcmp
+	ld	d, 1
+	ld	iyl, 0
+	ld	a, d
+	jq	m, BB5_2
+	ld	a, iyl
+BB5_2:
+	ld	iyh, a
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jq	m, BB5_4
+	ld	d, iyl
+BB5_4:
+	ld	a, iyh
+	rrc	a
+	sbc	a, a
+	ld	l, a
+	rrc	d
+	sbc	a, a
+	ld	e, a
+	ld	a, l
+	and	a, e
+	ld	l, a
+	ld	iy, (ix + 6)
+	lea	bc, iy
+	ld	a, (ix + 9)
+	call	__fneg
+	push	bc
+	pop	de
+	ld	h, a
+	ld	bc, (ix + 12)
+	ld	a, (ix + 15)
+	call	__fneg
+	ld	(ix - 3), bc
+	ld	c, a
+	bit	0, l
+	jq	nz, BB5_6
+	lea	de, iy
+BB5_6:
+	ld	(ix - 6), de
+	bit	0, l
+	ld	a, 0
+	ex	de, hl
+	ld	iyl, d
+	ex	de, hl
+	jq	nz, BB5_8
+	ld	e, (ix + 9)
+	ld	iyl, e
+BB5_8:
+	bit	0, l
+	jq	nz, BB5_10
+	ld	de, (ix + 12)
+	ld	(ix - 3), de
+BB5_10:
+	bit	0, l
+	ld	d, c
+	jq	nz, BB5_12
+	ld	d, (ix + 15)
+BB5_12:
+	ld	iyh, -65
+	ld	hl, (ix - 6)
+	ld	e, iyl
+	ld	bc, 0
+	call	__fcmp
+	jq	p, BB5_14
+	ld	(ix - 19), d
+	push	hl
+	pop	bc
+	ld	a, iyl
+	call	__fneg
+	ld	(ix - 6), bc
+	ld	(ix - 20), a
+	push	af
+	ld	a, iyh
+	ld	(ix - 26), a
+	pop	af
+	jq	BB5_20
+BB5_14:
+	ld	hl, (ix - 3)
+	ld	e, d
+	call	__fcmp
+	jq	p, BB5_15
+	ld	a, 0
+	jq	BB5_17
+BB5_15:
+	ld	a, 1
+BB5_17:
+	ld	l, -65
+	bit	0, a
+	push	af
+	ld	a, iyl
+	ld	(ix - 20), a
+	pop	af
+	jq	nz, BB5_18
+	ld	bc, (ix - 3)
+	ld	a, d
+	call	__fneg
+	ld	(ix - 3), bc
+	ld	(ix - 19), a
+	ld	(ix - 26), l
+BB5_20:
+	ld	iy, (ix + 18)
+	ld	a, 63
+	jq	BB5_21
+BB5_18:
+	ld	(ix - 19), d
+	ld	a, 63
+	ld	(ix - 26), a
+	ld	iy, (ix + 18)
+BB5_21:
+	ld	de, 1
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jq	p, BB5_23
+	ld	iy, 0
+BB5_23:
+	ld	hl, -8388608
+	ld	de, L___const.tan_cordic.angles
+	ld	(ix - 9), de
+	ld	de, 0
+	push	de
+	pop	bc
+	ld	(ix - 16), hl
+	ld	(ix - 12), de
+	ld	e, 0
+	ld	(ix - 13), e
+	ld	d, (ix - 19)
+BB5_24:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB5_33
+	ld	(ix - 21), a
+	ld	(ix - 19), bc
+	ld	(ix - 29), iy
+	ld	iy, 0
+	lea	hl, iy
+	ld	bc, (ix - 3)
+	ld	a, d
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB5_27
+	ld	a, 0
+BB5_27:
+	bit	0, a
+	ld	l, -65
+	ld	e, l
+	ld	hl, (ix - 19)
+	bit	0, a
+	jq	nz, BB5_29
+	ld	a, 63
+	ld	e, a
+BB5_29:
+	inc	hl
+	ld	(ix - 19), hl
+	ld	bc, 61
+	or	a, a
+	sbc	hl, bc
+	ld	a, (ix - 22)
+	jq	nc, BB5_31
+	ld	iy, (ix - 9)
+	ld	hl, (iy)
+	ld	(ix - 25), hl
+	ld	(ix - 9), iy
+	ld	a, (iy + 3)
+	jq	BB5_32
+BB5_31:
+	ld	bc, (ix - 25)
+	lea	hl, iy
+	ld	iyl, e
+	ld	e, 63
+	call	__fmul
+	ld	e, iyl
+	ld	(ix - 25), bc
+BB5_32:
+	ld	(ix - 22), a
+	ld	bc, (ix - 16)
+	ld	a, (ix - 21)
+	ld	hl, -8388608
+	ld	(ix - 34), e
+	call	__fmul
+	ld	(ix - 37), bc
+	ld	(ix - 38), a
+	call	__fneg
+	ld	iy, (ix - 3)
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 6)
+	ld	e, (ix - 20)
+	call	__fadd
+	ld	(ix - 32), bc
+	ld	(ix - 33), a
+	ld	bc, (ix - 37)
+	ld	a, (ix - 38)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	ld	(ix - 3), bc
+	ld	d, a
+	ld	bc, -8388608
+	ld	a, (ix - 34)
+	call	__fneg
+	ld	hl, (ix - 25)
+	ld	e, (ix - 22)
+	call	__fmul
+	ld	hl, (ix - 12)
+	ld	e, (ix - 13)
+	call	__fadd
+	ld	(ix - 12), bc
+	ld	(ix - 13), a
+	ld	bc, (ix - 16)
+	ld	a, (ix - 21)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 16), bc
+	ld	iy, (ix - 9)
+	lea	iy, iy + 4
+	ld	(ix - 9), iy
+	ld	hl, (ix - 32)
+	ld	(ix - 6), hl
+	ld	l, (ix - 33)
+	ld	(ix - 20), l
+	ld	e, 0
+	ld	iy, (ix - 29)
+	ld	bc, (ix - 19)
+	jq	BB5_24
+BB5_33:
+	ld	bc, -8388608
+	ld	a, (ix - 26)
+	ld	hl, (ix - 12)
+	ld	e, (ix - 13)
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_arctan_values
+_arctan_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB6_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB6_2
+BB6_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 11
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB6_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB6_5
+BB6_2:
+	ld	iy, _arctan_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _arctan_values.f_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB6_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_cbrt_cordic
+_cbrt_cordic:
+	ld	hl, -17
+	call	__frameset
+	ld	de, (ix + 6)
+	ld	a, (ix + 9)
+	ld	l, a
+	push	hl
+	push	de
+	call	_fabsf
+	ld	iy, 0
+	ld	(ix - 3), hl
+	ld	d, e
+	pop	hl
+	pop	hl
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	lea	bc, iy
+	xor	a, a
+	call	__fcmp
+	jq	z, BB7_1
+	ld	a, 0
+	jq	BB7_3
+BB7_1:
+	ld	a, 1
+BB7_3:
+	bit	0, a
+	ld	hl, (ix - 3)
+	jq	z, BB7_5
+	ld	e, 0
+	jq	BB7_42
+BB7_5:
+	ld	bc, -8388608
+	ld	a, 63
+	ld	e, d
+	ld	(ix - 6), bc
+	call	__fcmp
+	jq	z, BB7_6
+	ld	a, 0
+	jq	BB7_8
+BB7_6:
+	ld	a, 1
+BB7_8:
+	bit	0, a
+	ld	hl, (ix - 3)
+	jq	z, BB7_10
+	ld	iy, (ix + 6)
+	ld	e, (ix + 9)
+	jq	BB7_42
+BB7_10:
+	ld	e, d
+	ld	bc, -8388608
+	ld	a, 63
+	call	__fcmp
+	ld	(ix - 14), d
+	jq	p, BB7_16
+BB7_11:
+	ld	e, a
+	push	bc
+	pop	hl
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	(ix - 6), hl
+	push	hl
+	pop	bc
+	ld	(ix - 7), e
+	ld	a, e
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 14)
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB7_13
+	ld	a, 0
+BB7_13:
+	bit	0, a
+	jq	nz, BB7_14
+	ld	bc, (ix - 6)
+	ld	a, (ix - 7)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	jq	BB7_11
+BB7_16:
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 3)
+	ld	a, d
+	call	__fcmp
+	jq	p, BB7_17
+	ld	a, 0
+	jq	BB7_19
+BB7_14:
+	ld	hl, (ix - 6)
+	ld	(ix - 13), hl
+	ld	a, (ix - 7)
+	ld	(ix - 10), a
+	ld	iy, 0
+	ld	bc, (ix + 12)
+	jq	BB7_25
+BB7_17:
+	ld	a, 1
+BB7_19:
+	ld	bc, (ix + 12)
+	bit	0, a
+	ld	a, 63
+	jq	nz, BB7_20
+	ld	e, a
+	ld	bc, -8388608
+BB7_22:
+	ld	a, e
+	push	bc
+	pop	hl
+	call	__fmul
+	ld	(ix - 10), bc
+	ld	(ix - 13), a
+	ld	(ix - 6), hl
+	push	hl
+	pop	bc
+	ld	(ix - 7), e
+	ld	a, e
+	ld	hl, (ix - 10)
+	ld	e, (ix - 13)
+	call	__fmul
+	ld	hl, (ix - 3)
+	ld	e, d
+	call	__fcmp
+	jq	m, BB7_24
+	ld	bc, (ix - 6)
+	ld	a, (ix - 7)
+	lea	hl, iy
+	ld	e, 64
+	call	__fmul
+	ld	e, a
+	jq	BB7_22
+BB7_20:
+	jq	BB7_25
+BB7_24:
+	ld	bc, (ix - 6)
+	ld	d, (ix - 7)
+	ld	a, d
+	lea	hl, iy
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 13), bc
+	ld	(ix - 10), a
+	ld	bc, (ix + 12)
+	ld	a, d
+BB7_25:
+	ld	de, 1
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jq	p, BB7_27
+	lea	bc, iy
+	jq	BB7_27
+BB7_28:
+	ld	(ix - 17), bc
+	ld	bc, (ix - 6)
+	lea	hl, iy
+	ld	e, 63
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 13)
+	ld	a, (ix - 10)
+	ld	(ix - 6), hl
+	ld	(ix - 7), e
+	call	__fadd
+	push	bc
+	pop	iy
+	ld	d, a
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy
+	ld	a, d
+	call	__fmul
+	ld	hl, (ix - 3)
+	ld	e, (ix - 14)
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB7_30
+	ld	a, 0
+BB7_30:
+	bit	0, a
+	jq	nz, BB7_32
+	ld	(ix - 13), iy
+BB7_32:
+	bit	0, a
+	ld	bc, (ix - 17)
+	jq	nz, BB7_34
+	ld	(ix - 10), d
+BB7_34:
+	dec	bc
+	ld	iy, 0
+	ld	a, (ix - 7)
+BB7_27:
+	push	bc
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB7_28
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	lea	bc, iy
+	xor	a, a
+	call	__fcmp
+	jq	m, BB7_36
+	ld	l, 0
+	jq	BB7_38
+BB7_36:
+	ld	l, 1
+BB7_38:
+	ld	de, (ix - 13)
+	push	de
+	pop	bc
+	ld	a, (ix - 10)
+	call	__fneg
+	push	bc
+	pop	iy
+	push	de
+	pop	bc
+	ld	e, a
+	bit	0, l
+	jq	nz, BB7_40
+	push	bc
+	pop	iy
+BB7_40:
+	bit	0, l
+	jq	nz, BB7_42
+	ld	e, (ix - 10)
+BB7_42:
+	lea	hl, iy
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_cbrt_values
+_cbrt_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB8_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB8_2
+BB8_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 14
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB8_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB8_5
+BB8_2:
+	ld	iy, _cbrt_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _cbrt_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB8_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_cos_values
+_cos_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB9_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB9_2
+BB9_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 13
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB9_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB9_5
+BB9_2:
+	ld	iy, _sin_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _cos_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB9_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_cossin_cordic
+_cossin_cordic:
+	ld	hl, -39
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	a, (ix + 9)
+	ld	bc, 4788187
+	ld	de, -64
+	push	de
+	push	bc
+	ld	e, a
+	push	de
+	push	hl
+	call	_angle_shift
+	push	hl
+	pop	iy
+	ld	d, e
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	lea	hl, iy
+	ld	bc, -3600421
+	ld	a, -65
+	call	__fcmp
+	jq	p, BB10_2
+	ld	e, 64
+	lea	bc, iy
+	ld	a, d
+	ld	hl, 4788187
+	ld	(ix - 20), hl
+	jq	BB10_8
+BB10_2:
+	ld	hl, 4788187
+	ld	(ix - 20), hl
+	ld	hl, -3600421
+	ld	e, 63
+	ld	(ix - 9), iy
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jq	p, BB10_3
+	ld	a, 0
+	jq	BB10_5
+BB10_3:
+	ld	a, 1
+BB10_5:
+	bit	0, a
+	jq	nz, BB10_6
+	ld	e, -64
+	ld	bc, (ix - 9)
+	ld	a, d
+BB10_8:
+	ld	hl, 4788187
+	call	__fadd
+	ld	(ix - 9), bc
+	ld	(ix - 3), a
+	ld	a, -65
+	ld	(ix - 28), a
+	ld	bc, (ix + 12)
+	ld	a, 63
+	jq	BB10_9
+BB10_6:
+	ld	(ix - 3), d
+	ld	a, 63
+	ld	(ix - 28), a
+	ld	bc, (ix + 12)
+BB10_9:
+	ld	hl, (ix + 15)
+	ex	de, hl
+	ld	hl, -8388608
+	push	de
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	or	a, a
+	sbc	hl, hl
+	ex	de, hl
+	ld	hl, (ix + 18)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	l, 0
+	ld	(iy + 3), l
+	push	de
+	pop	iy
+	ld	de, 1
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	push	bc
+	pop	de
+	jq	p, BB10_11
+	lea	de, iy
+BB10_11:
+	ld	hl, L___const.tan_cordic.angles+4
+	ld	(ix - 23), hl
+	lea	bc, iy
+	ld	(ix - 12), iy
+	ld	l, 0
+	ld	(ix - 13), l
+	ld	hl, -8388608
+	ld	(ix - 16), hl
+	ld	(ix - 17), a
+BB10_12:
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	ld	iy, (ix + 15)
+	lea	hl, iy + 3
+	ld	(ix - 6), hl
+	ex	de, hl
+	ld	e, (ix - 3)
+	jq	z, BB10_21
+	ld	(ix - 27), a
+	push	bc
+	pop	iy
+	ld	(ix - 31), hl
+	ld	hl, (ix - 9)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB10_15
+	ld	a, 0
+BB10_15:
+	bit	0, a
+	ld	l, -65
+	bit	0, a
+	ld	e, l
+	jq	nz, BB10_17
+	ld	a, 63
+	ld	e, a
+BB10_17:
+	inc	iy
+	ld	(ix - 26), iy
+	ld	bc, (ix - 16)
+	ld	a, (ix - 17)
+	ld	hl, -8388608
+	ld	(ix - 32), e
+	call	__fmul
+	ld	(ix - 35), bc
+	ld	(ix - 36), a
+	ld	iy, (ix + 15)
+	ld	iy, (iy)
+	ld	hl, (ix - 6)
+	ld	d, (hl)
+	call	__fneg
+	ld	hl, (ix - 12)
+	ld	e, (ix - 13)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	ld	(ix - 39), bc
+	ld	(ix - 6), a
+	ld	bc, (ix - 35)
+	ld	a, (ix - 36)
+	call	__fmul
+	ld	hl, (ix - 12)
+	ld	e, (ix - 13)
+	call	__fadd
+	ld	iy, (ix + 15)
+	ld	hl, (ix - 39)
+	ld	(iy), hl
+	ld	l, (ix - 6)
+	ld	(iy + 3), l
+	ld	hl, (ix + 18)
+	push	hl
+	pop	iy
+	ld	(ix - 12), bc
+	ld	(iy), bc
+	ld	(ix - 13), a
+	ld	(iy + 3), a
+	ld	bc, -8388608
+	ld	a, (ix - 32)
+	call	__fneg
+	ld	hl, (ix - 20)
+	ld	e, (ix - 27)
+	call	__fmul
+	ld	hl, (ix - 9)
+	ld	e, (ix - 3)
+	call	__fadd
+	ld	(ix - 9), bc
+	ld	d, a
+	ld	bc, (ix - 16)
+	ld	a, (ix - 17)
+	ld	iy, 0
+	lea	hl, iy
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 16), bc
+	ld	(ix - 17), a
+	ld	hl, (ix - 26)
+	ld	bc, 60
+	or	a, a
+	sbc	hl, bc
+	ld	(ix - 3), d
+	jq	c, BB10_20
+	ld	bc, (ix - 20)
+	ld	a, (ix - 27)
+	lea	hl, iy
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	iy, (ix - 23)
+	jq	BB10_19
+BB10_20:
+	ld	iy, (ix - 23)
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+BB10_19:
+	ld	(ix - 20), hl
+	lea	iy, iy + 4
+	ld	(ix - 23), iy
+	ld	de, (ix - 31)
+	ld	bc, (ix - 26)
+	jq	BB10_12
+BB10_21:
+	ld	bc, (ix + 12)
+	push	bc
+	pop	hl
+	ld	de, 1
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	ld	iy, (ix + 18)
+	lea	hl, iy + 3
+	ld	(ix - 3), hl
+	jq	m, BB10_25
+	ld	hl, (ix + 15)
+	ld	hl, (hl)
+	ld	(ix - 9), hl
+	ld	hl, (ix - 6)
+	ld	a, (hl)
+	ld	de, 33
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	jq	c, BB10_24
+	ld	bc, 33
+BB10_24:
+	dec	bc
+	push	bc
+	pop	hl
+	ld	c, 2
+	call	__ishl
+	push	hl
+	pop	de
+	ld	hl, L___const.cossin_cordic.kprod
+	push	hl
+	pop	iy
+	add	iy, de
+	ld	hl, (iy)
+	ld	(ix - 12), hl
+	ld	d, (iy + 3)
+	ld	bc, (ix - 9)
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix + 15)
+	push	hl
+	pop	iy
+	ld	(iy), bc
+	ld	(iy + 3), a
+	ld	iy, (ix + 18)
+	ld	hl, (iy)
+	ld	iy, (ix - 3)
+	ld	e, (iy)
+	ld	bc, (ix - 12)
+	ld	a, d
+	call	__fmul
+	ld	hl, (ix + 18)
+	ld	(hl), bc
+	ld	iy, (ix + 18)
+	ld	(iy + 3), a
+BB10_25:
+	ld	hl, (ix + 15)
+	ld	hl, (hl)
+	ld	iy, (ix - 6)
+	ld	e, (iy)
+	ld	bc, -8388608
+	ld	d, (ix - 28)
+	ld	a, d
+	call	__fmul
+	ld	iy, (ix + 15)
+	ld	(iy), bc
+	ld	(iy + 3), a
+	ld	iy, (ix + 18)
+	ld	hl, (iy)
+	ld	iy, (ix - 3)
+	ld	e, (iy)
+	ld	bc, -8388608
+	ld	a, d
+	call	__fmul
+	ld	iy, (ix + 18)
+	ld	(iy), bc
+	ld	(iy + 3), a
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_i4_min
+_i4_min:
+	call	__frameset0
+	ld	de, (ix + 6)
+	ld	bc, (ix + 9)
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	m, BB11_2
+	push	bc
+	pop	de
+BB11_2:
+	ex	de, hl
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_exp_cordic
+_exp_cordic:
+	ld	hl, -29
+	call	__frameset
+	ld	de, (ix + 6)
+	ld	a, (ix + 9)
+	ld	l, a
+	push	hl
+	push	de
+	call	_floorf
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	call	__ftol
+	ld	(ix - 22), bc
+	push	bc
+	pop	hl
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix + 6)
+	ld	a, (ix + 9)
+	call	__fsub
+	ld	(ix - 3), bc
+	ld	(ix - 4), a
+	ld	c, 2
+	ld	hl, (ix + 12)
+	call	__ishl
+	push	hl
+	call	_malloc
+	push	hl
+	pop	bc
+	pop	hl
+	ld	de, 1
+	ld	hl, (ix + 12)
+	ld	(ix - 7), hl
+	or	a, a
+	sbc	hl, de
+	ld	hl, 0
+	call	pe, __setflag
+	jq	p, BB12_2
+	ld	(ix - 7), hl
+BB12_2:
+	ld	a, 63
+	ld	(ix - 25), bc
+	ld	iy, (ix - 7)
+	lea	de, iy
+	ld	(ix - 10), hl
+	ex	de, hl
+	ld	e, a
+BB12_3:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB12_4
+	ld	(ix - 13), hl
+	or	a, a
+	sbc	hl, hl
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	xor	a, a
+	ld	(iy + 3), a
+	ld	hl, (ix - 10)
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	call	__fcmp
+	ld	a, 1
+	jq	p, BB12_10
+	ld	a, 0
+BB12_10:
+	bit	0, a
+	jq	nz, BB12_11
+	ld	hl, -8388608
+	ld	(iy), hl
+	ld	d, 63
+	ld	(iy + 3), d
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	ld	hl, (ix - 10)
+	call	__fsub
+	ld	(ix - 3), bc
+	push	hl
+	pop	bc
+	ld	(ix - 4), a
+	or	a, a
+	sbc	hl, hl
+	jq	BB12_13
+BB12_11:
+	ld	d, 63
+	or	a, a
+	sbc	hl, hl
+	ld	bc, (ix - 10)
+BB12_13:
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	(ix - 10), bc
+	ld	e, a
+	ld	hl, (ix - 13)
+	dec	hl
+	lea	iy, iy + 4
+	lea	bc, iy
+	ld	iy, (ix - 7)
+	jq	BB12_3
+BB12_4:
+	or	a, a
+	sbc	hl, hl
+	ld	(ix - 19), hl
+	ld	(ix - 16), hl
+	ld	hl, -8388608
+	push	hl
+	pop	bc
+	ld	e, 63
+	ld	a, e
+	ld	de, (ix - 16)
+BB12_5:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	ld	(ix - 10), bc
+	ld	(ix - 13), a
+	jq	z, BB12_22
+	ld	(ix - 16), de
+	ex	de, hl
+	ld	de, 25
+	or	a, a
+	sbc	hl, de
+	jq	nc, BB12_14
+	ld	bc, (ix - 19)
+	push	bc
+	pop	de
+	ld	iy, L___const.ln_cordic.a
+	add	iy, de
+	ld	hl, (iy)
+	ld	(ix - 28), hl
+	ld	d, (iy + 3)
+	ld	iy, (ix - 25)
+	or	a, a
+	sbc	hl, hl
+	jq	BB12_15
+BB12_14:
+	ld	bc, (ix - 28)
+	ld	a, (ix - 29)
+	ld	iy, -8388608
+	lea	hl, iy
+	ld	d, 63
+	ld	e, -65
+	call	__fadd
+	ld	iy, 0
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	ld	hl, -8388608
+	call	__fadd
+	lea	hl, iy
+	ld	(ix - 28), bc
+	ld	d, a
+	ld	iy, (ix - 25)
+	ld	bc, (ix - 19)
+BB12_15:
+	add	iy, bc
+	ld	bc, (iy)
+	ld	a, (iy + 3)
+	ld	e, 0
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB12_17
+	ld	a, 0
+BB12_17:
+	bit	0, a
+	ld	hl, (ix - 28)
+	ld	bc, (ix - 10)
+	jq	nz, BB12_19
+	ld	hl, -8388608
+BB12_19:
+	bit	0, a
+	ld	(ix - 29), d
+	ld	e, d
+	ld	iy, (ix - 19)
+	jq	nz, BB12_21
+	ld	e, 63
+BB12_21:
+	ld	a, (ix - 13)
+	call	__fmul
+	ld	hl, (ix - 16)
+	inc	hl
+	ld	de, 4
+	add	iy, de
+	ld	(ix - 19), iy
+	ex	de, hl
+	ld	iy, (ix - 7)
+	jq	BB12_5
+BB12_22:
+	ld	iy, (ix - 3)
+	lea	bc, iy
+	ld	(ix - 3), iy
+	ld	d, (ix - 4)
+	ld	a, d
+	ld	(ix - 4), d
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 7), bc
+	ld	(ix - 16), a
+	lea	bc, iy
+	ld	a, d
+	ld	hl, 4194304
+	inc	e
+	call	__fdiv
+	ld	(ix - 19), bc
+	ld	(ix - 28), a
+	lea	bc, iy
+	ld	a, d
+	ld	iy, -8388608
+	lea	hl, iy
+	ld	e, 62
+	call	__fmul
+	ld	d, 63
+	ld	e, d
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 19)
+	ld	a, (ix - 28)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 7)
+	ld	a, (ix - 16)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	ld	hl, (ix - 10)
+	ld	e, (ix - 13)
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	de, 0
+	ld	bc, (ix - 22)
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	ld	(ix - 3), iy
+	jq	p, BB12_23
+	ld	de, 1
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	push	hl
+	pop	iy
+	ld	bc, 2
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB12_28
+	push	de
+	pop	iy
+BB12_28:
+	dec	iy
+	ld	e, 64
+BB12_29:
+	lea	hl, iy
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB12_30
+	ld	bc, (ix - 3)
+	ld	hl, 3012692
+	call	__fdiv
+	ld	(ix - 3), bc
+	dec	iy
+	jq	BB12_29
+BB12_23:
+	ld	iy, (ix - 25)
+	push	bc
+	pop	hl
+	ld	e, 64
+BB12_24:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB12_25
+	ld	(ix - 22), hl
+	ld	bc, (ix - 3)
+	ld	hl, 3012692
+	call	__fmul
+	ld	(ix - 3), bc
+	ld	hl, (ix - 22)
+	dec	hl
+	jq	BB12_24
+BB12_30:
+	ld	(ix - 4), a
+	ld	iy, (ix - 25)
+	jq	BB12_31
+BB12_25:
+	ld	(ix - 4), a
+BB12_31:
+	push	iy
+	call	_free
+	pop	hl
+	ld	hl, (ix - 3)
+	ld	e, (ix - 4)
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_exp_values
+_exp_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB13_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB13_2
+BB13_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 24
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB13_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB13_5
+BB13_2:
+	ld	iy, _exp_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _exp_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB13_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_i4_huge
+_i4_huge:
+	scf
+	sbc	hl, hl
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_ln_cordic
+_ln_cordic:
+	ld	hl, -25
+	call	__frameset
+	ld	bc, (ix + 6)
+	ld	a, (ix + 9)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 0
+	ld	iyl, a
+	call	__fcmp
+	jq	p, BB15_22
+	ld	bc, 3012692
+	ld	d, 64
+	ld	(ix - 6), hl
+	ld	hl, (ix + 6)
+	ld	a, iyl
+BB15_2:
+	ld	(ix - 3), hl
+	ld	e, a
+	push	bc
+	pop	iy
+	ld	a, d
+	call	__fcmp
+	jq	m, BB15_3
+	ld	hl, (ix - 6)
+	inc	hl
+	ld	(ix - 6), hl
+	ld	bc, (ix - 3)
+	ld	a, e
+	lea	hl, iy
+	ld	e, d
+	call	__fdiv
+	push	bc
+	pop	hl
+	lea	bc, iy
+	jq	BB15_2
+BB15_22:
+	ld	hl, 10
+	ld	de, 2
+	push	de
+	push	hl
+	call	_fputc
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 25
+	push	hl
+	ld	hl, L_.str.4
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 26
+	push	hl
+	ld	hl, L_.str.5
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_exit
+	pop	hl
+BB15_3:
+	ld	iy, (ix - 3)
+	ld	a, e
+BB15_4:
+	lea	hl, iy
+	ld	e, a
+	ld	bc, -8388608
+	ld	a, 63
+	call	__fcmp
+	jq	p, BB15_6
+	ld	hl, (ix - 6)
+	dec	hl
+	ld	(ix - 6), hl
+	lea	bc, iy
+	ld	a, e
+	ld	hl, 3012692
+	ld	e, d
+	call	__fmul
+	push	bc
+	pop	iy
+	jq	BB15_4
+BB15_6:
+	ld	(ix - 18), e
+	ld	(ix - 3), iy
+	ld	c, 2
+	ld	hl, (ix + 12)
+	call	__ishl
+	push	hl
+	call	_malloc
+	ld	iy, (ix + 12)
+	ld	(ix - 15), hl
+	pop	hl
+	ld	de, 1
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	ld	hl, 0
+	jq	p, BB15_8
+	push	hl
+	pop	iy
+BB15_8:
+	ld	(ix - 12), hl
+	ex	de, hl
+	ld	(ix - 9), iy
+BB15_9:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	jq	z, BB15_18
+	ld	bc, (ix - 12)
+	ld	iy, (ix - 15)
+	add	iy, bc
+	or	a, a
+	sbc	hl, hl
+	ld	(iy), hl
+	xor	a, a
+	ld	(iy + 3), a
+	ld	(ix - 21), de
+	ex	de, hl
+	ld	bc, 25
+	or	a, a
+	sbc	hl, bc
+	jq	nc, BB15_12
+	ld	bc, (ix - 12)
+	ld	iy, L___const.ln_cordic.a
+	add	iy, bc
+	ld	hl, (iy)
+	ld	e, (iy + 3)
+	jq	BB15_13
+BB15_12:
+	ld	bc, (ix - 24)
+	ld	a, (ix - 25)
+	ld	iy, -8388608
+	lea	hl, iy
+	ld	e, -65
+	call	__fadd
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	lea	hl, iy
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+BB15_13:
+	ld	(ix - 24), hl
+	ld	(ix - 25), e
+	ld	bc, (ix - 3)
+	ld	a, (ix - 18)
+	call	__fcmp
+	ld	a, 1
+	jq	p, BB15_15
+	ld	a, 0
+BB15_15:
+	bit	0, a
+	ld	hl, (ix - 12)
+	jq	nz, BB15_17
+	push	hl
+	pop	bc
+	ld	iy, (ix - 15)
+	add	iy, bc
+	ld	hl, -8388608
+	ld	(iy), hl
+	ld	a, 63
+	ld	(iy + 3), a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 18)
+	ld	hl, (ix - 24)
+	ld	e, (ix - 25)
+	call	__fdiv
+	ld	hl, (ix - 12)
+	ld	(ix - 3), bc
+	ld	(ix - 18), a
+BB15_17:
+	ld	iy, (ix - 9)
+	ld	de, (ix - 21)
+	inc	de
+	ld	bc, 4
+	add	hl, bc
+	ld	(ix - 12), hl
+	jq	BB15_9
+BB15_18:
+	ld	bc, (ix - 3)
+	ld	a, (ix - 18)
+	ld	hl, -8388608
+	ld	e, -65
+	call	__fadd
+	push	bc
+	pop	iy
+	ld	(ix - 3), iy
+	ld	d, a
+	ld	(ix - 12), d
+	ld	hl, 4194304
+	ld	e, 64
+	call	__fdiv
+	ld	(ix - 18), bc
+	ld	(ix - 21), a
+	lea	bc, iy
+	ld	a, d
+	ld	iy, -8388608
+	lea	hl, iy
+	ld	e, 62
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy
+	ld	a, 63
+	ld	d, a
+	call	__fsub
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 18)
+	ld	a, (ix - 21)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	ld	(ix - 18), bc
+	ld	(ix - 21), a
+	ld	iy, (ix - 3)
+	lea	bc, iy
+	ld	d, (ix - 12)
+	ld	a, d
+	or	a, a
+	sbc	hl, hl
+	ld	e, -65
+	call	__fmul
+	ld	hl, (ix - 18)
+	ld	e, (ix - 21)
+	call	__fmul
+	ld	hl, -8388608
+	ld	e, 63
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy
+	ld	a, d
+	call	__fmul
+	ld	(ix - 3), bc
+	ld	(ix - 12), a
+	ld	iy, (ix - 15)
+	ld	bc, 0
+	ld	d, 63
+	ld	hl, (ix - 9)
+BB15_19:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	z, BB15_21
+	ld	(ix - 9), hl
+	push	bc
+	pop	hl
+	ld	(ix - 18), hl
+	ld	bc, (iy)
+	ld	a, (iy + 3)
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 3)
+	ld	e, (ix - 12)
+	call	__fadd
+	ld	(ix - 3), bc
+	ld	(ix - 12), a
+	ld	bc, (ix - 18)
+	ld	a, d
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	hl, (ix - 9)
+	ld	d, a
+	dec	hl
+	lea	iy, iy + 4
+	jq	BB15_19
+BB15_21:
+	ld	bc, (ix - 6)
+	push	bc
+	pop	hl
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 12)
+	call	__fadd
+	ld	(ix - 3), bc
+	ld	(ix - 6), a
+	ld	hl, (ix - 15)
+	push	hl
+	call	_free
+	pop	hl
+	ld	hl, (ix - 3)
+	ld	e, (ix - 6)
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_ln_values
+_ln_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB16_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB16_2
+BB16_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 20
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB16_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB16_5
+BB16_2:
+	ld	iy, _ln_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _ln_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB16_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_multiply_cordic
+_multiply_cordic:
+	ld	hl, -23
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	iy, 0
+	ld	d, 0
+	ld	e, (ix + 9)
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jq	z, BB17_1
+	ld	a, 0
+	jq	BB17_3
+BB17_1:
+	ld	a, 1
+BB17_3:
+	bit	0, a
+	jq	nz, BB17_47
+	ld	hl, (ix + 12)
+	ld	e, (ix + 15)
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jq	z, BB17_5
+	ld	a, 0
+	jq	BB17_7
+BB17_5:
+	ld	a, 1
+BB17_7:
+	bit	0, a
+	jq	nz, BB17_47
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jq	m, BB17_9
+	ld	l, 0
+	jq	BB17_11
+BB17_9:
+	ld	l, 1
+BB17_11:
+	ld	bc, (ix + 6)
+	ld	a, (ix + 9)
+	call	__fneg
+	ld	h, a
+	bit	0, l
+	jq	nz, BB17_13
+	ld	de, (ix + 6)
+	push	de
+	pop	bc
+BB17_13:
+	bit	0, l
+	jq	nz, BB17_15
+	ld	h, (ix + 9)
+BB17_15:
+	ld	l, 64
+	ld	(ix - 3), iy
+	xor	a, a
+	ld	(ix - 4), a
+	ld	a, l
+	ld	e, h
+BB17_16:
+	push	bc
+	pop	hl
+	ld	d, e
+	push	bc
+	pop	iy
+	ld	bc, 0
+	call	__fcmp
+	jq	m, BB17_19
+	lea	bc, iy
+	ld	a, d
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	ld	hl, -8388608
+	call	__fadd
+	ld	e, d
+	ld	(ix - 3), bc
+	lea	bc, iy
+	ld	(ix - 4), a
+	ld	d, 64
+	ld	a, d
+	jq	BB17_16
+BB17_18:
+	lea	bc, iy
+	ld	a, d
+	or	a, a
+	sbc	hl, hl
+	ld	e, 64
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	ld	hl, -8388608
+	ld	e, -65
+	call	__fadd
+	ld	(ix - 3), bc
+	ld	(ix - 4), a
+BB17_19:
+	lea	hl, iy
+	ld	e, d
+	ld	bc, -8388608
+	ld	a, 63
+	call	__fcmp
+	jq	m, BB17_18
+	ld	hl, -8388608
+	ld	(ix - 14), hl
+	ld	(ix - 15), a
+	or	a, a
+	sbc	hl, hl
+	ld	(ix - 11), hl
+	ld	(ix - 7), d
+	ld	d, 0
+	ld	(ix - 8), d
+BB17_21:
+	or	a, a
+	sbc	hl, hl
+	ld	e, d
+	lea	bc, iy
+	ld	a, (ix - 7)
+	call	__fcmp
+	jq	p, BB17_33
+	ld	(ix - 19), iy
+	lea	hl, iy
+	ld	e, (ix - 7)
+	ld	bc, -8388608
+	ld	d, 63
+	ld	a, d
+	call	__fcmp
+	ld	a, 1
+	ld	d, e
+	jq	m, BB17_24
+	ld	a, 0
+BB17_24:
+	ld	(ix - 16), a
+	ld	bc, (ix - 19)
+	ld	a, d
+	ld	hl, -8388608
+	ld	e, -65
+	call	__fadd
+	ld	(ix - 23), bc
+	ld	(ix - 20), a
+	ld	bc, (ix + 12)
+	ld	a, (ix + 15)
+	ld	hl, (ix - 14)
+	ld	e, (ix - 15)
+	call	__fmul
+	ld	hl, (ix - 11)
+	ld	e, (ix - 8)
+	call	__fadd
+	ld	e, (ix - 16)
+	bit	0, e
+	jq	nz, BB17_26
+	ld	iy, (ix - 23)
+	ld	(ix - 19), iy
+BB17_26:
+	bit	0, e
+	ld	e, 64
+	jq	nz, BB17_28
+	ld	d, (ix - 20)
+BB17_28:
+	bit	0, (ix - 16)
+	jq	nz, BB17_30
+	push	bc
+	pop	hl
+BB17_30:
+	ld	(ix - 11), hl
+	bit	0, (ix - 16)
+	jq	nz, BB17_32
+	ld	(ix - 8), a
+BB17_32:
+	ld	bc, (ix - 19)
+	ld	a, d
+	or	a, a
+	sbc	hl, hl
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	(ix - 7), a
+	ld	bc, (ix - 14)
+	ld	a, (ix - 15)
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 14), bc
+	ld	(ix - 15), a
+	ld	d, 0
+	jq	BB17_21
+BB17_33:
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	ld	bc, 0
+	ld	a, d
+	call	__fcmp
+	push	bc
+	pop	hl
+	jq	m, BB17_34
+	ld	e, 0
+	jq	BB17_36
+BB17_34:
+	ld	e, 1
+BB17_36:
+	ld	iy, (ix - 11)
+	lea	bc, iy
+	ld	a, (ix - 8)
+	call	__fneg
+	ld	d, a
+	bit	0, e
+	jq	nz, BB17_38
+	lea	bc, iy
+BB17_38:
+	ld	(ix - 7), bc
+	bit	0, e
+	ld	iy, (ix - 3)
+	ld	a, (ix - 4)
+	jq	nz, BB17_40
+	ld	d, (ix - 8)
+BB17_40:
+	ld	(ix - 8), d
+BB17_41:
+	ld	e, 0
+	lea	bc, iy
+	ld	d, a
+	call	__fcmp
+	jq	p, BB17_42
+	ld	bc, (ix - 7)
+	ld	a, (ix - 8)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 64
+	call	__fmul
+	ld	(ix - 7), bc
+	ld	(ix - 8), a
+	lea	bc, iy
+	ld	a, d
+	ld	hl, -8388608
+	ld	e, -65
+	call	__fadd
+	push	bc
+	pop	iy
+	or	a, a
+	sbc	hl, hl
+	jq	BB17_41
+BB17_42:
+	lea	hl, iy
+	ld	iy, 0
+	ld	e, d
+	ld	d, (ix - 8)
+BB17_43:
+	ld	(ix - 3), hl
+	ld	(ix - 4), e
+	lea	bc, iy
+	xor	a, a
+	call	__fcmp
+	ld	a, 1
+	jq	p, BB17_45
+	ld	a, 0
+BB17_45:
+	bit	0, a
+	ld	bc, (ix - 7)
+	jq	nz, BB17_46
+	ld	a, d
+	lea	hl, iy
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 7), bc
+	ld	d, a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	ld	hl, -8388608
+	call	__fadd
+	push	bc
+	pop	hl
+	ld	e, a
+	jq	BB17_43
+BB17_46:
+	push	bc
+	pop	iy
+BB17_47:
+	lea	hl, iy
+	ld	e, d
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_r8_uniform_01
+_r8_uniform_01:
+	ld	hl, -3
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	de, (hl)
+	push	de
+	pop	hl
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB18_2
+	ld	hl, 10
+	ld	de, 2
+	push	de
+	push	hl
+	call	_fputc
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 29
+	push	hl
+	ld	hl, L_.str.6
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 27
+	push	hl
+	ld	hl, L_.str.7
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_exit
+	pop	hl
+BB18_2:
+	ld	bc, 127773
+	ld	iy, -127773
+	push	de
+	pop	hl
+	call	__idivs
+	ld	(ix - 3), hl
+	lea	bc, iy
+	call	__imulu
+	add	hl, de
+	ld	bc, 16807
+	call	__imulu
+	push	hl
+	pop	iy
+	ld	hl, (ix - 3)
+	ld	bc, -2836
+	call	__imulu
+	push	hl
+	pop	de
+	add	iy, de
+	lea	hl, iy
+	lea	bc, iy
+	add	iy, iy
+	sbc	hl, hl
+	push	hl
+	pop	de
+	push	bc
+	pop	iy
+	add	iy, de
+	ld	hl, (ix + 6)
+	ld	(hl), iy
+	lea	hl, iy
+	lea	bc, iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	or	a, a
+	sbc	hl, hl
+	ld	e, 48
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_sin_values
+_sin_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB19_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB19_2
+BB19_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 13
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB19_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB19_5
+BB19_2:
+	ld	iy, _sin_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _sin_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB19_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_sqrt_cordic
+_sqrt_cordic:
+	ld	hl, -15
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	ld	iy, 0
+	ld	d, 0
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jq	p, BB20_1
+	ld	hl, 10
+	ld	de, 2
+	push	de
+	push	hl
+	call	_fputc
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 27
+	push	hl
+	ld	hl, L_.str.8
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 2
+	push	hl
+	dec	hl
+	push	hl
+	ld	hl, 9
+	push	hl
+	ld	hl, L_.str.9
+	push	hl
+	call	_fwrite
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_exit
+	pop	hl
+BB20_1:
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jq	z, BB20_2
+	ld	a, 0
+	jq	BB20_4
+BB20_2:
+	ld	a, 1
+BB20_4:
+	bit	0, a
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	jq	nz, BB20_10
+	ld	bc, -8388608
+	ld	d, 63
+	ld	(ix - 3), bc
+	ld	a, d
+	call	__fcmp
+	jq	z, BB20_6
+	ld	a, 0
+	jq	BB20_8
+BB20_6:
+	ld	a, 1
+BB20_8:
+	bit	0, a
+	ld	hl, (ix + 6)
+	ld	a, (ix + 9)
+	jq	z, BB20_11
+	ld	iy, -8388608
+	jq	BB20_10
+BB20_11:
+	ld	e, a
+	ld	bc, -8388608
+	ld	a, d
+	call	__fcmp
+	jq	p, BB20_18
+	ld	a, d
+BB20_13:
+	ld	(ix - 3), bc
+	push	bc
+	pop	hl
+	ld	(ix - 4), a
+	ld	e, a
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix + 6)
+	ld	a, (ix + 9)
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB20_15
+	ld	a, 0
+BB20_15:
+	bit	0, a
+	jq	nz, BB20_16
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	jq	BB20_13
+BB20_18:
+	push	bc
+	pop	hl
+	ld	e, d
+	ld	bc, (ix + 6)
+	ld	a, (ix + 9)
+	call	__fcmp
+	jq	p, BB20_19
+	ld	a, 0
+	jq	BB20_21
+BB20_16:
+	ld	hl, (ix - 3)
+	ld	(ix - 7), hl
+	ld	a, (ix - 4)
+	ld	(ix - 8), a
+	jq	BB20_27
+BB20_19:
+	ld	a, 1
+BB20_21:
+	bit	0, a
+	jq	nz, BB20_22
+	ld	a, d
+	ld	bc, -8388608
+BB20_24:
+	push	bc
+	pop	hl
+	ld	(ix - 3), hl
+	ld	e, a
+	ld	(ix - 4), e
+	call	__fmul
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	call	__fcmp
+	jq	m, BB20_26
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	lea	hl, iy
+	ld	e, 64
+	call	__fmul
+	jq	BB20_24
+BB20_22:
+	ld	a, d
+	jq	BB20_27
+BB20_26:
+	ld	bc, (ix - 3)
+	ld	a, (ix - 4)
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	ld	(ix - 7), bc
+	ld	(ix - 8), a
+	ld	a, (ix - 4)
+BB20_27:
+	ld	bc, (ix + 12)
+	push	bc
+	pop	hl
+	ld	bc, 1
+	or	a, a
+	sbc	hl, bc
+	ld	hl, (ix + 12)
+	call	pe, __setflag
+	jq	p, BB20_29
+	lea	hl, iy
+	jq	BB20_29
+BB20_31:
+	ld	(ix - 11), hl
+	ld	bc, (ix - 3)
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 7)
+	ld	a, (ix - 8)
+	ld	(ix - 3), hl
+	ld	(ix - 4), e
+	call	__fadd
+	ld	(ix - 15), bc
+	push	bc
+	pop	hl
+	ld	(ix - 12), a
+	ld	e, a
+	call	__fmul
+	ld	hl, (ix + 6)
+	ld	e, (ix + 9)
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB20_33
+	ld	a, 0
+BB20_33:
+	bit	0, a
+	jq	nz, BB20_35
+	ld	hl, (ix - 15)
+	ld	(ix - 7), hl
+BB20_35:
+	bit	0, a
+	ld	hl, (ix - 11)
+	ld	a, (ix - 4)
+	jq	nz, BB20_37
+	ld	e, (ix - 12)
+	ld	(ix - 8), e
+BB20_37:
+	dec	hl
+BB20_29:
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jq	nz, BB20_31
+	ld	iy, (ix - 7)
+	ld	d, (ix - 8)
+BB20_10:
+	lea	hl, iy
+	ld	e, d
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_sqrt_values
+_sqrt_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB21_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB21_2
+BB21_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 14
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB21_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB21_5
+BB21_2:
+	ld	iy, _sqrt_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _sqrt_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB21_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_tan_cordic
+_tan_cordic:
+	ld	hl, -35
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	a, (ix + 9)
+	ld	bc, 4788187
+	ld	de, -64
+	push	de
+	push	bc
+	ld	e, a
+	push	de
+	push	hl
+	call	_angle_shift
+	push	hl
+	pop	iy
+	ld	d, e
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	lea	hl, iy
+	ld	bc, -3600421
+	ld	a, -65
+	call	__fcmp
+	ld	hl, 4788187
+	ld	(ix - 22), hl
+	jq	p, BB22_2
+	ld	e, 64
+	jq	BB22_8
+BB22_2:
+	ld	hl, -3600421
+	ld	e, 63
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jq	p, BB22_3
+	ld	a, 0
+	jq	BB22_5
+BB22_3:
+	ld	a, 1
+BB22_5:
+	ld	hl, 4788187
+	bit	0, a
+	jq	nz, BB22_6
+	ld	e, -64
+BB22_8:
+	lea	bc, iy
+	ld	a, d
+	call	__fadd
+	push	bc
+	pop	iy
+	ld	(ix - 14), a
+	jq	BB22_9
+BB22_6:
+	ld	(ix - 14), d
+BB22_9:
+	ld	bc, (ix + 12)
+	ld	(ix - 3), iy
+	ld	de, 1
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	dec	de
+	jq	p, BB22_11
+	push	de
+	pop	bc
+BB22_11:
+	ld	iy, -8388608
+	ld	hl, L___const.tan_cordic.angles+4
+	ld	(ix - 25), hl
+	ld	(ix - 17), iy
+	ld	a, 63
+	ld	l, a
+	ld	(ix - 18), l
+	ld	iy, 0
+	ld	(ix - 6), iy
+	xor	a, a
+	push	bc
+	pop	iy
+	ld	bc, -8388608
+	ld	(ix - 12), bc
+	lea	bc, iy
+	ld	(ix - 13), l
+	ld	(ix - 26), l
+	ld	iy, (ix - 3)
+BB22_12:
+	push	bc
+	pop	hl
+	or	a, a
+	sbc	hl, de
+	jq	z, BB22_21
+	ld	(ix - 19), a
+	ld	(ix - 9), de
+	ld	(ix - 29), bc
+	lea	hl, iy
+	ld	e, (ix - 14)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	ld	a, 1
+	jq	m, BB22_15
+	ld	a, 0
+BB22_15:
+	bit	0, a
+	ld	l, 63
+	ld	bc, (ix - 9)
+	ld	(ix - 3), iy
+	bit	0, a
+	ld	a, -65
+	ld	e, a
+	jq	nz, BB22_17
+	ld	e, l
+BB22_17:
+	ld	(ix - 34), e
+	inc	bc
+	ld	(ix - 9), bc
+	ld	bc, (ix - 17)
+	ld	a, (ix - 18)
+	ld	hl, -8388608
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	(ix - 35), a
+	call	__fneg
+	ld	hl, (ix - 6)
+	ld	d, (ix - 19)
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 12)
+	ld	e, (ix - 13)
+	call	__fadd
+	ld	(ix - 32), bc
+	ld	(ix - 33), a
+	lea	bc, iy
+	ld	a, (ix - 35)
+	call	__fmul
+	ld	hl, (ix - 6)
+	ld	e, d
+	call	__fadd
+	ld	(ix - 6), bc
+	ld	(ix - 19), a
+	ld	bc, -8388608
+	ld	a, (ix - 34)
+	call	__fneg
+	ld	iy, (ix - 22)
+	lea	hl, iy
+	ld	d, (ix - 26)
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 3)
+	ld	e, (ix - 14)
+	call	__fadd
+	ld	(ix - 3), bc
+	ld	(ix - 14), a
+	ld	bc, (ix - 17)
+	ld	a, (ix - 18)
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 17), bc
+	ld	(ix - 18), a
+	ld	hl, (ix - 9)
+	ld	bc, 60
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB22_20
+	lea	bc, iy
+	ld	a, d
+	or	a, a
+	sbc	hl, hl
+	ld	e, 63
+	call	__fmul
+	ld	(ix - 22), bc
+	ld	(ix - 26), a
+	ld	bc, (ix - 29)
+	ld	iy, (ix - 25)
+	jq	BB22_19
+BB22_20:
+	ld	iy, (ix - 25)
+	ld	hl, (iy)
+	ld	(ix - 22), hl
+	ld	a, (iy + 3)
+	ld	(ix - 26), a
+	ld	bc, (ix - 29)
+BB22_19:
+	lea	iy, iy + 4
+	ld	(ix - 25), iy
+	ld	hl, (ix - 32)
+	ld	(ix - 12), hl
+	ld	a, (ix - 33)
+	ld	(ix - 13), a
+	ld	iy, (ix - 3)
+	ld	de, (ix - 9)
+	ld	a, (ix - 19)
+	jq	BB22_12
+BB22_21:
+	ld	bc, (ix - 6)
+	ld	hl, (ix - 12)
+	ld	e, (ix - 13)
+	call	__fdiv
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_tan_values
+_tan_values:
+	call	__frameset0
+	ld	iy, (ix + 6)
+	xor	a, a
+	ld	de, (iy)
+	ld	bc, 0
+	push	de
+	pop	hl
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	jq	p, BB23_3
+	ld	hl, 1
+	ld	(iy), hl
+	ld	de, 0
+	jq	BB23_2
+BB23_3:
+	push	de
+	pop	hl
+	inc	hl
+	ld	(iy), hl
+	push	de
+	pop	hl
+	ld	bc, 15
+	or	a, a
+	sbc	hl, bc
+	jq	c, BB23_2
+	ld	de, 0
+	ld	(iy), de
+	ld	hl, (ix + 9)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	jq	BB23_5
+BB23_2:
+	ld	iy, _tan_values.x_vec
+	ld	c, 2
+	ex	de, hl
+	call	__ishl
+	push	hl
+	pop	de
+	add	iy, de
+	ld	hl, (iy)
+	ld	a, (iy + 3)
+	ld	bc, (ix + 9)
+	push	bc
+	pop	iy
+	ld	(iy), hl
+	ld	(iy + 3), a
+	ld	iy, _tan_values.fx_vec
+	add	iy, de
+	ld	de, (iy)
+	ld	a, (iy + 3)
+BB23_5:
+	ld	hl, (ix + 12)
+	push	hl
+	pop	iy
+	ld	(iy), de
+	ld	(iy + 3), a
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_timestamp
+_timestamp:
+	ld	hl, -4
+	call	__frameset
+	ld	hl, 0
+	push	hl
+	call	_time
+	pop	bc
+	ld	(ix - 4), hl
+	ld	(ix - 1), e
+	pea	ix - 4
+	call	_localtime
+	pop	de
+	push	hl
+	ld	hl, L_.str.10
+	push	hl
+	ld	hl, 40
+	push	hl
+	ld	hl, _timestamp.time_buffer
+	push	hl
+	call	_strftime
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, _timestamp.time_buffer
+	push	hl
+	call	_puts
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.rodata,"a",@progbits
+	private	L_.str.1
+L_.str.1:
+	db	"ARCCOS_CORDIC - Fatal error!", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	L_.str.2
+L_.str.2:
+	db	"  1.0 < |T|.", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	_arccos_values.fx_vec
+_arccos_values.fx_vec:
+	dd	0x3fd5e224
+	dd	0x3fc90fdb
+	dd	0x3fbc3d91
+	dd	0x3faf49c2
+	dd	0x3fa20faf
+	dd	0x3f946345
+	dd	0x3f860a92
+	dd	0x3f6d6338
+	dd	0x3f4b9f42
+	dd	0x3f24bc7d
+	dd	0x3ee6ecfc
+	dd	0x00000000
+
+	section	.rodata,"a",@progbits
+	private	L_.str.3
+L_.str.3:
+	db	"ARCSIN_CORDIC - Fatal error!", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	_arcsin_values.fx_vec
+_arcsin_values.fx_vec:
+	dd	0xbdcd2494
+	dd	0x00000000
+	dd	0x3dcd2494
+	dd	0x3e4e30c5
+	dd	0x3e9c00ad
+	dd	0x3ed2b256
+	dd	0x3f060a92
+	dd	0x3f24bc7d
+	dd	0x3f468073
+	dd	0x3f6d6338
+	dd	0x3f8f549c
+	dd	0x3fc90fdb
+
+	section	.rodata,"a",@progbits
+	private	_arcsin_values.x_vec
+_arcsin_values.x_vec:
+	dd	0xbdcccccd
+	dd	0x00000000
+	dd	0x3dcccccd
+	dd	0x3e4ccccd
+	dd	0x3e99999a
+	dd	0x3ecccccd
+	dd	0x3f000000
+	dd	0x3f19999a
+	dd	0x3f333333
+	dd	0x3f4ccccd
+	dd	0x3f666666
+	dd	0x3f800000
+
+	section	.rodata,"a",@progbits
+	private	_arctan_values.f_vec
+_arctan_values.f_vec:
+	dd	0x00000000
+	dd	0x3e7adbb0
+	dd	0x3ea4bc7d
+	dd	0x3eed6338
+	dd	0x3f490fdb
+	dd	0x3f8db70d
+	dd	0x3f9fe0bb
+	dd	0x3fa9b465
+	dd	0x3fafcb99
+	dd	0x3fbc4de9
+	dd	0x3fc2aad1
+
+	section	.rodata,"a",@progbits
+	private	_arctan_values.x_vec
+_arctan_values.x_vec:
+	dd	0x00000000
+	dd	0x3e800000
+	dd	0x3eaaaaab
+	dd	0x3f000000
+	dd	0x3f800000
+	dd	0x40000000
+	dd	0x40400000
+	dd	0x40800000
+	dd	0x40a00000
+	dd	0x41200000
+	dd	0x41a00000
+
+	section	.rodata,"a",@progbits
+	private	_cbrt_values.fx_vec
+_cbrt_values.fx_vec:
+	dd	0x00000000
+	dd	0xbb039daa
+	dd	0x3ee572ab
+	dd	0xbeeda63c
+	dd	0x3f3c9f56
+	dd	0xbf800000
+	dd	0x3fa14518
+	dd	0xbfb89ba2
+	dd	0x3fbb77bf
+	dd	0xc02ac718
+	dd	0x4044a0d7
+	dd	0xc0848194
+	dd	0x409307ca
+	dd	0xc3f8f789
+
+	section	.rodata,"a",@progbits
+	private	_cbrt_values.x_vec
+_cbrt_values.x_vec:
+	dd	0x00000000
+	dd	0xb20b282d
+	dd	0x3db851ec
+	dd	0xbdcccccd
+	dd	0x3ecccccd
+	dd	0xbf800000
+	dd	0x40000000
+	dd	0xc0400000
+	dd	0x40490fdb
+	dd	0xc1980000
+	dd	0x41e80000
+	dd	0xc28e0000
+	dd	0x42c20000
+	dd	0xcceb79a3
+
+	section	.rodata,"a",@progbits
+	private	_cos_values.fx_vec
+_cos_values.fx_vec:
+	dd	0x3f800000
+	dd	0x3f7746ea
+	dd	0x3f60a940
+	dd	0x3f5db3d7
+	dd	0x3f3504f3
+	dd	0x3f0a5140
+	dd	0x3f000000
+	dd	0x00000000
+	dd	0xbed51133
+	dd	0xbf7d7026
+	dd	0xbf800000
+	dd	0xbf275530
+	dd	0x3e913c2c
+
+	section	.rodata,"a",@progbits
+	private	L___const.cossin_cordic.kprod
+L___const.cossin_cordic.kprod:
+	dd	0x3f3504f3
+	dd	0x3f21e89b
+	dd	0x3f1d130e
+	dd	0x3f1bdc8a
+	dd	0x3f1b8ed6
+	dd	0x3f1b7b68
+	dd	0x3f1b768c
+	dd	0x3f1b7555
+	dd	0x3f1b7508
+	dd	0x3f1b74f4
+	dd	0x3f1b74ef
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+	dd	0x3f1b74ee
+
+	section	.rodata,"a",@progbits
+	private	_exp_values.fx_vec
+_exp_values.fx_vec:
+	dd	0x383e6bce
+	dd	0x3bdcc9ff
+	dd	0x3ebc5ab2
+	dd	0x3f800000
+	dd	0x3f800000
+	dd	0x3f800347
+	dd	0x3f8020c9
+	dd	0x3f814953
+	dd	0x3f8d763e
+	dd	0x3f9c56ed
+	dd	0x3facc82c
+	dd	0x3fbef41d
+	dd	0x3fd3094c
+	dd	0x3fe93b30
+	dd	0x4000e153
+	dd	0x400e6f43
+	dd	0x401d6a23
+	dd	0x402df854
+	dd	0x40ec7326
+	dd	0x41b92023
+	dd	0x431469c5
+	dd	0x46ac14ee
+	dd	0x4de75844
+	dd	0x5c51106a
+
+	section	.rodata,"a",@progbits
+	private	_exp_values.x_vec
+_exp_values.x_vec:
+	dd	0xc1200000
+	dd	0xc0a00000
+	dd	0xbf800000
+	dd	0x00000000
+	dd	0x322bcc77
+	dd	0x38d1b717
+	dd	0x3a83126f
+	dd	0x3c23d70a
+	dd	0x3dcccccd
+	dd	0x3e4ccccd
+	dd	0x3e99999a
+	dd	0x3ecccccd
+	dd	0x3f000000
+	dd	0x3f19999a
+	dd	0x3f333333
+	dd	0x3f4ccccd
+	dd	0x3f666666
+	dd	0x3f800000
+	dd	0x40000000
+	dd	0x40490fdb
+	dd	0x40a00000
+	dd	0x41200000
+	dd	0x41a00000
+	dd	0x42200000
+
+	section	.rodata,"a",@progbits
+	private	L___const.ln_cordic.a
+L___const.ln_cordic.a:
+	dd	0x3fd3094c
+	dd	0x3fa45af2
+	dd	0x3f910b02
+	dd	0x3f88415b
+	dd	0x3f84102b
+	dd	0x3f820405
+	dd	0x3f810101
+	dd	0x3f808040
+	dd	0x3f804010
+	dd	0x3f802004
+	dd	0x3f801001
+	dd	0x3f800800
+	dd	0x3f800400
+	dd	0x3f800200
+	dd	0x3f800100
+	dd	0x3f800080
+	dd	0x3f800040
+	dd	0x3f800020
+	dd	0x3f800010
+	dd	0x3f800008
+	dd	0x3f800004
+	dd	0x3f800002
+	dd	0x3f800001
+	dd	0x3f800001
+	dd	0x3f800000
+
+	section	.rodata,"a",@progbits
+	private	L_.str.4
+L_.str.4:
+	db	"LN_CORDIC - Fatal error!", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	L_.str.5
+L_.str.5:
+	db	"  Input argument X <= 0.0", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	_ln_values.fx_vec
+_ln_values.fx_vec:
+	dd	0xc13834f1
+	dd	0xc0935d8e
+	dd	0xc0135d8e
+	dd	0xbfce0210
+	dd	0xbf9a1bc8
+	dd	0xbf6a9208
+	dd	0xbf317218
+	dd	0xbf02c578
+	dd	0xbeb69e19
+	dd	0xbe647fbe
+	dd	0xbdd7c741
+	dd	0x00000000
+	dd	0x3f317218
+	dd	0x3f8c9f54
+	dd	0x3f928682
+	dd	0x3fce0210
+	dd	0x40135d8e
+	dd	0x403fba14
+	dd	0x40935d8e
+	dd	0x41950d1c
+
+	section	.rodata,"a",@progbits
+	private	_ln_values.x_vec
+_ln_values.x_vec:
+	dd	0x3727c5ac
+	dd	0x3c23d70a
+	dd	0x3dcccccd
+	dd	0x3e4ccccd
+	dd	0x3e99999a
+	dd	0x3ecccccd
+	dd	0x3f000000
+	dd	0x3f19999a
+	dd	0x3f333333
+	dd	0x3f4ccccd
+	dd	0x3f666666
+	dd	0x3f800000
+	dd	0x40000000
+	dd	0x40400000
+	dd	0x40490fdb
+	dd	0x40a00000
+	dd	0x41200000
+	dd	0x41a00000
+	dd	0x42c80000
+	dd	0x4ceb79a3
+
+	section	.rodata,"a",@progbits
+	private	L_.str.6
+L_.str.6:
+	db	"R8_UNIFORM_01 - Fatal error!", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	L_.str.7
+L_.str.7:
+	db	"  Input value of SEED = 0.", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	_sin_values.fx_vec
+_sin_values.fx_vec:
+	dd	0x00000000
+	dd	0x3e8483ee
+	dd	0x3ef57744
+	dd	0x3f000000
+	dd	0x3f3504f3
+	dd	0x3f576aa4
+	dd	0x3f5db3d7
+	dd	0x3f800000
+	dd	0x3f68c7b7
+	dd	0x3e1081c3
+	dd	0x00000000
+	dd	0xbf41bdcf
+	dd	0xbf757c10
+
+	section	.rodata,"a",@progbits
+	private	_sin_values.x_vec
+_sin_values.x_vec:
+	dd	0x00000000
+	dd	0x3e860a92
+	dd	0x3f000000
+	dd	0x3f060a92
+	dd	0x3f490fdb
+	dd	0x3f800000
+	dd	0x3f860a92
+	dd	0x3fc90fdb
+	dd	0x40000000
+	dd	0x40400000
+	dd	0x40490fdb
+	dd	0x40800000
+	dd	0x40a00000
+
+	section	.rodata,"a",@progbits
+	private	L_.str.8
+L_.str.8:
+	db	"SQRT_CORDIC - Fatal error!", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	L_.str.9
+L_.str.9:
+	db	"  X < 0.", 10, 0
+
+	section	.rodata,"a",@progbits
+	private	_sqrt_values.fx_vec
+_sqrt_values.fx_vec:
+	dd	0x00000000
+	dd	0x38bcbe62
+	dd	0x3e99999a
+	dd	0x3ea1e89b
+	dd	0x3f21e89b
+	dd	0x3f800000
+	dd	0x3fb504f3
+	dd	0x3fddb3d7
+	dd	0x3fe2dfc5
+	dd	0x408b7c1a
+	dd	0x40ac5345
+	dd	0x4106d182
+	dd	0x411d94ec
+	dd	0x462d9c72
+
+	section	.rodata,"a",@progbits
+	private	_sqrt_values.x_vec
+_sqrt_values.x_vec:
+	dd	0x00000000
+	dd	0x320b282d
+	dd	0x3db851ec
+	dd	0x3dcccccd
+	dd	0x3ecccccd
+	dd	0x3f800000
+	dd	0x40000000
+	dd	0x40400000
+	dd	0x40490fdb
+	dd	0x41980000
+	dd	0x41e80000
+	dd	0x428e0000
+	dd	0x42c20000
+	dd	0x4ceb79a3
+
+	section	.rodata,"a",@progbits
+	private	L___const.tan_cordic.angles
+L___const.tan_cordic.angles:
+	dd	0x3f490fdb
+	dd	0x3eed6338
+	dd	0x3e7adbb0
+	dd	0x3dfeadd5
+	dd	0x3d7faade
+	dd	0x3cffeaae
+	dd	0x3c7ffaab
+	dd	0x3bfffeab
+	dd	0x3b7fffab
+	dd	0x3affffeb
+	dd	0x3a7ffffb
+	dd	0x39ffffff
+	dd	0x39800000
+	dd	0x39000000
+	dd	0x38800000
+	dd	0x38000000
+	dd	0x37800000
+	dd	0x37000000
+	dd	0x36800000
+	dd	0x36000000
+	dd	0x35800000
+	dd	0x35000000
+	dd	0x34800000
+	dd	0x34000000
+	dd	0x33800000
+	dd	0x33000000
+	dd	0x32800000
+	dd	0x32000000
+	dd	0x31800000
+	dd	0x31000000
+	dd	0x30800000
+	dd	0x30000000
+	dd	0x2f800000
+	dd	0x2f000000
+	dd	0x2e800000
+	dd	0x2e000000
+	dd	0x2d800000
+	dd	0x2d000000
+	dd	0x2c800000
+	dd	0x2c000000
+	dd	0x2b800000
+	dd	0x2b000000
+	dd	0x2a800000
+	dd	0x2a000000
+	dd	0x29800000
+	dd	0x29000000
+	dd	0x28800000
+	dd	0x28000000
+	dd	0x27800000
+	dd	0x27000000
+	dd	0x26800000
+	dd	0x26000000
+	dd	0x25800000
+	dd	0x25000000
+	dd	0x24800000
+	dd	0x24000000
+	dd	0x23800000
+	dd	0x23000000
+	dd	0x22800000
+	dd	0x22000000
+
+	section	.rodata,"a",@progbits
+	private	_tan_values.fx_vec
+_tan_values.fx_vec:
+	dd	0x00000000
+	dd	0x3e8930a3
+	dd	0x3f0bda7b
+	dd	0x3f13cd3a
+	dd	0x3f800000
+	dd	0x3fc75923
+	dd	0x3fddb3d7
+	dd	0x406ed9ec
+	dd	0x40f3106b
+	dd	0x41741ce2
+	dd	0xc00bd7b1
+	dd	0xbe11f7b9
+	dd	0x00000000
+	dd	0x3f94337d
+	dd	0xc0585a5c
+
+	section	.rodata,"a",@progbits
+	private	_tan_values.x_vec
+_tan_values.x_vec:
+	dd	0x00000000
+	dd	0x3e860a92
+	dd	0x3f000000
+	dd	0x3f060a92
+	dd	0x3f490fdb
+	dd	0x3f800000
+	dd	0x3f860a92
+	dd	0x3fa78d36
+	dd	0x3fb84e88
+	dd	0x3fc0af32
+	dd	0x40000000
+	dd	0x40400000
+	dd	0x40490fdb
+	dd	0x40800000
+	dd	0x40a00000
+
+	section	.bss,"aw",@nobits
+	private	_timestamp.time_buffer
+_timestamp.time_buffer:
+	rb	40
+
+	section	.rodata,"a",@progbits
+	private	L_.str.10
+L_.str.10:
+	db	"%d %B %Y %I:%M:%S %p", 0
+
+	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project 6d5b49201c74730cf332608210c1d55a002e1768)"
+	extern	_fabsf
+	extern	__Unwind_SjLj_Register
+	extern	_strftime
+	extern	_malloc
+	extern	__fadd
+	extern	__ishl
+	extern	__ftol
+	extern	__idivs
+	extern	__setflag
+	extern	_localtime
+	extern	_exit
+	extern	_fputc
+	extern	__ltof
+	extern	_free
+	extern	_fmod
+	extern	__fsub
+	extern	_fwrite
+	extern	_time
+	extern	__frameset
+	extern	__fmul
+	extern	_floorf
+	extern	__fneg
+	extern	__fdiv
+	extern	__imulu
+	extern	_puts
+	extern	__fcmp
+	extern	__frameset0
+	extern	__Unwind_SjLj_Unregister

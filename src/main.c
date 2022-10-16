@@ -12,6 +12,7 @@
 #include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
+#include <ti/real.h>
 #include "collide.h"
 #include "gfx/gfx.h"
 
@@ -168,23 +169,29 @@ bool step(void) {
             balls[i].y -= balls[i].vy;
 
             //not using d does come with some downsides, also might be slow af
-            float ax = A * cos(atan(balls[i].vy/balls[i].vx));
-            float ay = A * sin(atan(balls[i].vy/balls[i].vx));
-            if (balls[i].vx >= ax) { 
-                balls[i].vx -= ax;
-            } else if (balls[i].vx <= -ax) {
-                balls[i].vx += ax;
-            } else {
-                balls[i].vx = 0;
-            }
+            real_t vy_over_vx = os_FloatToReal(balls[i].vy/balls[i].vx);
+            real_t atan_of = os_RealAtanRad(&vy_over_vx);
+            real_t cos_of = os_RealCosRad(&atan_of);
+            real_t sin_of = os_RealSinRad(&atan_of);
             
-            if (balls[i].vy >= ay) {
-                balls[i].vy -= ay;
-            } else if (balls[i].vy <= -ay) {
-                balls[i].vy += ay;
-            } else {
-                balls[i].vy = 0;
-            }
+            float ax = A * os_RealToFloat(&cos_of);
+            float ay = A * os_RealToFloat(&sin_of);
+
+            // if (balls[i].vx >= ax) { 
+            //     balls[i].vx -= ax;
+            // } else if (balls[i].vx <= -ax) {
+            //     balls[i].vx += ax;
+            // } else {
+            //     balls[i].vx = 0;
+            // }
+            
+            // if (balls[i].vy >= ay) {
+            //     balls[i].vy -= ay;
+            // } else if (balls[i].vy <= -ay) {
+            //     balls[i].vy += ay;
+            // } else {
+            //     balls[i].vy = 0;
+            // }
 
             collidewalls(&balls[i]);
 
@@ -237,7 +244,7 @@ void draw(void) {
     for (int i = 15; i >= 0; i--) {
         gfx_TransparentSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
         //velocity vectors test
-        gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
+        //gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
     }
 
     //test
