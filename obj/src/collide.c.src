@@ -3,180 +3,340 @@
 	section	.text,"ax",@progbits
 	public	_collideballs
 _collideballs:
-	ld	hl, -30
+	ld	hl, -45
 	call	__frameset
-	ld	de, (ix + 6)
-	ld	bc, (ix + 9)
+	ld	iy, (ix + 6)
+	ld	de, (ix + 9)
+	ld	hl, (iy + 3)
+	ld	(ix - 29), hl
+	ld	a, (iy + 6)
+	lea	bc, iy
+	ld	(ix - 3), a
 	push	de
 	pop	iy
 	ld	hl, (iy + 3)
-	ld	e, (iy + 6)
+	ld	(ix - 38), hl
+	ld	a, (iy + 6)
+	ld	(ix - 6), a
+	ld	hl, (iy + 7)
+	ld	(ix - 35), hl
+	ld	a, (iy + 10)
+	ld	(ix - 32), a
 	push	bc
 	pop	iy
-	ld	bc, (iy + 3)
-	ld	a, (iy + 6)
-	ld	iy, (ix + 9)
-	ld	iy, (iy + 7)
-	ld	(ix - 6), iy
-	ld	iy, (ix + 9)
-	ld	d, (iy + 10)
-	call	__fsub
-	ld	(ix - 3), bc
-	ld	iyl, a
-	push	af
-	ld	a, iyl
-	ld	(ix - 14), a
-	pop	af
-	ld	bc, (ix - 6)
-	ld	a, d
-	call	__fsub
-	ld	(ix - 6), bc
-	ld	(ix - 7), a
-	push	bc
-	pop	hl
-	ld	e, a
-	call	__fmul
-	ld	(ix - 10), bc
-	ld	d, a
-	ld	bc, (ix - 3)
-	ld	a, iyl
-	push	bc
-	pop	hl
-	ld	e, iyl
-	call	__fmul
-	ld	hl, (ix - 10)
-	ld	e, d
-	call	__fadd
-	ld	(ix - 10), bc
-	ld	(ix - 22), a
-	ld	iy, (ix + 6)
 	lea	de, iy + 11
 	ld	hl, (iy + 11)
 	lea	bc, iy
-	ld	(ix - 13), hl
+	ld	(ix - 9), hl
 	push	de
 	pop	iy
 	lea	hl, iy + 3
-	ld	d, (hl)
-	ld	(ix - 26), d
-	push	bc
-	pop	iy
-	lea	bc, iy + 15
-	ld	hl, (iy + 15)
 	ld	(ix - 17), hl
-	push	bc
-	pop	iy
-	lea	iy, iy + 3
-	ld	e, (iy)
-	ld	(ix - 18), e
-	ld	bc, (ix - 6)
-	ld	a, (ix - 7)
-	call	__fmul
-	push	bc
-	pop	iy
-	ld	(ix - 21), a
-	ld	bc, (ix - 13)
-	ld	a, d
-	ld	hl, (ix - 3)
-	ld	d, (ix - 14)
-	ld	e, d
-	call	__fmul
-	lea	hl, iy
-	ld	e, (ix - 21)
-	call	__fadd
-	ld	(ix - 25), bc
-	ld	(ix - 29), a
-	ld	iy, (ix + 9)
-	lea	hl, iy + 11
-	ld	bc, (iy + 11)
-	push	hl
-	pop	iy
-	lea	hl, iy + 3
-	ld	(ix - 21), hl
 	ld	a, (hl)
-	call	__fneg
-	ld	hl, (ix - 3)
-	ld	e, d
-	call	__fmul
-	ld	hl, (ix - 25)
-	ld	e, (ix - 29)
-	call	__fadd
-	ld	(ix - 29), bc
-	ld	d, a
-	ld	iy, (ix + 9)
+	ld	(ix - 10), a
+	push	bc
+	pop	iy
 	lea	hl, iy + 15
 	ld	bc, (iy + 15)
 	push	hl
 	pop	iy
 	lea	hl, iy + 3
-	ld	(ix - 25), hl
+	ld	(ix - 20), hl
 	ld	a, (hl)
-	call	__fneg
-	ld	hl, (ix - 6)
-	ld	e, (ix - 7)
-	call	__fmul
-	ld	hl, (ix - 29)
-	ld	e, d
-	call	__fadd
-	ld	(ix - 29), bc
-	ld	(ix - 30), a
-	ld	hl, (ix - 10)
-	ld	d, (ix - 22)
-	ld	e, d
-	call	__fdiv
-	push	bc
-	pop	hl
 	ld	e, a
-	ld	bc, (ix - 3)
-	ld	a, (ix - 14)
-	call	__fmul
+	push	de
 	push	bc
-	pop	hl
-	ld	(ix - 3), hl
-	ld	e, a
-	ld	(ix - 14), e
-	ld	bc, (ix - 13)
-	ld	a, (ix - 26)
-	call	__fsub
-	ld	iy, (ix + 6)
-	ld	(iy + 11), bc
-	ld	(iy + 14), a
-	ld	bc, (ix - 6)
-	ld	a, (ix - 7)
-	ld	hl, (ix - 10)
-	ld	e, d
-	call	__fdiv
-	ld	hl, (ix - 29)
-	ld	e, (ix - 30)
+	call	_cos
+	pop	bc
+	pop	bc
+	ld	bc, (ix - 9)
+	ld	a, (ix - 10)
 	call	__fmul
-	push	bc
-	pop	hl
-	ld	(ix - 6), hl
-	ld	d, a
-	ld	bc, (ix - 17)
-	ld	a, (ix - 18)
-	ld	e, d
-	call	__fsub
-	ld	(iy + 15), bc
-	ld	(iy + 18), a
+	ld	(ix - 13), bc
+	ld	(ix - 14), a
 	ld	iy, (ix + 9)
-	ld	bc, (iy + 11)
-	ld	hl, (ix - 21)
+	lea	de, iy + 11
+	ld	hl, (iy + 11)
+	lea	bc, iy
+	ld	(ix - 9), hl
+	push	de
+	pop	iy
+	lea	hl, iy + 3
+	ld	(ix - 23), hl
 	ld	a, (hl)
-	ld	hl, (ix - 3)
-	ld	e, (ix - 14)
-	call	__fadd
-	ld	(iy + 11), bc
-	ld	(iy + 14), a
-	ld	hl, (iy + 15)
-	ld	iy, (ix - 25)
-	ld	e, (iy)
+	ld	(ix - 10), a
+	push	bc
+	pop	iy
+	lea	hl, iy + 15
+	ld	bc, (iy + 15)
+	push	hl
+	pop	iy
+	lea	hl, iy + 3
+	ld	(ix - 26), hl
+	ld	a, (hl)
+	ld	e, a
+	push	de
+	push	bc
+	call	_cos
+	pop	bc
+	pop	bc
+	ld	bc, (ix - 9)
+	ld	a, (ix - 10)
+	call	__fmul
+	ld	(ix - 9), bc
+	ld	(ix - 10), a
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 11)
+	ld	(ix - 41), hl
+	ld	hl, (ix - 17)
+	ld	a, (hl)
+	ld	(ix - 17), a
+	ld	bc, (iy + 15)
+	ld	hl, (ix - 20)
+	ld	a, (hl)
+	ld	e, a
+	push	de
+	push	bc
+	call	_sin
+	pop	bc
+	pop	bc
+	ld	bc, (ix - 41)
+	ld	a, (ix - 17)
+	call	__fmul
+	ld	(ix - 17), bc
+	ld	(ix - 20), a
+	ld	iy, (ix + 9)
+	ld	hl, (iy + 11)
+	ld	(ix - 41), hl
+	ld	hl, (ix - 23)
+	ld	a, (hl)
+	ld	(ix - 23), a
+	ld	bc, (iy + 15)
+	ld	hl, (ix - 26)
+	ld	a, (hl)
+	ld	e, a
+	push	de
+	push	bc
+	call	_sin
+	pop	bc
+	pop	bc
+	ld	bc, (ix - 41)
+	ld	a, (ix - 23)
+	call	__fmul
+	ld	(ix - 23), bc
+	ld	(ix - 26), a
+	ld	bc, (ix - 38)
+	ld	a, (ix - 6)
+	ld	hl, (ix - 29)
+	ld	e, (ix - 3)
+	call	__fsub
+	ld	(ix - 6), bc
+	ld	d, a
+	ld	bc, (ix - 35)
+	ld	a, (ix - 32)
+	ld	hl, (ix - 29)
+	ld	e, (ix - 3)
+	call	__fsub
+	ld	(ix - 3), bc
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	iyl, a
+	push	af
+	ld	a, iyl
+	ld	(ix - 29), a
+	pop	af
+	call	__fmul
+	ld	(ix - 32), bc
+	ld	(ix - 35), a
 	ld	bc, (ix - 6)
 	ld	a, d
+	push	bc
+	pop	hl
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 32)
+	ld	e, (ix - 35)
 	call	__fadd
+	ld	(ix - 32), bc
+	ld	(ix - 35), a
+	ld	bc, (ix - 3)
+	ld	a, iyl
+	ld	hl, (ix - 17)
+	ld	e, (ix - 20)
+	call	__fmul
+	ld	(ix - 41), bc
+	ld	(ix - 44), a
+	ld	bc, (ix - 13)
+	ld	a, (ix - 14)
+	ld	iy, (ix - 6)
+	lea	hl, iy
+	ld	e, d
+	ld	(ix - 38), d
+	call	__fmul
+	ld	hl, (ix - 41)
+	ld	e, (ix - 44)
+	call	__fadd
+	ld	(ix - 41), bc
+	ld	(ix - 44), a
+	ld	bc, (ix - 9)
+	ld	a, (ix - 10)
+	call	__fneg
+	lea	hl, iy
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 41)
+	ld	e, (ix - 44)
+	call	__fadd
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	bc, (ix - 23)
+	ld	a, (ix - 26)
+	call	__fneg
+	ld	hl, (ix - 3)
+	ld	e, (ix - 29)
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	ld	(ix - 44), bc
+	ld	(ix - 41), a
+	ld	iy, (ix - 32)
+	lea	hl, iy
+	ld	d, (ix - 35)
+	ld	e, d
+	call	__fdiv
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	bc, (ix - 6)
+	ld	a, (ix - 38)
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	(ix - 38), hl
+	ld	e, a
+	ld	(ix - 45), e
+	ld	bc, (ix - 13)
+	ld	a, (ix - 14)
+	call	__fsub
+	ld	(ix - 6), bc
+	ld	(ix - 13), a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 29)
+	lea	hl, iy
+	ld	e, d
+	call	__fdiv
+	ld	hl, (ix - 44)
+	ld	e, (ix - 41)
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	bc, (ix - 17)
+	ld	a, (ix - 20)
+	lea	hl, iy
+	ld	e, d
+	call	__fsub
+	ld	(ix - 3), bc
+	ld	(ix - 14), a
+	ld	bc, (ix - 9)
+	ld	a, (ix - 10)
+	ld	hl, (ix - 38)
+	ld	e, (ix - 45)
+	call	__fadd
+	ld	(ix - 9), bc
+	ld	(ix - 10), a
+	ld	bc, (ix - 23)
+	ld	a, (ix - 26)
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	ld	(ix - 17), bc
+	ld	(ix - 20), a
+	ld	bc, (ix - 6)
+	ld	a, (ix - 13)
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	bc, (ix - 3)
+	ld	a, (ix - 14)
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	ld	l, a
+	push	hl
+	push	bc
+	call	_sqrt
+	pop	bc
+	pop	bc
+	ld	iy, (ix + 6)
+	ld	(iy + 11), hl
+	ld	(iy + 14), e
+	ld	bc, (ix - 9)
+	ld	a, (ix - 10)
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	push	bc
+	pop	iy
+	ld	d, a
+	ld	bc, (ix - 17)
+	ld	a, (ix - 20)
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	lea	hl, iy
+	ld	e, d
+	call	__fadd
+	ld	l, a
+	push	hl
+	push	bc
+	call	_sqrt
+	pop	bc
+	pop	bc
 	ld	iy, (ix + 9)
-	ld	(iy + 15), bc
-	ld	(iy + 18), a
+	ld	(iy + 11), hl
+	ld	(iy + 14), e
+	ld	bc, (ix - 3)
+	ld	a, (ix - 14)
+	ld	hl, (ix - 6)
+	ld	e, (ix - 13)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	call	_atan
+	pop	bc
+	pop	bc
+	ld	iy, (ix + 6)
+	ld	(iy + 15), hl
+	ld	(iy + 18), e
+	ld	bc, (ix - 17)
+	ld	a, (ix - 20)
+	ld	hl, (ix - 9)
+	ld	e, (ix - 10)
+	call	__fdiv
+	ld	l, a
+	push	hl
+	push	bc
+	call	_atan
+	pop	bc
+	pop	bc
+	ld	iy, (ix + 9)
+	ld	(iy + 15), hl
+	ld	(iy + 18), e
 	ld	sp, ix
 	pop	ix
 	ret
@@ -185,17 +345,16 @@ _collideballs:
 	section	.text,"ax",@progbits
 	public	_collidewalls
 _collidewalls:
-	ld	hl, -4
+	ld	hl, -11
 	call	__frameset
 	ld	iy, (ix + 6)
 	ld	bc, -6291456
 	ld	a, 65
 	ld	hl, (iy + 3)
-	ld	d, (iy + 6)
-	push	hl
-	pop	iy
-	ld	e, d
-	ld	(ix - 1), a
+	ld	e, (iy + 6)
+	ld	(ix - 10), hl
+	ld	(ix - 11), e
+	ld	(ix - 4), a
 	call	__fcmp
 	jq	m, BB1_1
 	ld	a, 0
@@ -203,15 +362,19 @@ _collidewalls:
 BB1_1:
 	ld	a, 1
 BB1_3:
-	ld	e, 67
-	ld	hl, -5767168
+	ld	bc, -5767168
 	bit	0, a
-	ld	(ix - 4), hl
+	ld	iy, (ix + 6)
+	lea	de, iy
+	lea	hl, iy + 15
+	ld	(ix - 3), hl
+	ld	(ix - 7), bc
 	ld	a, 65
 	jq	nz, BB1_9
 	ld	hl, -6946816
-	lea	bc, iy
-	ld	a, d
+	ld	e, 67
+	ld	bc, (ix - 10)
+	ld	a, (ix - 11)
 	call	__fcmp
 	jq	p, BB1_5
 	ld	a, 0
@@ -219,27 +382,27 @@ BB1_3:
 BB1_5:
 	ld	a, 1
 BB1_7:
+	ld	iy, (ix + 6)
 	bit	0, a
-	ld	iy, (ix + 6)
 	jq	nz, BB1_10
-	ld	hl, -6979584
+	ld	bc, -6979584
 	ld	a, 67
-BB1_9:
-	ld	iy, (ix + 6)
-	ld	(iy + 3), hl
-	ld	(iy + 6), a
-	lea	hl, iy + 11
-	ld	bc, (iy + 11)
 	lea	de, iy
-	push	hl
-	pop	iy
-	lea	hl, iy + 3
+BB1_9:
+	ld	hl, 4788187
 	push	de
 	pop	iy
-	ld	a, (hl)
-	call	__fneg
-	ld	(iy + 11), bc
-	ld	(iy + 14), a
+	ld	(iy + 3), bc
+	ld	(iy + 6), a
+	ld	bc, (iy + 15)
+	ld	iy, (ix - 3)
+	lea	iy, iy + 3
+	ld	a, (iy)
+	ld	e, -64
+	call	__fadd
+	ld	iy, (ix + 6)
+	ld	(iy + 15), bc
+	ld	(iy + 18), a
 BB1_10:
 	ld	hl, (iy + 7)
 	ld	d, (iy + 10)
@@ -269,21 +432,20 @@ BB1_15:
 	ld	a, 1
 BB1_17:
 	bit	0, a
+	ld	a, 67
 	jq	nz, BB1_20
 	ld	hl, 917504
-	ld	(ix - 4), hl
-	ld	(ix - 1), e
+	ld	(ix - 7), hl
+	ld	(ix - 4), a
 BB1_19:
 	ld	iy, (ix + 6)
-	ld	hl, (ix - 4)
+	ld	hl, (ix - 7)
 	ld	(iy + 7), hl
-	ld	a, (ix - 1)
+	ld	a, (ix - 4)
 	ld	(iy + 10), a
-	lea	hl, iy + 15
 	ld	bc, (iy + 15)
 	lea	de, iy
-	push	hl
-	pop	iy
+	ld	iy, (ix - 3)
 	lea	hl, iy + 3
 	ld	a, (hl)
 	call	__fneg
@@ -298,12 +460,16 @@ BB1_20:
 	section	.text,"ax",@progbits
 
 	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project 6d5b49201c74730cf332608210c1d55a002e1768)"
+	extern	_atan
 	extern	__Unwind_SjLj_Register
 	extern	__frameset
 	extern	__Unwind_SjLj_Unregister
 	extern	__fneg
 	extern	__fdiv
+	extern	_sin
 	extern	__fadd
+	extern	_sqrt
+	extern	_cos
 	extern	__fcmp
 	extern	__fsub
 	extern	__fmul
