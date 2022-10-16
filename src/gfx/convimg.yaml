@@ -1,0 +1,34 @@
+palettes:
+  - name: global_palette
+    fixed-entries:
+      - color: {index: 0, r: 204, g: 102, b: 102}
+      - color: {index: 1, r: 255, g: 255, b: 255}
+      - color: {index: 2, r: 49, g: 112, b: 47}
+      - color: {index: 3, r: 54, g: 54, b: 58}
+      - color: {index: 4, r: 63, g: 170, b: 166}
+      - color: {index: 5, r: 194, g: 136, b: 62}
+    images: automatic
+
+converts:
+
+  - name: sprites
+    palette: global_palette
+    transparent-color-index: 0
+    images:
+      - Table_l
+      - Table_tr
+      - Table_tl
+      - eightball
+      - stripe
+      - solid
+      - qball
+
+
+
+outputs:
+  - type: c
+    include-file: gfx.h
+    palettes:
+      - global_palette
+    converts:
+      - sprites
