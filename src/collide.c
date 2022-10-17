@@ -15,10 +15,10 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
     y2 -= y1;
     x1 = x2 * x2 + y2 * y2, y1 = ball1->vx * x2 + ball1->vy * y2 - ball2->vx * x2 - ball2->vy * y2;
     x2 *= y1 / x1;
-    ball1->vx -= x2;
+    ball1->vx = -ball1->vx + x2;
     y1 *= y2 / x1;
     ball1->vy -= y1;
-    ball2->vx += x2;
+    ball2->vx = -ball2->vx - x2;
     ball2->vy += y1;
 
 }

@@ -12,7 +12,6 @@
 #include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
-#include <ti/real.h>
 #include "collide.h"
 #include "gfx/gfx.h"
 
@@ -49,7 +48,7 @@ float speedmult = 1;
 float q_dir = PI;
 
 // acceleration
-#define A 0.02
+#define A 0.5
 
 //basic funkies
 void begin();
@@ -148,15 +147,15 @@ bool step(void) {
         if (frame > 40) {
             frame = 0;
             gamestate = run;
-            balls[15].vx = cos(q_dir) * (q_power/5);
-            balls[15].vy = sin(q_dir) * (q_power/5);
+            balls[15].vx = cosf(q_dir) * (q_power/5);
+            balls[15].vy = sinf(q_dir) * (q_power/5);
         }
     }
 
-    if (gamestate == run && (kb_Data[6] & kb_Div)) {
+    if (gamestate == run /*&& (kb_Data[6] & kb_Div)*/) {
 
         //test
-        frame++;
+        //frame++;
 
         //init the counter to zero
         zero_counter = 0;
@@ -169,29 +168,30 @@ bool step(void) {
             balls[i].y -= balls[i].vy;
 
             //not using d does come with some downsides, also might be slow af
-            real_t vy_over_vx = os_FloatToReal(balls[i].vy/balls[i].vx);
-            real_t atan_of = os_RealAtanRad(&vy_over_vx);
-            real_t cos_of = os_RealCosRad(&atan_of);
-            real_t sin_of = os_RealSinRad(&atan_of);
-            
-            float ax = A * os_RealToFloat(&cos_of);
-            float ay = A * os_RealToFloat(&sin_of);
+            float atan_of = atanf(balls[i].vy/balls[i].vx);
+            float ax = A * fabsf(cosf(atan_of));
+            float ay = A * fabsf(sinf(atan_of));
 
-            // if (balls[i].vx >= ax) { 
-            //     balls[i].vx -= ax;
-            // } else if (balls[i].vx <= -ax) {
-            //     balls[i].vx += ax;
-            // } else {
-            //     balls[i].vx = 0;
-            // }
+            if (balls[i].vx >= ax) { 
+                balls[i].vx -= ax;
+            } else if (balls[i].vx <= -ax) {
+                balls[i].vx += ax;
+            } else {
+                balls[i].vx = 0;
+            }
             
-            // if (balls[i].vy >= ay) {
-            //     balls[i].vy -= ay;
-            // } else if (balls[i].vy <= -ay) {
-            //     balls[i].vy += ay;
-            // } else {
-            //     balls[i].vy = 0;
-            // }
+            if (balls[i].vy >= ay) {
+                balls[i].vy -= ay;
+            } else if (balls[i].vy <= -ay) {
+                balls[i].vy += ay;
+            } else {
+                balls[i].vy = 0;
+            }
+
+            //increment the coumter if the x and y velocities are zero
+            if (!(balls[i].vx || balls[i].vy)) {
+                zero_counter ++;
+            }
 
             collidewalls(&balls[i]);
 
@@ -201,11 +201,6 @@ bool step(void) {
                         collideballs(&balls[i], &balls[j]);
                     }
                 }
-            }
-
-            //increment the coumter if the x and y velocities are zero
-            if (!(balls[i].vx || balls[i].vy)) {
-                zero_counter ++;
             }
         }
 
@@ -255,7 +250,7 @@ void draw(void) {
     if (gamestate == setup) {
         //queue
         gfx_SetColor(5);
-        gfx_Line(balls[15].x + cos(q_dir) * (10 + q_power/4), balls[15].y + sin(q_dir) * (10 + q_power/4), balls[15].x + cos(q_dir) * (100 + q_power/4), balls[15].y + sin(q_dir) * (100 + q_power/4));
+        gfx_Line(balls[15].x + cosf(q_dir) * (10 + q_power/4), balls[15].y + sinf(q_dir) * (10 + q_power/4), balls[15].x + cosf(q_dir) * (100 + q_power/4), balls[15].y + sinf(q_dir) * (100 + q_power/4));
 
         //power bar
         gfx_SetColor(3);
@@ -267,7 +262,7 @@ void draw(void) {
     //animate queue
     if (gamestate == animate) {
         gfx_SetColor(5);
-        gfx_Line(balls[15].x + cos(q_dir) * (30 + q_power/4 - frame), balls[15].y + sin(q_dir) * (30 + q_power/4 - frame), balls[15].x + cos(q_dir) * (120 + q_power/4 - frame), balls[15].y + sin(q_dir) * (120 + q_power/4 - frame));
+        gfx_Line(balls[15].x + cosf(q_dir) * (30 + q_power/4 - frame), balls[15].y + sinf(q_dir) * (30 + q_power/4 - frame), balls[15].x + cosf(q_dir) * (120 + q_power/4 - frame), balls[15].y + sinf(q_dir) * (120 + q_power/4 - frame));
     }
 }
 
