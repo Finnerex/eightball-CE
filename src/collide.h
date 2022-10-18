@@ -10,6 +10,7 @@ extern "C" {
 #endif
 
 typedef struct ball_data {
+    int id;
     gfx_sprite_t* sprite;
     float x;
     float y;

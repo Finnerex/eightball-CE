@@ -1,8 +1,0 @@
-	section	.text,"ax",@progbits
-	assume	adl = 1
-	section	.data,"aw",@progbits
-	public	_stripe1_data
-_stripe1_data:
-	db	10, 10, 0, 0, 0, "", 0, 0, 0, 0, "", 0, 0, "", 0, "", 0, "", 0, 0, "", 0, 0, 0, 0, "", 0, 0, 0
-
-	ident	"clang version 14.0.0 (https://github.com/jacobly0/llvm-project 6d5b49201c74730cf332608210c1d55a002e1768)"
