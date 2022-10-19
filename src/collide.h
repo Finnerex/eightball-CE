@@ -10,13 +10,18 @@ extern "C" {
 #endif
 
 typedef struct ball_data {
-    int id;
     gfx_sprite_t* sprite;
     float x;
     float y;
     float vx;
     float vy;
 } ball_data;
+
+typedef struct xyid {
+    int id;
+    float x;
+    float y;
+} xyid;
 
 void collideballs(ball_data* ball1, ball_data* ball2);
 void collidewalls(ball_data* ball);

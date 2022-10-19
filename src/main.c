@@ -51,7 +51,7 @@ float q_dir = PI;
 #define A 0.4
 
 //times to check collision per frame
-#define CPF 4
+#define CPF 6
 
 //basic funkies
 void begin();
@@ -61,7 +61,6 @@ void draw();
 
 //my functions that suck a lot
 void prune_sweep();
-int sort_id(const void *a, const void *b);
 int sort_x(const void *a, const void *b);
 
 
@@ -103,7 +102,6 @@ void begin(void){
         balls[i].y = initbally[i];
         balls[i].vx = 0;
         balls[i].vy = 0;
-        balls[i].id = i;
     }
 
 }
@@ -169,22 +167,32 @@ bool step(void) {
         zero_counter = 0;
         
         //collisions and movement
-        for (int i = 15; i >= 0; i--) {
-
-            for (int k = 0; k < CPF; k++) {
+        for (int k = 0; k < CPF; k++) {
+            for (int i = 0; i < 16; i++) {
                 //movement
                 balls[i].x -= balls[i].vx/CPF;
                 balls[i].y -= balls[i].vy/CPF;
+            }
 
-                //collision resolution
-                for (int j = 15; j >= 0; j--) {
-                    if (i != j) {
-                        if(pow(balls[i].x - balls[j].x, 2) + pow(balls[i].y - balls[j].y, 2) <= 64 && (balls[i].vx != 0 || balls[j].vx != 0 || balls[i].vy != 0 || balls[j].vy != 0)) { //fabsf(balls[i].x - balls[j].x) + fabsf(balls[i].y - balls[j].y) <= 8
-                            collideballs(&balls[i], &balls[j]);
-                        }
-                    }
-                }
-            } 
+            prune_sweep();
+        }
+
+        for (int i = 0; i < 16; i++) {
+
+            // for (int k = 0; k < CPF; k++) {
+            //     //movement
+            //     balls[i].x -= balls[i].vx/CPF;
+            //     balls[i].y -= balls[i].vy/CPF;
+
+            //     //collision resolution
+            //     for (int j = 15; j >= 0; j--) {
+            //         if (i != j) {
+            //             if(pow(balls[i].x - balls[j].x, 2) + pow(balls[i].y - balls[j].y, 2) <= 64 && (balls[i].vx != 0 || balls[j].vx != 0 || balls[i].vy != 0 || balls[j].vy != 0)) { //fabsf(balls[i].x - balls[j].x) + fabsf(balls[i].y - balls[j].y) <= 8
+            //                 collideballs(&balls[i], &balls[j]);
+            //             }
+            //         }
+            //     }
+            // } 
 
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
@@ -249,7 +257,7 @@ void draw(void) {
 
 
     //draw balls
-    for (int i = 15; i >= 0; i--) {
+    for (int i = 0; i < 16; i++) {
         gfx_TransparentSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
         //velocity vectors test
         //gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
@@ -280,31 +288,27 @@ void draw(void) {
 }
 
 void prune_sweep() {
-    ball_data s_balls[16];
+    xyid s_balls[16];
     for (int i = 0; i < 16; i++) {
-        s_balls[i] = balls[i];
+        s_balls[i].x = balls[i].x;
+        s_balls[i].y = balls[i].y;
+        s_balls[i].id = i;
     }
 
-    qsort(s_balls, 16, 16, sort_x);
+    // this is where 2k bytes are
+    qsort(s_balls, sizeof(s_balls)/sizeof(*s_balls), sizeof(*s_balls), sort_x);
 
     for (int i = 0; i < 15; i++) {
-        if (s_balls[i].x + 4 >= s_balls[i + 1].x - 4 || s_balls[i].x - 4 <= s_balls[i + 1].x + 4) {
-            if (s_balls[i].y + 4 >= s_balls[i + 1].y - 4 || s_balls[i].y - 4 <= s_balls[i + 1].y + 4) {
-                collideballs(&s_balls[i], &s_balls[i + 1]);
-            }
+        if ((pow(s_balls[i].x - s_balls[i + 1].x, 2) + pow(s_balls[i].y - s_balls[i + 1].y, 2) <= 64) && (balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0)) {
+                collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
         }
     }
 
-    qsort(s_balls, 16, 16, sort_id);
-
-    for (int i = 0; i < 16; i++) {
-        balls[i] = s_balls[i];
-    }
 }
 
 int sort_x(const void *a, const void *b) {
-    ball_data* b1 = (ball_data *) a;
-    ball_data* b2 = (ball_data *) b;
+    xyid* b1 = (xyid *) a;
+    xyid* b2 = (xyid *) b;
 
     if (b1->x < b2->x) {
         return 1;
@@ -313,12 +317,6 @@ int sort_x(const void *a, const void *b) {
     }
 
     return 0;
-}
-
-int sort_id(const void *a, const void *b) {
-    ball_data *x = (ball_data *) a;
-    ball_data *y = (ball_data *) b;
-    return x->id - y->id;
 }
 
 
