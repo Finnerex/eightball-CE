@@ -1866,12 +1866,101 @@ BB6_4:
 	lea	hl, iy
 	or	a, a
 	sbc	hl, de
-	jp	z, BB6_14
+	jp	z, BB6_12
+	lea	de, iy
+	ld	bc, -188
+	lea	hl, ix
+	add	hl, bc
+	ld	hl, (hl)
+	add	hl, de
+	ld	hl, (hl)
+	push	ix
+	ld	de, -194
+	add	ix, de
+	ld	(ix), hl
+	pop	ix
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	(ix - 3), bc
+	push	ix
+	ld	bc, -185
+	add	ix, bc
+	ld	(ix), iy
+	pop	ix
+	ld	iy, _balls
+	add	iy, de
+	ld	hl, (iy + 11)
+	ld	e, (iy + 14)
+	ld	bc, (ix - 3)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jp	nz, BB6_9
 	ld	bc, -185
 	lea	hl, ix
 	add	hl, bc
-	ld	(hl), iy
-	lea	de, iy
+	ld	de, (hl)
+	ld	bc, -188
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	add	iy, de
+	ld	hl, (iy + 11)
+	ld	de, -191
+	lea	iy, ix
+	add	iy, de
+	ld	(iy), hl
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	iy, _balls
+	add	iy, de
+	ld	hl, (iy + 11)
+	ld	e, (iy + 14)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB6_9
+	ld	de, -194
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	iy, _balls
+	add	iy, de
+	ld	hl, (iy + 15)
+	ld	e, (iy + 18)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB6_9
+	ld	de, -191
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	iy, _balls
+	add	iy, de
+	ld	hl, (iy + 15)
+	ld	e, (iy + 18)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jp	z, BB6_11
+BB6_9:
+	ld	bc, -185
+	lea	hl, ix
+	add	hl, bc
+	ld	de, (hl)
 	ld	bc, -188
 	lea	iy, ix
 	add	iy, bc
@@ -1917,7 +2006,7 @@ BB6_4:
 	ld	hl, -8388608
 	ld	e, 66
 	call	__fcmp
-	jp	m, BB6_13
+	jp	m, BB6_11
 	ld	bc, -185
 	lea	hl, ix
 	add	hl, bc
@@ -1925,120 +2014,40 @@ BB6_4:
 	ld	bc, -188
 	lea	iy, ix
 	add	iy, bc
-	ld	hl, (iy)
+	ld	iy, (iy)
+	add	iy, de
+	push	ix
+	ld	de, -194
+	add	ix, de
+	ld	hl, (ix)
+	pop	ix
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	hl, _balls
 	add	hl, de
 	push	ix
 	ld	de, -191
 	add	ix, de
 	ld	(ix), hl
 	pop	ix
-	ld	hl, (hl)
-	push	ix
-	ld	de, -194
-	add	ix, de
-	ld	(ix), hl
-	pop	ix
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	iy, _balls
-	add	iy, de
 	ld	hl, (iy + 11)
-	ld	e, (iy + 14)
-	ld	bc, 0
-	xor	a, a
-	call	__fcmp
-	ld	a, 1
-	jr	nz, BB6_8
-	ld	a, 0
-BB6_8:
-	ld	bc, -191
-	lea	hl, ix
-	add	hl, bc
-	ld	iy, (hl)
-	ld	hl, (iy + 11)
-	lea	iy, ix
-	add	iy, bc
-	ld	(iy), hl
-	bit	0, a
-	jp	nz, BB6_12
-	ld	de, -191
-	lea	hl, ix
-	add	hl, de
-	ld	hl, (hl)
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	iy, _balls
-	add	iy, de
-	ld	hl, (iy + 11)
-	ld	e, (iy + 14)
-	ld	bc, 0
-	xor	a, a
-	call	__fcmp
-	jr	nz, BB6_12
-	ld	de, -194
-	lea	hl, ix
-	add	hl, de
-	ld	hl, (hl)
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	iy, _balls
-	add	iy, de
-	ld	hl, (iy + 15)
-	ld	e, (iy + 18)
-	ld	bc, 0
-	xor	a, a
-	call	__fcmp
-	jr	nz, BB6_12
-	ld	de, -191
-	lea	hl, ix
-	add	hl, de
-	ld	hl, (hl)
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	iy, _balls
-	add	iy, de
-	ld	hl, (iy + 15)
-	ld	e, (iy + 18)
-	ld	bc, 0
-	xor	a, a
-	call	__fcmp
-	jr	z, BB6_13
-BB6_12:
-	ld	de, -194
-	lea	hl, ix
-	add	hl, de
-	ld	hl, (hl)
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	hl, _balls
-	push	hl
-	pop	iy
-	add	iy, de
-	ld	de, -191
-	lea	hl, ix
-	add	hl, de
-	ld	hl, (hl)
 	call	__imulu
 	push	hl
 	pop	de
 	ld	hl, _balls
 	add	hl, de
 	push	hl
-	push	iy
+	ld	de, -191
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	push	hl
 	call	_collideballs
 	pop	hl
 	pop	hl
-BB6_13:
+BB6_11:
 	ld	de, 11
 	ld	bc, -185
 	lea	hl, ix
@@ -2047,7 +2056,7 @@ BB6_13:
 	add	iy, de
 	ld	de, 165
 	jp	BB6_4
-BB6_14:
+BB6_12:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -2271,6 +2280,7 @@ _.str:
 	extern	__idivs
 	extern	__setflag
 	extern	__ftoul
+	extern	__Unwind_SjLj_Unregister
 	extern	_qsort
 	extern	_atan2f
 	extern	__fneg
@@ -2279,7 +2289,6 @@ _.str:
 	extern	_sinf
 	extern	_gfx_SetColor
 	extern	__ltof
-	extern	__Unwind_SjLj_Unregister
 	extern	_cosf
 	extern	_gfx_TransparentSprite_NoClip
 	extern	_gfx_End
