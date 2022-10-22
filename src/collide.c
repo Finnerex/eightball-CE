@@ -29,18 +29,18 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
 
 void collidewalls(ball_data* ball) {
     if (ball->x < 20) {
-        ball->x = 21;
+        ball->x = 20;
         ball->vx = -ball->vx;
     } else if (ball->x > LCD_WIDTH - 20){
-        ball->x = LCD_WIDTH - 21;
+        ball->x = LCD_WIDTH - 20;
         ball->vx = -ball->vx;
     }
 
     if (ball->y < 20) {
-        ball->y = 21;
+        ball->y = 20;
         ball->vy = -ball->vy;
     } else if (ball->y > 143) {
-        ball->y = 142;
+        ball->y = 143;
         ball->vy = -ball->vy;
     }
 }

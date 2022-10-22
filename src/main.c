@@ -47,11 +47,11 @@ float speedmult = 1;
 //queue starting pos
 float q_dir = PI;
 
+//times to check collision per frame
+int cpf = 4;
+
 // acceleration
 #define A 0.4
-
-//times to check collision per frame
-#define CPF 6
 
 //basic funkies
 void begin();
@@ -120,6 +120,7 @@ bool step(void) {
             speedmult = 1;
         }
 
+
         //chnage angle
         if (kb_Data[7] & kb_Up) {
             q_dir += 0.04 * speedmult;
@@ -127,6 +128,7 @@ bool step(void) {
         if (kb_Data[7] & kb_Down) {
             q_dir -= 0.04 * speedmult;
         }
+
 
         //change power with some funny logic so it doesnt go over or under
         if (kb_Data[7] & kb_Right && q_power < 100 - speedmult) {
@@ -139,6 +141,21 @@ bool step(void) {
         } else if (kb_Data[7] & kb_Left && q_power > 0) {
             q_power = 0;
         }
+
+
+        //change checks per frame - Temporary, add to a menu later maybe
+        static bool prev_six, six, prev_nine, nine;
+        six = kb_Data[5] & kb_6;
+        nine = kb_Data[5] & kb_9;
+
+        if (!nine && prev_nine) {
+            cpf ++;
+        } 
+        if (!six && prev_six) {
+            cpf --;
+        }
+        prev_nine = nine;
+        prev_six = six;
 
         //ready
         if (kb_Data[6] & kb_Enter && q_power > 0) {
@@ -167,11 +184,11 @@ bool step(void) {
         zero_counter = 0;
         
         //collisions and movement
-        for (int k = 0; k < CPF; k++) {
+        for (int k = 0; k < cpf; k++) {
             for (int i = 0; i < 16; i++) {
                 //movement
-                balls[i].x -= balls[i].vx/CPF;
-                balls[i].y -= balls[i].vy/CPF;
+                balls[i].x -= balls[i].vx/cpf;
+                balls[i].y -= balls[i].vy/cpf;
             }
 
             prune_sweep();
@@ -179,10 +196,10 @@ bool step(void) {
 
         for (int i = 0; i < 16; i++) {
 
-            // for (int k = 0; k < CPF; k++) {
+            // for (int k = 0; k < cpf; k++) {
             //     //movement
-            //     balls[i].x -= balls[i].vx/CPF;
-            //     balls[i].y -= balls[i].vy/CPF;
+            //     balls[i].x -= balls[i].vx/cpf;
+            //     balls[i].y -= balls[i].vy/cpf;
 
             //     //collision resolution
             //     for (int j = 15; j >= 0; j--) {
@@ -263,10 +280,14 @@ void draw(void) {
         //gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
     }
 
-    //test
+    //debug info
+    gfx_SetTextFGColor(3);
     gfx_SetTextXY(10, 170);
     gfx_PrintString("test: ");
     gfx_PrintInt(zero_counter, 1);
+    gfx_SetTextXY(10, 180);
+    gfx_PrintString("Checks per frame: ");
+    gfx_PrintInt(cpf, 1);
 
     if (gamestate == setup) {
         //queue
