@@ -28,6 +28,9 @@ gfx_sprite_t* Table_bl = (gfx_sprite_t*) Table_bl_data;
 //queue power
 int q_power = 0;
 
+//queue starting pos
+float q_dir = PI;
+
 //list of all of the balls - ball_data struct in collide.h
 ball_data balls[16];
 
@@ -43,9 +46,6 @@ int zero_counter;
 
 //speed multiplier for power and angle change
 float speedmult = 1;
-
-//queue starting pos
-float q_dir = PI;
 
 //times to check collision per frame
 int cpf = 4;
@@ -65,16 +65,16 @@ int sort_x(const void *a, const void *b);
 
 
 int main() {
-    begin(); // No rendering allowed!
+    begin();                // No rendering allowed!
 
     gfx_Begin();
     gfx_SetPalette(global_palette, sizeof_global_palette, 0);
 
-    gfx_SetDrawBuffer(); // Draw to the buffer to avoid rendering artifacts
+    gfx_SetDrawBuffer();    // Draw to the buffer to avoid rendering artifacts
 
-    while (step()) { // No rendering allowed in step!
-        draw(); // As little non-rendering logic as possible
-        gfx_SwapDraw(); // Queue the buffered frame to be displayed
+    while (step()) {        // No rendering allowed in step!
+        draw();             // As little non-rendering logic as possible
+        gfx_SwapDraw();     // Queue the buffered frame to be displayed
     }
 
     gfx_End();
@@ -176,9 +176,6 @@ bool step(void) {
     }
 
     if (gamestate == run) {
-
-        //test
-        //frame++;
 
         //init the counter to zero
         zero_counter = 0;

@@ -2232,6 +2232,11 @@ _q_power:
 	rb	3
 
 	section	.data,"aw",@progbits
+	public	_q_dir
+_q_dir:
+	dd	0x40490fdb
+
+	section	.data,"aw",@progbits
 	public	_gamestate
 _gamestate:
 	dl	1
@@ -2245,11 +2250,6 @@ _frame:
 	public	_speedmult
 _speedmult:
 	dd	0x3f800000
-
-	section	.data,"aw",@progbits
-	public	_q_dir
-_q_dir:
-	dd	0x40490fdb
 
 	section	.data,"aw",@progbits
 	public	_cpf
