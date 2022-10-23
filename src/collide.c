@@ -18,6 +18,10 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
     x2 *= y1 / x1;
     y1 *= y2 / x1;
 
+    //an attempt at collision correction /// didnt fucking work who would ave guessed
+    ball1->x += ball1->vx/2; ball1->y += ball1->vy/2;
+    ball2->x += ball2->vx/2; ball2->y += ball2->vy/2;
+
     temp = ball1->vx - x2;
 
     ball1->vy -= y1;
