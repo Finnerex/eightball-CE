@@ -12,7 +12,7 @@ obj/src/main.c.bc: src\main.c C:\CEdev\include\stdbool.h \
   C:\CEdev\include\ti\screen.h C:\CEdev\include\ti\ui.h \
   C:\CEdev\include\ti\tokens.h C:\CEdev\include\ti\vars.h \
   C:\CEdev\include\graphx.h C:\CEdev\include\stdlib.h \
-  C:\CEdev\include\keypadc.h src\collide.h src\gfx\gfx.h \
+  C:\CEdev\include\keypadc.h src\collide.h src\draw.h src\gfx\gfx.h \
   src\gfx\global_palette.h src\gfx\Table_l.h src\gfx\Table_tr.h \
   src\gfx\Table_tl.h src\gfx\eightball.h src\gfx\stripe.h \
   src\gfx\solid.h src\gfx\qball.h

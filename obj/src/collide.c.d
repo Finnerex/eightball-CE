@@ -11,4 +11,5 @@ obj/src/collide.c.bc: src\collide.c src\collide.h \
   C:\CEdev\include\ti\graph.h C:\CEdev\include\ti\real.h \
   C:\CEdev\include\ti\info.h C:\CEdev\include\ti\python.h \
   C:\CEdev\include\ti\screen.h C:\CEdev\include\ti\ui.h \
-  C:\CEdev\include\ti\tokens.h C:\CEdev\include\ti\vars.h
+  C:\CEdev\include\ti\tokens.h C:\CEdev\include\ti\vars.h \
+  C:\CEdev\include\math.h

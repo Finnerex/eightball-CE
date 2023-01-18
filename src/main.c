@@ -13,6 +13,7 @@
 #include <graphx.h>
 #include <keypadc.h>
 #include "collide.h"
+#include "draw.h"
 #include "gfx/gfx.h"
 
 // rotated side sprites
@@ -59,11 +60,6 @@ void end();
 bool step();
 void draw();
 
-// my functions that suck a lot
-void prune_sweep();
-int sort_x(const void *a, const void *b);
-
-
 int main() {
     begin();                // No rendering allowed!
 
@@ -86,10 +82,8 @@ int main() {
 
 
 void begin(void){
-    // rotate edges
-    gfx_RotateSpriteHalf(Table_l, Table_r);
-    gfx_RotateSpriteHalf(Table_tl, Table_br);
-    gfx_RotateSpriteHalf(Table_tr, Table_bl);
+    // initialize rotated table sprites
+    init_table(Table_r, Table_br, Table_bl);
 
     // ball initilization
     gfx_sprite_t* initballsprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
@@ -184,7 +178,7 @@ bool step(void) {
                 balls[i].y -= balls[i].vy/cpf;
             }
 
-            prune_sweep();
+            prune_sweep(balls);
         }
 
         for (int i = 0; i < 16; i++) {
@@ -220,14 +214,7 @@ bool step(void) {
 
 void draw(void) {
     // draw table
-    gfx_SetColor(2);
-    gfx_FillRectangle_NoClip(Table_l_width, Table_tr_height, LCD_WIDTH - 2 * Table_l_width, (LCD_HEIGHT - 2 * Table_tr_height) - 77);
-    gfx_Sprite_NoClip(Table_l, 0, 0);
-    gfx_Sprite_NoClip(Table_tl, Table_l_width, 0);
-    gfx_Sprite_NoClip(Table_tr, Table_l_width + Table_tl_width, 0);
-    gfx_Sprite_NoClip(Table_bl, Table_l_width, (LCD_HEIGHT - Table_tr_height) - 77);
-    gfx_Sprite_NoClip(Table_br, Table_l_width + Table_tl_width, (LCD_HEIGHT - Table_tr_height) - 77);
-    gfx_Sprite_NoClip(Table_r, LCD_WIDTH - Table_l_width, 0);
+    draw_table(Table_r, Table_br, Table_bl);
 
     // bottom background
     gfx_SetColor(1);
@@ -251,15 +238,7 @@ void draw(void) {
     gfx_PrintInt(cpf, 1);
 
     if (gamestate == setup) {
-        // queue
-        gfx_SetColor(5);
-        gfx_Line(balls[15].x + cosf(q_dir) * (10 + q_power/4), balls[15].y + sinf(q_dir) * (10 + q_power/4), balls[15].x + cosf(q_dir) * (100 + q_power/4), balls[15].y + sinf(q_dir) * (100 + q_power/4));
-
-        // power bar
-        gfx_SetColor(3);
-        gfx_Rectangle_NoClip(LCD_WIDTH/2 - 51, LCD_HEIGHT - 10, 103, 5);
-        gfx_SetColor(4);
-        gfx_FillRectangle_NoClip(LCD_WIDTH/2 - 50, LCD_HEIGHT - 9, q_power + 1, 3);
+        draw_setup(balls, q_dir, q_power);
     }
 
     // animate queue
@@ -267,39 +246,6 @@ void draw(void) {
         gfx_SetColor(5);
         gfx_Line(balls[15].x + cosf(q_dir) * (30 + q_power/4 - frame), balls[15].y + sinf(q_dir) * (30 + q_power/4 - frame), balls[15].x + cosf(q_dir) * (120 + q_power/4 - frame), balls[15].y + sinf(q_dir) * (120 + q_power/4 - frame));
     }
-}
-
-void prune_sweep() {
-    xyid s_balls[16];
-    for (int i = 0; i < 16; i++) {
-        s_balls[i].x = balls[i].x;
-        s_balls[i].y = balls[i].y;
-        s_balls[i].id = i;
-    }
-
-    // sort the balls by their x val
-    qsort(s_balls, sizeof(s_balls)/sizeof(*s_balls), sizeof(*s_balls), sort_x);
-
-    // check and execute collision
-    for (int i = 0; i < 15; i++) {
-        if ((balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0)
-        && (pow(s_balls[i].x - s_balls[i + 1].x, 2) + pow(s_balls[i].y - s_balls[i + 1].y, 2) <= 64)) {
-            collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
-        }
-    }
-
-}
-
-int sort_x(const void *a, const void *b) {
-    xyid* b1 = (xyid *) a;
-    xyid* b2 = (xyid *) b;
-
-    if (b1->x < b2->x)
-        return 1;
-    else if (b1->x > b2->x)
-        return -1;
-
-    return 0;
 }
 
 

@@ -275,6 +275,656 @@ BB1_6:
 	section	.text,"ax",@progbits
 
 	section	.text,"ax",@progbits
+	public	_prune_sweep
+_prune_sweep:
+	ld	hl, -194
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	de, 0
+	ld	bc, -182
+	lea	hl, ix
+	add	hl, bc
+	lea	iy, iy + 7
+	ld	bc, 16
+	ld	(ix - 3), bc
+	push	ix
+	ld	bc, -188
+	add	ix, bc
+	ld	(ix), hl
+	pop	ix
+	push	ix
+	ld	bc, -185
+	add	ix, bc
+	ld	(ix), hl
+	pop	ix
+	ex	de, hl
+	ld	bc, (ix - 3)
+BB2_1:
+	push	hl
+	pop	de
+	or	a, a
+	sbc	hl, bc
+	jr	z, BB2_3
+	ld	hl, (iy - 4)
+	ld	a, (iy - 1)
+	lea	bc, iy
+	ld	(ix - 3), de
+	ld	de, -185
+	lea	iy, ix
+	add	iy, de
+	ld	iy, (iy)
+	ld	(iy + 3), hl
+	ld	(iy + 6), a
+	push	bc
+	pop	hl
+	ld	hl, (hl)
+	push	bc
+	pop	iy
+	ld	a, (iy + 3)
+	lea	iy, ix
+	add	iy, de
+	ld	iy, (iy)
+	ld	(iy + 7), hl
+	ld	(iy + 10), a
+	ld	de, (ix - 3)
+	ex	de, hl
+	ld	(iy), hl
+	inc	hl
+	lea	iy, iy + 11
+	push	ix
+	ld	de, -185
+	add	ix, de
+	ld	(ix), iy
+	pop	ix
+	push	bc
+	pop	iy
+	lea	iy, iy + 19
+	ld	bc, 16
+	jr	BB2_1
+BB2_3:
+	ld	hl, _sort_x
+	push	hl
+	ld	hl, 11
+	push	hl
+	ld	hl, 16
+	push	hl
+	ld	bc, -188
+	lea	hl, ix
+	add	hl, bc
+	ld	hl, (hl)
+	push	hl
+	call	_qsort
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	de, 165
+	ld	iy, 0
+BB2_4:
+	lea	hl, iy
+	or	a, a
+	sbc	hl, de
+	jp	z, BB2_12
+	lea	de, iy
+	ld	bc, -188
+	lea	hl, ix
+	add	hl, bc
+	ld	hl, (hl)
+	add	hl, de
+	ld	hl, (hl)
+	push	ix
+	ld	de, -194
+	add	ix, de
+	ld	(ix), hl
+	pop	ix
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	(ix - 3), bc
+	push	ix
+	ld	bc, -185
+	add	ix, bc
+	ld	(ix), iy
+	pop	ix
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	hl, (iy + 11)
+	ld	e, (iy + 14)
+	ld	bc, (ix - 3)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jp	nz, BB2_9
+	ld	bc, -185
+	lea	hl, ix
+	add	hl, bc
+	ld	de, (hl)
+	ld	bc, -188
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	add	iy, de
+	ld	hl, (iy + 11)
+	ld	de, -191
+	lea	iy, ix
+	add	iy, de
+	ld	(iy), hl
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	hl, (iy + 11)
+	ld	e, (iy + 14)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB2_9
+	ld	de, -194
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	hl, (iy + 15)
+	ld	e, (iy + 18)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jr	nz, BB2_9
+	ld	de, -191
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	iy, (ix + 6)
+	add	iy, de
+	ld	hl, (iy + 15)
+	ld	e, (iy + 18)
+	ld	bc, 0
+	xor	a, a
+	call	__fcmp
+	jp	z, BB2_11
+BB2_9:
+	ld	bc, -185
+	lea	hl, ix
+	add	hl, bc
+	ld	de, (hl)
+	ld	bc, -188
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	add	iy, de
+	ld	bc, (iy + 3)
+	ld	hl, (iy + 14)
+	ld	a, (iy + 6)
+	ld	e, (iy + 17)
+	call	__fsub
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	ld	(ix - 3), de
+	push	ix
+	ld	de, -191
+	add	ix, de
+	ld	(ix), bc
+	pop	ix
+	ld	de, (ix - 3)
+	ld	d, a
+	ld	bc, (iy + 7)
+	ld	hl, (iy + 18)
+	ld	a, (iy + 10)
+	ld	e, (iy + 21)
+	call	__fsub
+	push	bc
+	pop	hl
+	ld	e, a
+	call	__fmul
+	push	bc
+	pop	hl
+	ld	e, a
+	ld	(ix - 3), de
+	ld	de, -191
+	lea	iy, ix
+	add	iy, de
+	ld	bc, (iy)
+	ld	de, (ix - 3)
+	ld	a, d
+	call	__fadd
+	ld	hl, -8388608
+	ld	e, 66
+	call	__fcmp
+	jp	m, BB2_11
+	ld	bc, -185
+	lea	hl, ix
+	add	hl, bc
+	ld	de, (hl)
+	ld	bc, -188
+	lea	iy, ix
+	add	iy, bc
+	ld	iy, (iy)
+	add	iy, de
+	push	ix
+	ld	de, -194
+	add	ix, de
+	ld	hl, (ix)
+	pop	ix
+	ld	bc, 19
+	call	__imulu
+	push	hl
+	pop	de
+	ld	hl, (ix + 6)
+	add	hl, de
+	push	ix
+	ld	de, -191
+	add	ix, de
+	ld	(ix), hl
+	pop	ix
+	ld	hl, (iy + 11)
+	call	__imulu
+	push	hl
+	pop	de
+	ld	hl, (ix + 6)
+	add	hl, de
+	push	hl
+	ld	de, -191
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
+	push	hl
+	call	_collideballs
+	pop	hl
+	pop	hl
+BB2_11:
+	ld	de, 11
+	ld	bc, -185
+	lea	hl, ix
+	add	hl, bc
+	ld	iy, (hl)
+	add	iy, de
+	ld	de, 165
+	jp	BB2_4
+BB2_12:
+	ld	sp, ix
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_sort_x
+_sort_x:
+	ld	hl, -1
+	call	__frameset
+	ld	iy, (ix + 6)
+	ld	hl, (iy + 3)
+	ld	d, (iy + 6)
+	ld	iy, (ix + 9)
+	ld	bc, (iy + 3)
+	ld	iy, (ix + 9)
+	ld	a, (iy + 6)
+	push	hl
+	pop	iy
+	ld	e, d
+	call	__fcmp
+	jp	m, BB3_2
+	ld	l, 0
+	jr	BB3_3
+BB3_2:
+	ld	l, 1
+BB3_3:
+	ld	(ix - 1), l
+	push	bc
+	pop	hl
+	ld	e, a
+	lea	bc, iy
+	ld	a, d
+	call	__fcmp
+	jp	m, BB3_5
+	ld	hl, 0
+	jr	BB3_6
+BB3_5:
+	ld	hl, -1
+BB3_6:
+	bit	0, (ix - 1)
+	jr	z, BB3_8
+	ld	hl, 1
+BB3_8:
+	inc	sp
+	pop	ix
+	ret
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_init_table
+_init_table:
+	ld	hl, -6
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	de, (ix + 9)
+	ld	(ix - 6), de
+	ld	de, (ix + 12)
+	ld	(ix - 3), de
+	ld	de, _Table_l_data
+	push	hl
+	push	de
+	call	_gfx_RotateSpriteHalf
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 6)
+	push	hl
+	ld	hl, _Table_tl_data
+	push	hl
+	call	_gfx_RotateSpriteHalf
+	pop	hl
+	pop	hl
+	ld	hl, _Table_tr_data
+	ld	(ix + 6), hl
+	ld	hl, (ix - 3)
+	ld	(ix + 9), hl
+	ld	sp, ix
+	pop	ix
+	jp	_gfx_RotateSpriteHalf
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_draw_table
+_draw_table:
+	ld	hl, -9
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	(ix - 3), hl
+	ld	hl, (ix + 9)
+	ld	(ix - 6), hl
+	ld	hl, (ix + 12)
+	ld	(ix - 9), hl
+	ld	hl, 2
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, -127
+	push	hl
+	ld	hl, 268
+	push	hl
+	ld	hl, 17
+	push	hl
+	ld	hl, 26
+	push	hl
+	call	_gfx_FillRectangle_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	push	hl
+	ld	hl, _Table_l_data
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 26
+	push	hl
+	ld	hl, _Table_tl_data
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	ld	hl, 161
+	push	hl
+	ld	hl, _Table_tr_data
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, -110
+	push	hl
+	ld	hl, 26
+	push	hl
+	ld	hl, (ix - 9)
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, -110
+	push	hl
+	ld	hl, 161
+	push	hl
+	ld	hl, (ix - 6)
+	push	hl
+	call	_gfx_Sprite_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 3)
+	ld	(ix + 6), hl
+	ld	hl, 294
+	ld	(ix + 9), hl
+	ld	(ix + 12), 0
+	ld	sp, ix
+	pop	ix
+	jp	_gfx_Sprite_NoClip
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
+	public	_draw_setup
+_draw_setup:
+	ld	hl, -35
+	call	__frameset
+	ld	hl, (ix + 6)
+	ld	(ix - 7), hl
+	ld	hl, (ix + 9)
+	ld	(ix - 3), hl
+	ld	a, (ix + 12)
+	ld	(ix - 4), a
+	ld	hl, (ix + 15)
+	ld	(ix - 10), hl
+	ld	hl, 5
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	de, 288
+	ld	iy, (ix - 7)
+	add	iy, de
+	ld	(ix - 16), iy
+	ld	hl, (iy)
+	ld	(ix - 13), hl
+	lea	hl, iy + 3
+	ld	(ix - 19), hl
+	ld	a, (hl)
+	ld	(ix - 22), a
+	ld	l, (ix - 4)
+	push	hl
+	ld	hl, (ix - 3)
+	push	hl
+	call	_cosf
+	ld	(ix - 28), hl
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 10)
+	ld	bc, 4
+	call	__idivs
+	ld	(ix - 25), hl
+	ld	bc, 10
+	add	hl, bc
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	(ix - 31), hl
+	ld	d, a
+	ld	(ix - 34), d
+	ld	bc, (ix - 28)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 13)
+	ld	e, (ix - 22)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 13), bc
+	ld	de, 292
+	ld	iy, (ix - 7)
+	add	iy, de
+	ld	(ix - 7), iy
+	ld	hl, (iy)
+	ld	(ix - 22), hl
+	lea	hl, iy + 3
+	ld	(ix - 28), hl
+	ld	a, (hl)
+	ld	(ix - 35), a
+	ld	l, (ix - 4)
+	push	hl
+	ld	hl, (ix - 3)
+	push	hl
+	call	_sinf
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 31)
+	ld	e, (ix - 34)
+	call	__fmul
+	ld	hl, (ix - 22)
+	ld	e, (ix - 35)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 22), bc
+	ld	hl, (ix - 16)
+	ld	hl, (hl)
+	ld	(ix - 16), hl
+	ld	hl, (ix - 19)
+	ld	a, (hl)
+	ld	(ix - 19), a
+	ld	l, (ix - 4)
+	push	hl
+	ld	hl, (ix - 3)
+	push	hl
+	call	_cosf
+	ld	(ix - 34), hl
+	pop	hl
+	pop	hl
+	ld	bc, 100
+	ld	hl, (ix - 25)
+	add	hl, bc
+	push	hl
+	pop	bc
+	push	bc
+	pop	iy
+	add	iy, iy
+	sbc	hl, hl
+	ld	a, l
+	call	__ltof
+	push	bc
+	pop	hl
+	ld	(ix - 25), hl
+	ld	d, a
+	ld	(ix - 31), d
+	ld	bc, (ix - 34)
+	ld	a, e
+	ld	e, d
+	call	__fmul
+	ld	hl, (ix - 16)
+	ld	e, (ix - 19)
+	call	__fadd
+	call	__ftol
+	ld	(ix - 16), bc
+	ld	hl, (ix - 7)
+	ld	hl, (hl)
+	ld	(ix - 7), hl
+	ld	hl, (ix - 28)
+	ld	a, (hl)
+	ld	(ix - 19), a
+	ld	l, (ix - 4)
+	push	hl
+	ld	hl, (ix - 3)
+	push	hl
+	call	_sinf
+	push	hl
+	pop	bc
+	ld	a, e
+	pop	hl
+	pop	hl
+	ld	hl, (ix - 25)
+	ld	e, (ix - 31)
+	call	__fmul
+	ld	hl, (ix - 7)
+	ld	e, (ix - 19)
+	call	__fadd
+	call	__ftol
+	push	bc
+	ld	hl, (ix - 16)
+	push	hl
+	ld	hl, (ix - 22)
+	push	hl
+	ld	hl, (ix - 13)
+	push	hl
+	call	_gfx_Line
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 3
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, 5
+	push	hl
+	ld	hl, 103
+	push	hl
+	ld	hl, -26
+	push	hl
+	ld	hl, 109
+	push	hl
+	call	_gfx_Rectangle_NoClip
+	pop	hl
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 4
+	push	hl
+	call	_gfx_SetColor
+	pop	hl
+	ld	hl, (ix - 10)
+	inc	hl
+	ld	de, 110
+	ld	(ix + 6), de
+	ld	(ix + 9), -25
+	ld	(ix + 12), hl
+	ld	(ix + 15), 3
+	ld	sp, ix
+	pop	ix
+	jp	_gfx_FillRectangle_NoClip
+	section	.text,"ax",@progbits
+
+	section	.text,"ax",@progbits
 	public	_main
 _main:
 	call	_begin
@@ -294,14 +944,14 @@ _main:
 	push	hl
 	call	_gfx_SetDraw
 	pop	hl
-BB2_1:
+BB7_1:
 	call	_step
 	bit	0, a
-	jr	z, BB2_3
+	jr	z, BB7_3
 	call	_draw
 	call	_gfx_SwapDraw
-	jr	BB2_1
-BB2_3:
+	jr	BB7_1
+BB7_3:
 	call	_gfx_End
 	or	a, a
 	sbc	hl, hl
@@ -313,52 +963,39 @@ BB2_3:
 _begin:
 	ld	hl, -149
 	call	__frameset
-	ld	hl, _Table_l_data
-	ld	de, _balls+7
+	ld	hl, _balls+7
 	ld	bc, -137
 	lea	iy, ix
 	add	iy, bc
-	ld	(iy), de
-	ld	de, ___const.begin.initballsprite
+	ld	(iy), hl
+	ld	hl, ___const.begin.initballsprite
 	push	ix
 	ld	bc, -140
 	add	ix, bc
-	ld	(ix), de
+	ld	(ix), hl
 	pop	ix
-	lea	de, ix - 70
+	lea	hl, ix - 70
 	push	ix
 	ld	bc, -146
 	add	ix, bc
-	ld	(ix), de
+	ld	(ix), hl
 	pop	ix
-	push	ix
 	ld	bc, -134
-	add	ix, bc
-	lea	de, ix
-	pop	ix
+	lea	hl, ix
+	add	hl, bc
 	push	ix
 	ld	bc, -149
 	add	ix, bc
-	ld	(ix), de
+	ld	(ix), hl
 	pop	ix
-	ld	de, (_Table_r)
+	ld	hl, (_Table_r)
+	ld	de, (_Table_br)
+	ld	bc, (_Table_bl)
+	push	bc
 	push	de
 	push	hl
-	call	_gfx_RotateSpriteHalf
+	call	_init_table
 	pop	hl
-	pop	hl
-	ld	hl, (_Table_br)
-	push	hl
-	ld	hl, _Table_tl_data
-	push	hl
-	call	_gfx_RotateSpriteHalf
-	pop	hl
-	pop	hl
-	ld	hl, (_Table_bl)
-	push	hl
-	ld	hl, _Table_tr_data
-	push	hl
-	call	_gfx_RotateSpriteHalf
 	pop	hl
 	pop	hl
 	ld	hl, 7143424
@@ -455,11 +1092,11 @@ _begin:
 	ld	(ix - 71), 66
 	ld	de, 64
 	ld	iy, 0
-BB3_1:
+BB8_1:
 	lea	hl, iy
 	or	a, a
 	sbc	hl, de
-	jp	z, BB3_3
+	jp	z, BB8_3
 	ld	de, -140
 	lea	hl, ix
 	add	hl, de
@@ -537,8 +1174,8 @@ BB3_1:
 	ld	de, 64
 	ld	bc, 4
 	add	iy, bc
-	jp	BB3_1
-BB3_3:
+	jp	BB8_1
+BB8_3:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -556,7 +1193,7 @@ _step:
 	pop	hl
 	or	a, a
 	sbc	hl, bc
-	jr	nz, BB4_4
+	jr	nz, BB9_4
 	ld	hl, -720878
 	ld	iy, -720866
 	ld	e, 64
@@ -573,7 +1210,7 @@ _step:
 	push	bc
 	pop	hl
 	ld	d, e
-	jp	nz, BB4_32
+	jp	nz, BB9_32
 	ld	hl, -720876
 	push	de
 	ld	e, (hl)
@@ -584,16 +1221,16 @@ _step:
 	pop	de
 	ld	a, l
 	bit	6, a
-	jp	z, BB4_27
+	jp	z, BB9_27
 	ld	a, 0
-	jp	BB4_28
-BB4_4:
+	jp	BB9_28
+BB9_4:
 	ld	bc, 2
 	push	de
 	pop	hl
 	or	a, a
 	sbc	hl, bc
-	jp	nz, BB4_7
+	jp	nz, BB9_7
 	ld	hl, (_frame)
 	push	hl
 	pop	de
@@ -603,7 +1240,7 @@ BB4_4:
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	m, BB4_54
+	jp	m, BB9_54
 	ld	hl, 3
 	ld	de, 0
 	ld	(_frame), de
@@ -674,25 +1311,25 @@ BB4_4:
 	ld	(_balls+300), bc
 	ld	(_balls+303), a
 	ld	de, (_gamestate)
-BB4_7:
+BB9_7:
 	ld	bc, 3
 	ex	de, hl
 	or	a, a
 	sbc	hl, bc
-	jp	nz, BB4_54
+	jp	nz, BB9_54
 	ld	hl, _gamestate
 	ld	(ix - 9), hl
 	ld	bc, 0
 	ld	(_zero_counter), bc
 	push	bc
 	pop	iy
-BB4_9:
+BB9_9:
 	ld	de, (_cpf)
 	lea	hl, iy
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	p, BB4_14
+	jp	p, BB9_14
 	ld	(ix - 12), iy
 	push	de
 	pop	hl
@@ -708,12 +1345,12 @@ BB4_9:
 	call	__ltof
 	ld	(ix - 3), bc
 	ld	(ix - 15), a
-BB4_11:
+BB9_11:
 	lea	hl, iy
 	ld	de, 304
 	or	a, a
 	sbc	hl, de
-	jr	z, BB4_13
+	jr	z, BB9_13
 	lea	bc, iy
 	ld	(ix - 18), iy
 	ld	iy, _balls
@@ -759,22 +1396,25 @@ BB4_11:
 	ld	iy, (ix - 18)
 	ld	de, 19
 	add	iy, de
-	jp	BB4_11
-BB4_13:
+	jp	BB9_11
+BB9_13:
+	ld	hl, _balls
+	push	hl
 	call	_prune_sweep
+	pop	hl
 	ld	iy, (ix - 12)
 	inc	iy
 	ld	bc, 0
-	jp	BB4_9
-BB4_14:
+	jp	BB9_9
+BB9_14:
 	push	bc
 	pop	iy
-BB4_15:
+BB9_15:
 	lea	hl, iy
 	ld	de, 304
 	or	a, a
 	sbc	hl, de
-	jp	z, BB4_26
+	jp	z, BB9_26
 	ld	(ix - 15), iy
 	lea	de, iy
 	ld	hl, _balls
@@ -861,7 +1501,7 @@ BB4_15:
 	ld	iyl, b
 	ld	a, iyl
 	call	__fcmp
-	jp	p, BB4_19
+	jp	p, BB9_19
 	ld	bc, (ix - 24)
 	ld	a, d
 	ld	hl, (ix - 6)
@@ -871,11 +1511,11 @@ BB4_15:
 	sbc	hl, hl
 	ld	e, iyl
 	call	__fcmp
-	jp	m, BB4_19
+	jp	m, BB9_19
 	push	bc
 	pop	hl
 	ld	e, a
-BB4_19:
+BB9_19:
 	ld	iy, (ix - 3)
 	ld	(ix - 21), hl
 	ld	(iy + 11), hl
@@ -898,7 +1538,7 @@ BB4_19:
 	xor	a, a
 	call	__fcmp
 	ld	e, a
-	jp	p, BB4_22
+	jp	p, BB9_22
 	lea	bc, iy
 	ld	a, (ix - 12)
 	ld	hl, (ix - 27)
@@ -910,10 +1550,10 @@ BB4_19:
 	ld	e, d
 	call	__fcmp
 	ld	(ix - 6), hl
-	jp	m, BB4_22
+	jp	m, BB9_22
 	ld	(ix - 6), bc
 	ld	d, a
-BB4_22:
+BB9_22:
 	ld	a, e
 	ld	iy, (ix - 3)
 	ld	hl, (ix - 6)
@@ -923,42 +1563,42 @@ BB4_22:
 	ld	e, (ix - 24)
 	ld	bc, 0
 	call	__fcmp
-	jr	nz, BB4_25
+	jr	nz, BB9_25
 	ld	hl, (ix - 6)
 	ld	e, d
 	ld	bc, 0
 	xor	a, a
 	call	__fcmp
-	jr	nz, BB4_25
+	jr	nz, BB9_25
 	ld	hl, (_zero_counter)
 	inc	hl
 	ld	(_zero_counter), hl
-BB4_25:
+BB9_25:
 	ld	de, 19
 	ld	iy, (ix - 15)
 	add	iy, de
-	jp	BB4_15
-BB4_26:
+	jp	BB9_15
+BB9_26:
 	ld	hl, (_zero_counter)
 	ld	de, 16
 	or	a, a
 	sbc	hl, de
-	jp	z, BB4_53
-	jp	BB4_54
-BB4_27:
+	jp	z, BB9_53
+	jp	BB9_54
+BB9_27:
 	ld	a, -1
-BB4_28:
+BB9_28:
 	bit	0, a
-	jr	nz, BB4_30
+	jr	nz, BB9_30
 	push	bc
 	pop	hl
-	jr	BB4_31
-BB4_30:
+	jr	BB9_31
+BB9_30:
 	ld	hl, -8388608
-BB4_31:
+BB9_31:
 	bit	0, a
 	ld	d, 63
-BB4_32:
+BB9_32:
 	ld.sis	bc, 1
 	ld	(ix - 3), hl
 	ld	(_speedmult), hl
@@ -968,7 +1608,7 @@ BB4_32:
 	ld	h, (iy + 1)
 	ld	a, l
 	bit	3, a
-	jr	z, BB4_34
+	jr	z, BB9_34
 	ld	e, 61
 	ld	hl, (_q_dir)
 	ld	(ix - 6), hl
@@ -990,12 +1630,12 @@ BB4_32:
 	ld	(_q_dir), bc
 	ld.sis	bc, 1
 	ld	(_q_dir+3), a
-BB4_34:
+BB9_34:
 	ld	l, (iy)
 	ld	h, (iy + 1)
 	call	__sand
 	bit	0, l
-	jr	z, BB4_36
+	jr	z, BB9_36
 	ld	e, -67
 	ld	hl, (_q_dir)
 	ld	(ix - 6), hl
@@ -1016,7 +1656,7 @@ BB4_34:
 	ld	e, 64
 	ld	(_q_dir), bc
 	ld	(_q_dir+3), a
-BB4_36:
+BB9_36:
 	ld	bc, (ix - 3)
 	ld	a, d
 	or	a, a
@@ -1027,7 +1667,7 @@ BB4_36:
 	ld	h, (iy + 1)
 	ld	a, l
 	bit	2, a
-	jr	z, BB4_40
+	jr	z, BB9_40
 	ld	iy, (_q_power)
 	add	iy, bc
 	lea	hl, iy
@@ -1035,12 +1675,12 @@ BB4_36:
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	m, BB4_39
+	jp	m, BB9_39
 	ld	iy, 100
-BB4_39:
+BB9_39:
 	ld	(_q_power), iy
 	ld	iy, -720866
-BB4_40:
+BB9_40:
 	ld	(ix - 3), bc
 	ld.sis	de, 8
 	ld	b, 2
@@ -1048,7 +1688,7 @@ BB4_40:
 	ld	h, (iy + 1)
 	ld	a, l
 	bit	1, a
-	jr	z, BB4_44
+	jr	z, BB9_44
 	ld	a, b
 	ld	iyl, e
 	ld	iyh, d
@@ -1062,14 +1702,14 @@ BB4_40:
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	p, BB4_43
+	jp	p, BB9_43
 	ld	bc, 0
-BB4_43:
+BB9_43:
 	ld	(_q_power), bc
 	ld	e, iyl
 	ld	d, iyh
 	ld	b, a
-BB4_44:
+BB9_44:
 	ld	iy, -720870
 	ld	l, (iy)
 	ld	h, (iy + 1)
@@ -1090,24 +1730,24 @@ BB4_44:
 	ld	c, a
 	ld	a, e
 	or	a, a
-	jr	nz, BB4_47
+	jr	nz, BB9_47
 	ld	a, c
 	or	a, a
-	jr	z, BB4_47
+	jr	z, BB9_47
 	ld	de, (_cpf)
 	inc	de
 	ld	(_cpf), de
-BB4_47:
+BB9_47:
 	ld	a, (_step.prev_six)
 	ld	c, (ix - 3)
 	bit	0, c
-	jr	nz, BB4_50
+	jr	nz, BB9_50
 	or	a, a
-	jr	z, BB4_50
+	jr	z, BB9_50
 	ld	de, (_cpf)
 	dec	de
 	ld	(_cpf), de
-BB4_50:
+BB9_50:
 	ld	a, l
 	ld	(_step.prev_nine), a
 	ld	a, c
@@ -1123,22 +1763,22 @@ BB4_50:
 	ld.sis	bc, 1
 	call	__sand
 	bit	0, l
-	jr	z, BB4_54
+	jr	z, BB9_54
 	ld	hl, (_q_power)
 	ld	de, 1
 	or	a, a
 	sbc	hl, de
 	call	pe, __setflag
-	jp	m, BB4_54
+	jp	m, BB9_54
 	ld	hl, 2
 	ld	de, _frame
 	ld	(ix - 9), de
 	ld	(_gamestate), hl
-BB4_53:
+BB9_53:
 	ld	hl, 1
 	ld	iy, (ix - 9)
 	ld	(iy), hl
-BB4_54:
+BB9_54:
 	ld	hl, -720868
 	push	de
 	ld	e, (hl)
@@ -1149,12 +1789,12 @@ BB4_54:
 	pop	de
 	ld	a, l
 	bit	6, a
-	jr	z, BB4_56
+	jr	z, BB9_56
 	ld	a, 0
-	jr	BB4_57
-BB4_56:
+	jr	BB9_57
+BB9_56:
 	ld	a, -1
-BB4_57:
+BB9_57:
 	ld	sp, ix
 	pop	ix
 	ret
@@ -1163,84 +1803,15 @@ BB4_57:
 	section	.text,"ax",@progbits
 	public	_draw
 _draw:
-	ld	hl, -27
+	ld	hl, -18
 	call	__frameset
-	ld	hl, 2
-	push	hl
-	call	_gfx_SetColor
-	pop	hl
-	ld	hl, -127
-	push	hl
-	ld	hl, 268
-	push	hl
-	ld	hl, 17
-	push	hl
-	ld	hl, 26
-	push	hl
-	call	_gfx_FillRectangle_NoClip
-	pop	hl
-	pop	hl
-	pop	hl
-	pop	hl
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	push	hl
-	ld	hl, _Table_l_data
-	push	hl
-	call	_gfx_Sprite_NoClip
-	pop	hl
-	pop	hl
-	pop	hl
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	ld	hl, 26
-	push	hl
-	ld	hl, _Table_tl_data
-	push	hl
-	call	_gfx_Sprite_NoClip
-	pop	hl
-	pop	hl
-	pop	hl
-	or	a, a
-	sbc	hl, hl
-	push	hl
-	ld	hl, 161
-	push	hl
-	ld	hl, _Table_tr_data
-	push	hl
-	call	_gfx_Sprite_NoClip
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	hl, (_Table_bl)
-	ld	de, -110
-	push	de
-	ld	de, 26
-	push	de
-	push	hl
-	call	_gfx_Sprite_NoClip
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	hl, (_Table_br)
-	ld	de, -110
-	push	de
-	ld	de, 161
-	push	de
-	push	hl
-	call	_gfx_Sprite_NoClip
-	pop	hl
-	pop	hl
-	pop	hl
 	ld	hl, (_Table_r)
-	ld	de, 0
-	push	de
-	ld	de, 294
+	ld	de, (_Table_br)
+	ld	bc, (_Table_bl)
+	push	bc
 	push	de
 	push	hl
-	call	_gfx_Sprite_NoClip
+	call	_draw_table
 	pop	hl
 	pop	hl
 	pop	hl
@@ -1263,12 +1834,12 @@ _draw:
 	pop	hl
 	pop	hl
 	pop	hl
-BB5_1:
+BB10_1:
 	ld	de, 304
 	lea	hl, iy
 	or	a, a
 	sbc	hl, de
-	jp	z, BB5_3
+	jp	z, BB10_3
 	lea	de, iy
 	ld	(ix - 3), iy
 	ld	iy, _balls
@@ -1322,8 +1893,8 @@ BB5_1:
 	pop	hl
 	ld	de, 19
 	add	iy, de
-	jp	BB5_1
-BB5_3:
+	jp	BB10_1
+BB10_3:
 	ld	hl, 3
 	push	hl
 	call	_gfx_SetTextFGColor
@@ -1370,248 +1941,47 @@ BB5_3:
 	pop	hl
 	or	a, a
 	sbc	hl, bc
-	ld	bc, 5
-	ld	iy, _balls+288
-	lea	hl, iy + 3
-	ld	(ix - 9), hl
-	ld	iy, _q_dir
-	lea	hl, iy + 3
-	ld	(ix - 3), hl
-	ld	iy, _balls+292
-	lea	hl, iy + 3
-	ld	(ix - 6), hl
-	jp	nz, BB5_5
-	push	bc
-	call	_gfx_SetColor
-	pop	hl
-	ld	hl, (_balls+288)
-	ld	(ix - 12), hl
-	ld	hl, (ix - 9)
-	ld	a, (hl)
-	ld	(ix - 15), a
-	ld	bc, (_q_dir)
-	ld	hl, (ix - 3)
-	ld	e, (hl)
-	push	de
-	push	bc
-	call	_cosf
-	ld	(ix - 18), hl
-	pop	hl
-	pop	hl
-	ld	hl, (_q_power)
-	ld	bc, 4
-	call	__idivs
-	push	hl
-	pop	iy
-	ld	hl, 10
-	push	hl
-	pop	bc
-	add	iy, bc
-	lea	hl, iy
-	lea	bc, iy
-	add	iy, iy
-	sbc	hl, hl
-	ld	a, l
-	call	__ltof
-	push	bc
-	pop	hl
-	ld	d, a
-	ld	bc, (ix - 18)
-	ld	a, e
-	ld	e, d
-	call	__fmul
-	ld	hl, (ix - 12)
-	ld	e, (ix - 15)
-	call	__fadd
-	call	__ftol
-	ld	(ix - 12), bc
-	ld	hl, (_balls+292)
-	ld	(ix - 15), hl
-	ld	hl, (ix - 6)
-	ld	a, (hl)
-	ld	(ix - 18), a
-	ld	bc, (_q_dir)
-	ld	hl, (ix - 3)
-	ld	e, (hl)
-	push	de
-	push	bc
-	call	_sinf
-	ld	(ix - 21), hl
-	pop	hl
-	pop	hl
-	ld	hl, (_q_power)
-	ld	bc, 4
-	call	__idivs
-	ld	bc, 10
-	add	hl, bc
-	push	hl
-	pop	bc
-	push	bc
-	pop	iy
-	add	iy, iy
-	sbc	hl, hl
-	ld	a, l
-	call	__ltof
-	push	bc
-	pop	hl
-	ld	d, a
-	ld	bc, (ix - 21)
-	ld	a, e
-	ld	e, d
-	call	__fmul
-	ld	hl, (ix - 15)
-	ld	e, (ix - 18)
-	call	__fadd
-	call	__ftol
-	ld	(ix - 15), bc
-	ld	hl, (_balls+288)
-	ld	(ix - 18), hl
-	ld	a, (_balls+291)
-	ld	(ix - 21), a
-	ld	bc, (_q_dir)
-	ld	hl, (ix - 3)
-	ld	e, (hl)
-	push	de
-	push	bc
-	call	_cosf
-	ld	(ix - 24), hl
-	pop	hl
-	pop	hl
-	ld	hl, (_q_power)
-	ld	bc, 4
-	call	__idivs
-	push	hl
-	pop	iy
-	ld	hl, 100
-	push	hl
-	pop	bc
-	add	iy, bc
-	lea	hl, iy
-	lea	bc, iy
-	add	iy, iy
-	sbc	hl, hl
-	ld	a, l
-	call	__ltof
-	push	bc
-	pop	hl
-	ld	d, a
-	ld	bc, (ix - 24)
-	ld	a, e
-	ld	e, d
-	call	__fmul
-	ld	hl, (ix - 18)
-	ld	e, (ix - 21)
-	call	__fadd
-	call	__ftol
-	ld	(ix - 18), bc
-	ld	hl, (_balls+292)
-	ld	(ix - 21), hl
-	ld	a, (_balls+295)
-	ld	(ix - 24), a
+	jr	nz, BB10_5
 	ld	hl, (_q_dir)
 	ld	a, (_q_dir+3)
 	ld	e, a
+	ld	bc, (_q_power)
+	push	bc
 	push	de
 	push	hl
-	call	_sinf
-	ld	(ix - 27), hl
-	pop	hl
-	pop	hl
-	ld	hl, (_q_power)
-	ld	bc, 4
-	call	__idivs
-	ld	bc, 100
-	add	hl, bc
+	ld	hl, _balls
 	push	hl
-	pop	bc
-	push	bc
-	pop	iy
-	add	iy, iy
-	sbc	hl, hl
-	ld	a, l
-	call	__ltof
-	push	bc
-	pop	hl
-	ld	d, a
-	ld	bc, (ix - 27)
-	ld	a, e
-	ld	e, d
-	call	__fmul
-	ld	hl, (ix - 21)
-	ld	e, (ix - 24)
-	call	__fadd
-	call	__ftol
-	push	bc
-	ld	hl, (ix - 18)
-	push	hl
-	ld	hl, (ix - 15)
-	push	hl
-	ld	hl, (ix - 12)
-	push	hl
-	call	_gfx_Line
-	pop	hl
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	hl, 3
-	push	hl
-	call	_gfx_SetColor
-	pop	hl
-	ld	hl, 5
-	push	hl
-	ld	hl, 103
-	push	hl
-	ld	hl, -26
-	push	hl
-	ld	hl, 109
-	push	hl
-	call	_gfx_Rectangle_NoClip
-	pop	hl
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	hl, 4
-	push	hl
-	call	_gfx_SetColor
-	pop	hl
-	ld	hl, (_q_power)
-	inc	hl
-	ld	de, 3
-	push	de
-	push	hl
-	ld	hl, -25
-	push	hl
-	ld	hl, 110
-	push	hl
-	call	_gfx_FillRectangle_NoClip
-	ld	bc, 5
+	call	_draw_setup
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
 	ld	de, (_gamestate)
-BB5_5:
-	ld	iy, 2
+BB10_5:
+	ld	bc, 2
 	ex	de, hl
-	lea	de, iy
 	or	a, a
-	sbc	hl, de
-	jp	nz, BB5_7
-	push	bc
+	sbc	hl, bc
+	jp	nz, BB10_7
+	ld	hl, 5
+	push	hl
 	call	_gfx_SetColor
 	pop	hl
 	ld	hl, (_balls+288)
-	ld	(ix - 12), hl
-	ld	hl, (ix - 9)
+	ld	(ix - 6), hl
+	ld	iy, _balls+288
+	lea	hl, iy + 3
 	ld	a, (hl)
 	ld	(ix - 9), a
 	ld	bc, (_q_dir)
-	ld	hl, (ix - 3)
+	ld	iy, _q_dir
+	lea	hl, iy + 3
+	ld	(ix - 3), hl
 	ld	e, (hl)
 	push	de
 	push	bc
 	call	_cosf
-	ld	(ix - 15), hl
+	ld	(ix - 12), hl
 	pop	hl
 	pop	hl
 	ld	hl, (_q_power)
@@ -1633,20 +2003,21 @@ BB5_5:
 	push	bc
 	pop	hl
 	ld	d, a
-	ld	bc, (ix - 15)
+	ld	bc, (ix - 12)
 	ld	a, e
 	ld	e, d
 	call	__fmul
-	ld	hl, (ix - 12)
+	ld	hl, (ix - 6)
 	ld	e, (ix - 9)
 	call	__fadd
 	call	__ftol
-	ld	(ix - 9), bc
+	ld	(ix - 6), bc
 	ld	hl, (_balls+292)
-	ld	(ix - 12), hl
-	ld	hl, (ix - 6)
+	ld	(ix - 9), hl
+	ld	iy, _balls+292
+	lea	hl, iy + 3
 	ld	a, (hl)
-	ld	(ix - 6), a
+	ld	(ix - 12), a
 	ld	bc, (_q_dir)
 	ld	hl, (ix - 3)
 	ld	e, (hl)
@@ -1679,11 +2050,11 @@ BB5_5:
 	ld	a, e
 	ld	e, d
 	call	__fmul
-	ld	hl, (ix - 12)
-	ld	e, (ix - 6)
+	ld	hl, (ix - 9)
+	ld	e, (ix - 12)
 	call	__fadd
 	call	__ftol
-	ld	(ix - 6), bc
+	ld	(ix - 9), bc
 	ld	hl, (_balls+288)
 	ld	(ix - 12), hl
 	ld	a, (_balls+291)
@@ -1768,358 +2139,17 @@ BB5_5:
 	push	bc
 	ld	hl, (ix - 3)
 	push	hl
-	ld	hl, (ix - 6)
-	push	hl
 	ld	hl, (ix - 9)
+	push	hl
+	ld	hl, (ix - 6)
 	push	hl
 	call	_gfx_Line
 	pop	hl
 	pop	hl
 	pop	hl
 	pop	hl
-BB5_7:
+BB10_7:
 	ld	sp, ix
-	pop	ix
-	ret
-	section	.text,"ax",@progbits
-
-	section	.text,"ax",@progbits
-	public	_prune_sweep
-_prune_sweep:
-	ld	hl, -194
-	call	__frameset
-	ld	de, 0
-	ld	hl, _balls+7
-	ld	bc, -191
-	lea	iy, ix
-	add	iy, bc
-	ld	(iy), hl
-	ld	bc, -182
-	lea	iy, ix
-	add	iy, bc
-	ld	bc, 16
-	ld	(ix - 3), bc
-	ld	bc, -188
-	lea	hl, ix
-	add	hl, bc
-	ld	(hl), iy
-	push	ix
-	ld	bc, -185
-	add	ix, bc
-	ld	(ix), iy
-	pop	ix
-	ex	de, hl
-	ld	bc, (ix - 3)
-BB6_1:
-	push	hl
-	pop	de
-	or	a, a
-	sbc	hl, bc
-	jr	z, BB6_3
-	ld	bc, -191
-	lea	hl, ix
-	add	hl, bc
-	ld	iy, (hl)
-	ld	hl, (iy - 4)
-	ld	a, (iy - 1)
-	lea	bc, iy
-	ld	(ix - 3), de
-	ld	de, -185
-	lea	iy, ix
-	add	iy, de
-	ld	iy, (iy)
-	ld	(iy + 3), hl
-	ld	(iy + 6), a
-	push	bc
-	pop	hl
-	ld	hl, (hl)
-	push	bc
-	pop	iy
-	ld	a, (iy + 3)
-	lea	iy, ix
-	add	iy, de
-	ld	iy, (iy)
-	ld	(iy + 7), hl
-	ld	(iy + 10), a
-	ld	de, (ix - 3)
-	ex	de, hl
-	ld	(iy), hl
-	inc	hl
-	lea	iy, iy + 11
-	push	ix
-	ld	de, -185
-	add	ix, de
-	ld	(ix), iy
-	pop	ix
-	push	bc
-	pop	iy
-	lea	iy, iy + 19
-	push	ix
-	ld	de, -191
-	add	ix, de
-	ld	(ix), iy
-	pop	ix
-	ld	bc, 16
-	jr	BB6_1
-BB6_3:
-	ld	hl, _sort_x
-	push	hl
-	ld	hl, 11
-	push	hl
-	ld	hl, 16
-	push	hl
-	ld	bc, -188
-	lea	hl, ix
-	add	hl, bc
-	ld	hl, (hl)
-	push	hl
-	call	_qsort
-	pop	hl
-	pop	hl
-	pop	hl
-	pop	hl
-	ld	de, 165
-	ld	iy, 0
-BB6_4:
-	lea	hl, iy
-	or	a, a
-	sbc	hl, de
-	jp	z, BB6_12
-	lea	de, iy
-	ld	bc, -188
-	lea	hl, ix
-	add	hl, bc
-	ld	hl, (hl)
-	add	hl, de
-	ld	hl, (hl)
-	push	ix
-	ld	de, -194
-	add	ix, de
-	ld	(ix), hl
-	pop	ix
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	(ix - 3), bc
-	push	ix
-	ld	bc, -185
-	add	ix, bc
-	ld	(ix), iy
-	pop	ix
-	ld	iy, _balls
-	add	iy, de
-	ld	hl, (iy + 11)
-	ld	e, (iy + 14)
-	ld	bc, (ix - 3)
-	ld	bc, 0
-	xor	a, a
-	call	__fcmp
-	jp	nz, BB6_9
-	ld	bc, -185
-	lea	hl, ix
-	add	hl, bc
-	ld	de, (hl)
-	ld	bc, -188
-	lea	iy, ix
-	add	iy, bc
-	ld	iy, (iy)
-	add	iy, de
-	ld	hl, (iy + 11)
-	ld	de, -191
-	lea	iy, ix
-	add	iy, de
-	ld	(iy), hl
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	iy, _balls
-	add	iy, de
-	ld	hl, (iy + 11)
-	ld	e, (iy + 14)
-	ld	bc, 0
-	xor	a, a
-	call	__fcmp
-	jr	nz, BB6_9
-	ld	de, -194
-	lea	hl, ix
-	add	hl, de
-	ld	hl, (hl)
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	iy, _balls
-	add	iy, de
-	ld	hl, (iy + 15)
-	ld	e, (iy + 18)
-	ld	bc, 0
-	xor	a, a
-	call	__fcmp
-	jr	nz, BB6_9
-	ld	de, -191
-	lea	hl, ix
-	add	hl, de
-	ld	hl, (hl)
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	iy, _balls
-	add	iy, de
-	ld	hl, (iy + 15)
-	ld	e, (iy + 18)
-	ld	bc, 0
-	xor	a, a
-	call	__fcmp
-	jp	z, BB6_11
-BB6_9:
-	ld	bc, -185
-	lea	hl, ix
-	add	hl, bc
-	ld	de, (hl)
-	ld	bc, -188
-	lea	iy, ix
-	add	iy, bc
-	ld	iy, (iy)
-	add	iy, de
-	ld	bc, (iy + 3)
-	ld	hl, (iy + 14)
-	ld	a, (iy + 6)
-	ld	e, (iy + 17)
-	call	__fsub
-	push	bc
-	pop	hl
-	ld	e, a
-	call	__fmul
-	ld	(ix - 3), de
-	push	ix
-	ld	de, -191
-	add	ix, de
-	ld	(ix), bc
-	pop	ix
-	ld	de, (ix - 3)
-	ld	d, a
-	ld	bc, (iy + 7)
-	ld	hl, (iy + 18)
-	ld	a, (iy + 10)
-	ld	e, (iy + 21)
-	call	__fsub
-	push	bc
-	pop	hl
-	ld	e, a
-	call	__fmul
-	push	bc
-	pop	hl
-	ld	e, a
-	ld	(ix - 3), de
-	ld	de, -191
-	lea	iy, ix
-	add	iy, de
-	ld	bc, (iy)
-	ld	de, (ix - 3)
-	ld	a, d
-	call	__fadd
-	ld	hl, -8388608
-	ld	e, 66
-	call	__fcmp
-	jp	m, BB6_11
-	ld	bc, -185
-	lea	hl, ix
-	add	hl, bc
-	ld	de, (hl)
-	ld	bc, -188
-	lea	iy, ix
-	add	iy, bc
-	ld	iy, (iy)
-	add	iy, de
-	push	ix
-	ld	de, -194
-	add	ix, de
-	ld	hl, (ix)
-	pop	ix
-	ld	bc, 19
-	call	__imulu
-	push	hl
-	pop	de
-	ld	hl, _balls
-	add	hl, de
-	push	ix
-	ld	de, -191
-	add	ix, de
-	ld	(ix), hl
-	pop	ix
-	ld	hl, (iy + 11)
-	call	__imulu
-	push	hl
-	pop	de
-	ld	hl, _balls
-	add	hl, de
-	push	hl
-	ld	de, -191
-	lea	hl, ix
-	add	hl, de
-	ld	hl, (hl)
-	push	hl
-	call	_collideballs
-	pop	hl
-	pop	hl
-BB6_11:
-	ld	de, 11
-	ld	bc, -185
-	lea	hl, ix
-	add	hl, bc
-	ld	iy, (hl)
-	add	iy, de
-	ld	de, 165
-	jp	BB6_4
-BB6_12:
-	ld	sp, ix
-	pop	ix
-	ret
-	section	.text,"ax",@progbits
-
-	section	.text,"ax",@progbits
-	public	_sort_x
-_sort_x:
-	ld	hl, -1
-	call	__frameset
-	ld	iy, (ix + 6)
-	ld	hl, (iy + 3)
-	ld	d, (iy + 6)
-	ld	iy, (ix + 9)
-	ld	bc, (iy + 3)
-	ld	iy, (ix + 9)
-	ld	a, (iy + 6)
-	push	hl
-	pop	iy
-	ld	e, d
-	call	__fcmp
-	jp	m, BB7_2
-	ld	l, 0
-	jr	BB7_3
-BB7_2:
-	ld	l, 1
-BB7_3:
-	ld	(ix - 1), l
-	push	bc
-	pop	hl
-	ld	e, a
-	lea	bc, iy
-	ld	a, d
-	call	__fcmp
-	jp	m, BB7_5
-	ld	hl, 0
-	jr	BB7_6
-BB7_5:
-	ld	hl, -1
-BB7_6:
-	bit	0, (ix - 1)
-	jr	z, BB7_8
-	ld	hl, 1
-BB7_8:
-	inc	sp
 	pop	ix
 	ret
 	section	.text,"ax",@progbits
@@ -2129,6 +2159,21 @@ BB7_8:
 _end:
 	ret
 	section	.text,"ax",@progbits
+
+	section	.data,"aw",@progbits
+	public	_Table_l_data
+_Table_l_data:
+	db	26, "£", 0, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, "", 10, 13, 13, 13, 13, "", 10, 13, 13, 13, "", 10, 13, 13, "", 10, 13, "", 10, "", 13, 13, "", 10, "", 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 10, "", 13, 13, "", 10, "", 10, "", 10, 13, "", 10, 13, 13, "", 10, 13, 13, 13, "", 10, 13, 13, 13, 13, "", 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 0, ""
+
+	section	.data,"aw",@progbits
+	public	_Table_tl_data
+_Table_tl_data:
+	db	"‡", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, ""
+
+	section	.data,"aw",@progbits
+	public	_Table_tr_data
+_Table_tr_data:
+	db	"‡", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, ""
 
 	section	.data,"aw",@progbits
 	public	_Table_r_data
@@ -2200,21 +2245,6 @@ _cpf:
 	public	_global_palette
 _global_palette:
 	db	"ŒåÿÿÆÇœ´""(b", 0, 0, "c„…”f7žG""k­ã45%½×ÒµV÷^¤å9gÄézk"
-
-	section	.data,"aw",@progbits
-	public	_Table_l_data
-_Table_l_data:
-	db	26, "£", 0, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, "", 10, 13, 13, 13, 13, "", 10, 13, 13, 13, "", 10, 13, 13, "", 10, 13, "", 10, "", 13, 13, "", 10, "", 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, "", 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 10, "", 13, 13, "", 10, "", 10, "", 10, 13, "", 10, 13, 13, "", 10, 13, 13, 13, "", 10, 13, 13, 13, 13, "", 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, "", 0, ""
-
-	section	.data,"aw",@progbits
-	public	_Table_tl_data
-_Table_tl_data:
-	db	"‡", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, ""
-
-	section	.data,"aw",@progbits
-	public	_Table_tr_data
-_Table_tr_data:
-	db	"‡", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, "", 10, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 10, "", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, ""
 
 	section	.data,"aw",@progbits
 	public	_stripe_data
@@ -2304,21 +2334,21 @@ _.str.1:
 	extern	_gfx_FillRectangle_NoClip
 	extern	_gfx_Begin
 	extern	__fadd
-	extern	_kb_Scan
 	extern	_gfx_Line
-	extern	_gfx_SetTextFGColor
+	extern	_kb_Scan
 	extern	_gfx_SetPalette
+	extern	_gfx_SetTextFGColor
 	extern	_gfx_RotateSpriteHalf
 	extern	_gfx_SwapDraw
-	extern	__sand
-	extern	_gfx_PrintString
 	extern	__fmul
 	extern	__ftol
-	extern	__sshru
 	extern	__ultof
+	extern	__sand
 	extern	_gfx_PrintInt
-	extern	_gfx_SetDraw
 	extern	__idivs
+	extern	_gfx_SetDraw
+	extern	__sshru
+	extern	_gfx_PrintString
 	extern	__setflag
 	extern	__ftoul
 	extern	__Unwind_SjLj_Unregister
@@ -2327,8 +2357,8 @@ _.str.1:
 	extern	__fneg
 	extern	__fdiv
 	extern	__imulu
-	extern	_sinf
 	extern	_gfx_SetColor
+	extern	_sinf
 	extern	__ltof
 	extern	_cosf
 	extern	_gfx_TransparentSprite_NoClip

@@ -26,6 +26,9 @@ typedef struct xyid {
 void collideballs(ball_data* ball1, ball_data* ball2);
 void collidewalls(ball_data* ball);
 
+void prune_sweep(ball_data balls[16]);
+int sort_x(const void *a, const void *b);
+
 #if __cplusplus
 }
 #endif

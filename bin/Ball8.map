@@ -7,9 +7,9 @@ Section          Base   Top    High   Length
 .init.reruncheck D1AA56 D1AA56             0h
 .init            D1AA56 D1AA82            2Ch
 .fini            D1AA82 D1AAB6            34h
-.text            D1AAB6 D1C37E          18C8h
-.data            D1C37E D209D3          4655h
-.rodata          D209D3 D20A3F            6Ch
+.text            D1AAB6 D1C3A8          18F2h
+.data            D1C3A8 D209FD          4655h
+.rodata          D209FD D20A69            6Ch
 .init_array      000000 000000             0h
 .ctors           000000 000000             0h
 .dtors           000000 000000             0h
@@ -59,10 +59,10 @@ _cosf                          = 02211C
 _fabsf                         = 0220F0
 __ishru                        = 000184
 _sinf                          = 022118
-.missingappvar                 = D209D3
-.libloadname                   = D209D8
+.missingappvar                 = D209FD
+.libloadname                   = D20A02
 .libloadnamelen                = 000007
-.webaddress                    = D209E0
+.webaddress                    = D20A0A
 __start                        = D1AA56
 ___exithl                      = D1AA82
 skip._exit                     = D1AA82
@@ -72,39 +72,42 @@ _exit.sp                       = D1AA83
 _exit.flash_wait_states        = D1AA8D
 _collideballs                  = D1AF3C
 _collidewalls                  = D1B132
-_main                          = D1B1F0
-_begin                         = D1B231
-_step                          = D1B4E0
-_draw                          = D1BA86
-_prune_sweep                   = D1C03A
-_sort_x                        = D1C325
-_Table_r_data                  = D1C37E
-_Table_r                       = D1D40E
-_Table_br_data                 = D1D411
-_Table_br                      = D1DD0A
-_Table_bl_data                 = D1DD0D
-_Table_bl                      = D1E606
+_prune_sweep                   = D1B1F0
+_sort_x                        = D1B4B2
+_init_table                    = D1B50B
+_draw_table                    = D1B552
+_draw_setup                    = D1B610
+_main                          = D1B7E7
+_begin                         = D1B828
+_step                          = D1BAB9
+_draw                          = D1C065
+_Table_l_data                  = D1C3A8
+_Table_tl_data                 = D1D438
+_Table_tr_data                 = D1DD31
+_Table_r_data                  = D1E62A
+_Table_r                       = D1F6BA
+_Table_br_data                 = D1F6BD
+_Table_br                      = D1FFB6
+_Table_bl_data                 = D1FFB9
+_Table_bl                      = D208B2
 _q_power                       = D052C6
-_q_dir                         = D1E609
-_gamestate                     = D1E60D
+_q_dir                         = D208B5
+_gamestate                     = D208B9
 _frame                         = D052C9
-_speedmult                     = D1E610
-_cpf                           = D1E614
-_global_palette                = D1E617
-_Table_l_data                  = D1E649
-_Table_tl_data                 = D1F6D9
-_Table_tr_data                 = D1FFD2
-_stripe_data                   = D208CB
-_solid_data                    = D2090D
-_eightball_data                = D2094F
-_qball_data                    = D20991
-___const.begin.initballsprite  = D209F5
+_speedmult                     = D208BC
+_cpf                           = D208C0
+_global_palette                = D208C3
+_stripe_data                   = D208F5
+_solid_data                    = D20937
+_eightball_data                = D20979
+_qball_data                    = D209BB
+___const.begin.initballsprite  = D20A1F
 _balls                         = D052CC
 _step.prev_six                 = D053FC
 _step.prev_nine                = D053FD
 _zero_counter                  = D053FE
-_.str                          = D20A25
-_.str.1                        = D20A2C
+_.str                          = D20A4F
+_.str.1                        = D20A56
 lib.LibLoad                    = D1A9F5
 _#gfx_Begin                    = D1AA08
 _#gfx_End                      = D1AA0C

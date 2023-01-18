@@ -3,6 +3,7 @@
 #include "collide.h"
 #include <graphx.h>
 #include <tice.h>
+#include <math.h>
 
 void collideballs(ball_data* ball1, ball_data* ball2) {
 
@@ -43,4 +44,37 @@ void collidewalls(ball_data* ball) {
         ball->y = 143;
         ball->vy = -ball->vy;
     }
+}
+
+void prune_sweep(ball_data balls[16]) {
+    xyid s_balls[16];
+    for (int i = 0; i < 16; i++) {
+        s_balls[i].x = balls[i].x;
+        s_balls[i].y = balls[i].y;
+        s_balls[i].id = i;
+    }
+
+    // sort the balls by their x val
+    qsort(s_balls, sizeof(s_balls)/sizeof(*s_balls), sizeof(*s_balls), sort_x);
+
+    // check and execute collision
+    for (int i = 0; i < 15; i++) {
+        if ((balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0)
+        && (pow(s_balls[i].x - s_balls[i + 1].x, 2) + pow(s_balls[i].y - s_balls[i + 1].y, 2) <= 64)) {
+            collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+        }
+    }
+
+}
+
+int sort_x(const void *a, const void *b) {
+    xyid* b1 = (xyid *) a;
+    xyid* b2 = (xyid *) b;
+
+    if (b1->x < b2->x)
+        return 1;
+    else if (b1->x > b2->x)
+        return -1;
+
+    return 0;
 }
