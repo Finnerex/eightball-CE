@@ -5,27 +5,37 @@
 _collideballs:
 	ld	hl, -33
 	call	__frameset
-	ld	iy, (ix + 6)
+	ld	de, (ix + 6)
 	ld	bc, (ix + 9)
+	push	de
+	pop	iy
 	ld	hl, (iy + 3)
-	ld	e, (iy + 6)
 	push	bc
 	pop	iy
 	ld	bc, (iy + 3)
-	ld	iy, (ix + 9)
-	ld	iy, (iy + 7)
-	ld	(ix - 6), iy
-	ld	iy, (ix + 9)
+	push	de
+	pop	iy
+	ld	de, (iy + 7)
+	ld	(ix - 6), de
+	ld	iy, (ix + 6)
 	ld	a, (iy + 10)
 	ld	(ix - 7), a
 	ld	iy, (ix + 9)
+	ld	de, (iy + 7)
+	ld	(ix - 10), de
+	ld	a, (iy + 10)
+	ld	(ix - 14), a
 	ld	a, (iy + 6)
+	ld	iy, (ix + 6)
+	ld	e, (iy + 6)
 	call	__fsub
 	ld	(ix - 3), bc
 	ld	d, a
 	ld	(ix - 11), d
-	ld	bc, (ix - 6)
-	ld	a, (ix - 7)
+	ld	bc, (ix - 10)
+	ld	a, (ix - 14)
+	ld	hl, (ix - 6)
+	ld	e, (ix - 7)
 	call	__fsub
 	ld	(ix - 6), bc
 	ld	(ix - 7), a

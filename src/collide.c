@@ -8,7 +8,7 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
 
     // change to local vars so they dont mutate the things outside (probably a better way of doing this)
     float x1 = ball1->x; float x2 = ball2->x;
-    float y1 = ball1->x; float y2 = ball2->y;
+    float y1 = ball1->y; float y2 = ball2->y;
     float temp;
 
     // stole this from somewhere, have no idea how or why it might work
