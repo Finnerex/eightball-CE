@@ -111,7 +111,7 @@ bool step(void) {
 
     if (gamestate == setup) {
 
-        //speed multiplier for power and angle
+        // speed multiplier for power and angle
         if (kb_Data[1] & kb_2nd) {
             speedmult = 2;
         } else if (kb_Data[2] & kb_Math/*JUST FOR TESTING - change back to kb_Alpha*/) {
@@ -121,7 +121,7 @@ bool step(void) {
         }
 
 
-        //chnage angle
+        // change angle
         if (kb_Data[7] & kb_Up) {
             q_dir += 0.04 * speedmult;
         }
@@ -131,19 +131,23 @@ bool step(void) {
 
 
         //change power with some funny logic so it doesnt go over or under
-        if (kb_Data[7] & kb_Right && q_power < 100 - speedmult) {
+        if (kb_Data[7] & kb_Right /*&& q_power < 100 - speedmult*/)
             q_power += 2 * speedmult;
-        } else if (kb_Data[7] & kb_Right && q_power < 100) {
-            q_power = 100;
-        }
-        if (kb_Data[7] & kb_Left && q_power > 1 + speedmult) {
+        // } else if (kb_Data[7] & kb_Right && q_power < 100) {
+        //     q_power = 100;
+        // }
+        if (kb_Data[7] & kb_Left /*&& q_power > 1 + speedmult*/)
             q_power -= 2 * speedmult;
-        } else if (kb_Data[7] & kb_Left && q_power > 0) {
-            q_power = 0;
-        }
+        // } else if (kb_Data[7] & kb_Left && q_power > 0) {
+        //     q_power = 0;
+        // }
+
+        // fancy ternary power clamping
+        q_power = q_power > 100 ? 100 : q_power;
+        q_power = q_power < 0 ? 0 : q_power;
 
 
-        //change checks per frame - Temporary, add to a menu later maybe
+        // change checks per frame - Temporary, add to a menu later maybe
         static bool prev_six, six, prev_nine, nine;
         six = kb_Data[5] & kb_6;
         nine = kb_Data[5] & kb_9;
@@ -157,7 +161,7 @@ bool step(void) {
         prev_nine = nine;
         prev_six = six;
 
-        //ready
+        // ready
         if (kb_Data[6] & kb_Enter && q_power > 0) {
             frame = 0;
             gamestate = animate;
@@ -165,9 +169,9 @@ bool step(void) {
     }
 
     if (gamestate == animate) {
-        frame += 2; // I know this doesnt make sense but animation better
+        frame ++;
 
-        if (frame > 40) {
+        if (frame > 20) {
             frame = 0;
             gamestate = run;
             balls[15].vx = cosf(q_dir) * (q_power/4 + 1);
@@ -177,10 +181,10 @@ bool step(void) {
 
     if (gamestate == run) {
 
-        //init the counter to zero
+        // init the counter to zero
         zero_counter = 0;
         
-        //collisions and movement
+        // collisions and movement
         for (int k = 0; k < cpf; k++) {
             for (int i = 0; i < 16; i++) {
                 //movement
@@ -210,44 +214,39 @@ bool step(void) {
 
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
-            //not using d does come with some downsides, also might be slow af
+            // not using d does come with some downsides, also might be slow af
             float atan_of = atan2f(balls[i].vy, balls[i].vx);
             float ax = A * fabsf(cosf(atan_of));
             float ay = A * fabsf(sinf(atan_of));
 
-            if (balls[i].vx >= ax) { 
+            if (balls[i].vx >= ax)
                 balls[i].vx -= ax;
-            } else if (balls[i].vx <= -ax) {
+            else if (balls[i].vx <= -ax)
                 balls[i].vx += ax;
-            } else {
+            else
                 balls[i].vx = 0;
-            }
             
-            if (balls[i].vy >= ay) {
+            if (balls[i].vy >= ay)
                 balls[i].vy -= ay;
-            } else if (balls[i].vy <= -ay) {
+            else if (balls[i].vy <= -ay)
                 balls[i].vy += ay;
-            } else {
+            else
                 balls[i].vy = 0;
-            }
 
-            //increment the counter if the x and y velocities are zero
-            if (!(balls[i].vx || balls[i].vy)) {
+            // increment the counter if the x and y velocities are zero
+            if (!(balls[i].vx || balls[i].vy))
                 zero_counter ++;
-            }
 
         }
 
 
-        //if the counter it equal to the number of balls, end the run state
-        if (zero_counter == 16) {
+        // if the counter it equal to the number of balls, end the run state
+        if (zero_counter == 16)
             gamestate = setup;
-        }
     } 
 
-    if (kb_Data[6] & kb_Clear) {
+    if (kb_Data[6] & kb_Clear)
         return false;
-    }
 
     return true;
 }
@@ -255,7 +254,7 @@ bool step(void) {
 
 
 void draw(void) {
-    //draw table
+    // draw table
     gfx_SetColor(2);
     gfx_FillRectangle_NoClip(Table_l_width, Table_tr_height, LCD_WIDTH - 2 * Table_l_width, (LCD_HEIGHT - 2 * Table_tr_height) - 77);
     gfx_Sprite_NoClip(Table_l, 0, 0);
@@ -265,19 +264,19 @@ void draw(void) {
     gfx_Sprite_NoClip(Table_br, Table_l_width + Table_tl_width, (LCD_HEIGHT - Table_tr_height) - 77);
     gfx_Sprite_NoClip(Table_r, LCD_WIDTH - Table_l_width, 0);
 
-    //bottom background
+    // bottom background
     gfx_SetColor(1);
     gfx_FillRectangle_NoClip(0, Table_l_height, LCD_WIDTH, LCD_HEIGHT - Table_l_height);
 
 
-    //draw balls
+    // draw balls
     for (int i = 0; i < 16; i++) {
         gfx_TransparentSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
         //velocity vectors test
         //gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
     }
 
-    //debug info
+    // debug info
     gfx_SetTextFGColor(3);
     gfx_SetTextXY(10, 170);
     gfx_PrintString("test: ");
@@ -287,18 +286,18 @@ void draw(void) {
     gfx_PrintInt(cpf, 1);
 
     if (gamestate == setup) {
-        //queue
+        // queue
         gfx_SetColor(5);
         gfx_Line(balls[15].x + cosf(q_dir) * (10 + q_power/4), balls[15].y + sinf(q_dir) * (10 + q_power/4), balls[15].x + cosf(q_dir) * (100 + q_power/4), balls[15].y + sinf(q_dir) * (100 + q_power/4));
 
-        //power bar
+        // power bar
         gfx_SetColor(3);
         gfx_Rectangle_NoClip(LCD_WIDTH/2 - 51, LCD_HEIGHT - 10, 103, 5);
         gfx_SetColor(4);
         gfx_FillRectangle_NoClip(LCD_WIDTH/2 - 50, LCD_HEIGHT - 9, q_power + 1, 3);
     }
 
-    //animate queue
+    // animate queue
     if (gamestate == animate) {
         gfx_SetColor(5);
         gfx_Line(balls[15].x + cosf(q_dir) * (30 + q_power/4 - frame), balls[15].y + sinf(q_dir) * (30 + q_power/4 - frame), balls[15].x + cosf(q_dir) * (120 + q_power/4 - frame), balls[15].y + sinf(q_dir) * (120 + q_power/4 - frame));
@@ -313,10 +312,10 @@ void prune_sweep() {
         s_balls[i].id = i;
     }
 
-    //sort the balls by their x val
+    // sort the balls by their x val
     qsort(s_balls, sizeof(s_balls)/sizeof(*s_balls), sizeof(*s_balls), sort_x);
 
-    //check and execute collision
+    // check and execute collision
     for (int i = 0; i < 15; i++) {
         if ((balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0)
         && (pow(s_balls[i].x - s_balls[i + 1].x, 2) + pow(s_balls[i].y - s_balls[i + 1].y, 2) <= 64)) {
@@ -330,11 +329,10 @@ int sort_x(const void *a, const void *b) {
     xyid* b1 = (xyid *) a;
     xyid* b2 = (xyid *) b;
 
-    if (b1->x < b2->x) {
+    if (b1->x < b2->x)
         return 1;
-    } else if (b1->x > b2->x) {
+    else if (b1->x > b2->x)
         return -1;
-    }
 
     return 0;
 }
