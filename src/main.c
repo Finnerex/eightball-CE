@@ -15,7 +15,7 @@
 #include "collide.h"
 #include "gfx/gfx.h"
 
-//rotated side sprites
+// rotated side sprites
 uint8_t Table_r_data[Table_l_height * Table_l_width + 2] = {Table_l_width, Table_l_height,};
 gfx_sprite_t* Table_r = (gfx_sprite_t*) Table_r_data;
 
@@ -25,41 +25,41 @@ gfx_sprite_t* Table_br = (gfx_sprite_t*) Table_br_data;
 uint8_t Table_bl_data[Table_tl_height * Table_tl_width + 2] = {Table_tl_height, Table_tl_width,};
 gfx_sprite_t* Table_bl = (gfx_sprite_t*) Table_bl_data;
 
-//queue power
+// queue power
 int q_power = 0;
 
-//queue starting pos
+// queue starting pos
 float q_dir = PI;
 
-//list of all of the balls - ball_data struct in collide.h
+// list of all of the balls - ball_data struct in collide.h
 ball_data balls[16];
 
 //game states
 enum gamestates{start, setup, animate, run};
 int gamestate = setup;
 
-//frame for animation of queue
+// frame for animation of queue
 int frame = 0;
 
-//counter for ending run state
+// counter for ending run state
 int zero_counter;
 
-//speed multiplier for power and angle change
+// speed multiplier for power and angle change
 float speedmult = 1;
 
-//times to check collision per frame
+// times to check collision per frame
 int cpf = 4;
 
 // acceleration
 #define A 0.4
 
-//basic funkies
+// basic funkies
 void begin();
 void end();
 bool step();
 void draw();
 
-//my functions that suck a lot
+// my functions that suck a lot
 void prune_sweep();
 int sort_x(const void *a, const void *b);
 
@@ -86,12 +86,12 @@ int main() {
 
 
 void begin(void){
-    //rotate edges
+    // rotate edges
     gfx_RotateSpriteHalf(Table_l, Table_r);
     gfx_RotateSpriteHalf(Table_tl, Table_br);
     gfx_RotateSpriteHalf(Table_tr, Table_bl);
 
-    //ball initilization
+    // ball initilization
     gfx_sprite_t* initballsprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
     float initballx[16] = {LCD_WIDTH/2 + Table_tr_width/2 + 10, initballx[0] + stripe_width, initballx[0] + stripe_width, initballx[2] + stripe_width, initballx[2] + stripe_width, initballx[2] + stripe_width, initballx[5] + stripe_width, initballx[5] + stripe_width, initballx[5] + stripe_width, initballx[5] + stripe_width, initballx[9] + stripe_width, initballx[9] + stripe_width, initballx[9] + stripe_width, initballx[9] + stripe_width, initballx[9] + stripe_width, Table_tl_width/2};
     float initbally[16] = {Table_l_height/2, initbally[0] - stripe_height/2, initbally[0] + stripe_height/2, initbally[0] - stripe_height, initbally[0], initbally[0] + stripe_height, initbally[0] - (5.0/3.0) * stripe_height + 2, initbally[0] - stripe_height/2, initbally[0] + stripe_height/2, initbally[0] + (5.0/3.0) * stripe_height - 1, initbally[0] - 2 * stripe_height, initbally[0] - stripe_height, initbally[0], initbally[0] + stripe_height, initbally[0] + 2 * stripe_height, Table_l_height/2};
@@ -129,22 +129,14 @@ bool step(void) {
             q_dir -= 0.04 * speedmult;
         }
 
-
-        //change power with some funny logic so it doesnt go over or under
-        if (kb_Data[7] & kb_Right /*&& q_power < 100 - speedmult*/)
-            q_power += 2 * speedmult;
-        // } else if (kb_Data[7] & kb_Right && q_power < 100) {
-        //     q_power = 100;
-        // }
-        if (kb_Data[7] & kb_Left /*&& q_power > 1 + speedmult*/)
-            q_power -= 2 * speedmult;
-        // } else if (kb_Data[7] & kb_Left && q_power > 0) {
-        //     q_power = 0;
-        // }
-
+        // change power
+        int pc = 2 * speedmult; // power change var
         // fancy ternary power clamping
-        q_power = q_power > 100 ? 100 : q_power;
-        q_power = q_power < 0 ? 0 : q_power;
+        if (kb_Data[7] & kb_Right)
+            q_power = (q_power + pc) > 100 ? 100 : (q_power + pc);
+
+        if (kb_Data[7] & kb_Left)
+            q_power = (q_power - pc) < 0 ? 0 : (q_power - pc);
 
 
         // change checks per frame - Temporary, add to a menu later maybe
@@ -197,41 +189,15 @@ bool step(void) {
 
         for (int i = 0; i < 16; i++) {
 
-            // for (int k = 0; k < cpf; k++) {
-            //     //movement
-            //     balls[i].x -= balls[i].vx/cpf;
-            //     balls[i].y -= balls[i].vy/cpf;
-
-            //     //collision resolution
-            //     for (int j = 15; j >= 0; j--) {
-            //         if (i != j) {
-            //             if(pow(balls[i].x - balls[j].x, 2) + pow(balls[i].y - balls[j].y, 2) <= 64 && (balls[i].vx != 0 || balls[j].vx != 0 || balls[i].vy != 0 || balls[j].vy != 0)) { //fabsf(balls[i].x - balls[j].x) + fabsf(balls[i].y - balls[j].y) <= 8
-            //                 collideballs(&balls[i], &balls[j]);
-            //             }
-            //         }
-            //     }
-            // } 
-
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
-            // not using d does come with some downsides, also might be slow af
+            // do the decceleration
             float atan_of = atan2f(balls[i].vy, balls[i].vx);
             float ax = A * fabsf(cosf(atan_of));
             float ay = A * fabsf(sinf(atan_of));
 
-            if (balls[i].vx >= ax)
-                balls[i].vx -= ax;
-            else if (balls[i].vx <= -ax)
-                balls[i].vx += ax;
-            else
-                balls[i].vx = 0;
-            
-            if (balls[i].vy >= ay)
-                balls[i].vy -= ay;
-            else if (balls[i].vy <= -ay)
-                balls[i].vy += ay;
-            else
-                balls[i].vy = 0;
+            balls[i].vx = (balls[i].vx - ax >= 0) ? balls[i].vx - ax : (balls[i].vx + ax <= 0) ? balls[i].vx + ax : 0;
+            balls[i].vy = (balls[i].vy - ay >= 0) ? balls[i].vy - ay : (balls[i].vy + ay <= 0) ? balls[i].vy + ay : 0;
 
             // increment the counter if the x and y velocities are zero
             if (!(balls[i].vx || balls[i].vy))
