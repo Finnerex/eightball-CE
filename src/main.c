@@ -205,7 +205,6 @@ bool step(void) {
 
         }
 
-
         // if the counter it equal to the number of balls, end the run state
         if (zero_counter == 16)
             gamestate = setup;
