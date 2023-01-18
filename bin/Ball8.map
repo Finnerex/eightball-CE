@@ -1,0 +1,125 @@
+Section          Base   Top    High   Length
+---------------- ------ ------ ------ -------
+.icon            D1A882 D1A99D           11Bh
+.init.libs       D1A99D D1A9F5            58h
+.libs            D1A9F5 D1AA56            61h
+.init.clock      D1AA56 D1AA56             0h
+.init.reruncheck D1AA56 D1AA56             0h
+.init            D1AA56 D1AA82            2Ch
+.fini            D1AA82 D1AAB6            34h
+.text            D1AAB6 D1C37E          18C8h
+.data            D1C37E D209D3          4655h
+.rodata          D209D3 D20A3F            6Ch
+.init_array      000000 000000             0h
+.ctors           000000 000000             0h
+.dtors           000000 000000             0h
+.fini_array      000000 000000             0h
+.bss             D052C6 D05401 D13FD8    13Bh
+.header          D1A87F D1A882             3h
+
+Label                            Value
+------------------------------   ------
+___low_bss                     = D052C6
+___len_bss                     = 00013B
+___heaptop                     = D13FD8
+___heapbot                     = D05401
+___libs                        = D1A9F5
+___init_array_count            = 000000
+___ctors_count                 = 000000
+___dtors_count                 = 000000
+___fini_array_count            = 000000
+__stack                        = D1A87E
+__bshru                        = D1AAB6
+__fneg                         = D1AAC0
+__frameset                     = D1AACD
+__idivs                        = D1AADB
+__idivu                        = D1AAE2
+__idvrms                       = D1AAEA
+__idvrmu                       = D1AB18
+__imulu                        = D1AB30
+__indcallhl                    = D1AB60
+__ineg                         = D1AB61
+__fadd                         = 000270
+__fcmp                         = 000274
+__fdiv                         = 000278
+__fmul                         = 000288
+__fsub                         = 000290
+__ftol                         = 00027C
+__ftoul                        = 00027C
+__ltof                         = 000284
+__setflag                      = 000218
+__ultof                        = 000280
+__sand                         = D1AB6A
+__sshru                        = D1AB73
+_os_DisableHomeTextBuffer      = D1AB80
+_os_EnableHomeTextBuffer       = D1AB92
+_atan2f                        = 02210C
+_qsort                         = D1ABA4
+_cosf                          = 02211C
+_fabsf                         = 0220F0
+__ishru                        = 000184
+_sinf                          = 022118
+.missingappvar                 = D209D3
+.libloadname                   = D209D8
+.libloadnamelen                = 000007
+.webaddress                    = D209E0
+__start                        = D1AA56
+___exithl                      = D1AA82
+skip._exit                     = D1AA82
+skip.__Exit                    = D1AA82
+skip._abort                    = D1AA82
+_exit.sp                       = D1AA83
+_exit.flash_wait_states        = D1AA8D
+_collideballs                  = D1AF3C
+_collidewalls                  = D1B132
+_main                          = D1B1F0
+_begin                         = D1B231
+_step                          = D1B4E0
+_draw                          = D1BA86
+_prune_sweep                   = D1C03A
+_sort_x                        = D1C325
+_Table_r_data                  = D1C37E
+_Table_r                       = D1D40E
+_Table_br_data                 = D1D411
+_Table_br                      = D1DD0A
+_Table_bl_data                 = D1DD0D
+_Table_bl                      = D1E606
+_q_power                       = D052C6
+_q_dir                         = D1E609
+_gamestate                     = D1E60D
+_frame                         = D052C9
+_speedmult                     = D1E610
+_cpf                           = D1E614
+_global_palette                = D1E617
+_Table_l_data                  = D1E649
+_Table_tl_data                 = D1F6D9
+_Table_tr_data                 = D1FFD2
+_stripe_data                   = D208CB
+_solid_data                    = D2090D
+_eightball_data                = D2094F
+_qball_data                    = D20991
+___const.begin.initballsprite  = D209F5
+_balls                         = D052CC
+_step.prev_six                 = D053FC
+_step.prev_nine                = D053FD
+_zero_counter                  = D053FE
+_.str                          = D20A25
+_.str.1                        = D20A2C
+lib.LibLoad                    = D1A9F5
+_#gfx_Begin                    = D1AA08
+_#gfx_End                      = D1AA0C
+_#gfx_SetColor                 = D1AA10
+_#gfx_SetPalette               = D1AA14
+_#gfx_SetDraw                  = D1AA18
+_#gfx_SwapDraw                 = D1AA1C
+_#gfx_PrintInt                 = D1AA20
+_#gfx_PrintString              = D1AA24
+_#gfx_SetTextXY                = D1AA28
+_#gfx_SetTextFGColor           = D1AA2C
+_#gfx_Line                     = D1AA30
+_#gfx_Rectangle_NoClip         = D1AA34
+_#gfx_FillRectangle_NoClip     = D1AA38
+_#gfx_Sprite_NoClip            = D1AA3C
+_#gfx_TransparentSprite_NoClip = D1AA40
+_#gfx_RotateSpriteHalf         = D1AA44
+_#kb_Scan                      = D1AA52
