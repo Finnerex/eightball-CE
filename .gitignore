@@ -52,6 +52,6 @@ Mkfile.old
 dkms.conf
 
 # others
-.vscode
-.gitignore
-.gitattributes
+*.vscode
+*.gitignore
+*.gitattributes
