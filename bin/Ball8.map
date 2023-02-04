@@ -2,43 +2,43 @@ Section          Base   Top    High   Length
 ---------------- ------ ------ ------ -------
 .icon            D1A882 D1A99D           11Bh
 .init.libs       D1A99D D1A9F5            58h
-.libs            D1A9F5 D1AA56            61h
-.init.clock      D1AA56 D1AA56             0h
-.init.reruncheck D1AA56 D1AA56             0h
-.init            D1AA56 D1AA82            2Ch
-.fini            D1AA82 D1AAB6            34h
-.text            D1AAB6 D1C3A8          18F2h
-.data            D1C3A8 D209FD          4655h
-.rodata          D209FD D20A69            6Ch
+.libs            D1A9F5 D1AA4E            59h
+.init.clock      D1AA4E D1AA4E             0h
+.init.reruncheck D1AA4E D1AA4E             0h
+.init            D1AA4E D1AA7A            2Ch
+.fini            D1AA7A D1AAAE            34h
+.text            D1AAAE D1CCCA          221Ch
+.data            D1CCCA D21322          4658h
+.rodata          D21322 D21374            52h
 .init_array      000000 000000             0h
 .ctors           000000 000000             0h
 .dtors           000000 000000             0h
 .fini_array      000000 000000             0h
-.bss             D052C6 D05401 D13FD8    13Bh
+.bss             D052C6 D053FE D13FD8    138h
 .header          D1A87F D1A882             3h
 
 Label                            Value
 ------------------------------   ------
 ___low_bss                     = D052C6
-___len_bss                     = 00013B
+___len_bss                     = 000138
 ___heaptop                     = D13FD8
-___heapbot                     = D05401
+___heapbot                     = D053FE
 ___libs                        = D1A9F5
 ___init_array_count            = 000000
 ___ctors_count                 = 000000
 ___dtors_count                 = 000000
 ___fini_array_count            = 000000
 __stack                        = D1A87E
-__bshru                        = D1AAB6
-__fneg                         = D1AAC0
-__frameset                     = D1AACD
-__idivs                        = D1AADB
-__idivu                        = D1AAE2
-__idvrms                       = D1AAEA
-__idvrmu                       = D1AB18
-__imulu                        = D1AB30
-__indcallhl                    = D1AB60
-__ineg                         = D1AB61
+__bshru                        = D1AAAE
+__fneg                         = D1AAB8
+__frameset                     = D1AAC5
+__idivs                        = D1AAD3
+__idivu                        = D1AADA
+__idvrms                       = D1AAE2
+__idvrmu                       = D1AB10
+__imulu                        = D1AB28
+__indcallhl                    = D1AB58
+__ineg                         = D1AB59
 __fadd                         = 000270
 __fcmp                         = 000274
 __fdiv                         = 000278
@@ -49,65 +49,65 @@ __ftoul                        = 00027C
 __ltof                         = 000284
 __setflag                      = 000218
 __ultof                        = 000280
-__sand                         = D1AB6A
-__sshru                        = D1AB73
-_os_DisableHomeTextBuffer      = D1AB80
-_os_EnableHomeTextBuffer       = D1AB92
+__sand                         = D1AB62
+__sshru                        = D1AB6B
+_os_DisableHomeTextBuffer      = D1AB78
+_os_EnableHomeTextBuffer       = D1AB8A
 _atan2f                        = 02210C
-_qsort                         = D1ABA4
+_qsort                         = D1AB9C
 _cosf                          = 02211C
 _fabsf                         = 0220F0
 __ishru                        = 000184
 _sinf                          = 022118
-.missingappvar                 = D209FD
-.libloadname                   = D20A02
+_sqrtf                         = 000298
+.missingappvar                 = D21322
+.libloadname                   = D21327
 .libloadnamelen                = 000007
-.webaddress                    = D20A0A
-__start                        = D1AA56
-___exithl                      = D1AA82
-skip._exit                     = D1AA82
-skip.__Exit                    = D1AA82
-skip._abort                    = D1AA82
-_exit.sp                       = D1AA83
-_exit.flash_wait_states        = D1AA8D
-_collideballs                  = D1AF3C
-_collidewalls                  = D1B132
-_prune_sweep                   = D1B1F0
-_sort_x                        = D1B4B2
-_init_table                    = D1B50B
-_draw_table                    = D1B552
-_draw_setup                    = D1B610
-_main                          = D1B7E7
-_begin                         = D1B828
-_step                          = D1BAB9
-_draw                          = D1C065
-_Table_l_data                  = D1C3A8
-_Table_tl_data                 = D1D438
-_Table_tr_data                 = D1DD31
-_Table_r_data                  = D1E62A
-_Table_r                       = D1F6BA
-_Table_br_data                 = D1F6BD
-_Table_br                      = D1FFB6
-_Table_bl_data                 = D1FFB9
-_Table_bl                      = D208B2
-_q_power                       = D052C6
-_q_dir                         = D208B5
-_gamestate                     = D208B9
-_frame                         = D052C9
-_speedmult                     = D208BC
-_cpf                           = D208C0
-_global_palette                = D208C3
-_stripe_data                   = D208F5
-_solid_data                    = D20937
-_eightball_data                = D20979
-_qball_data                    = D209BB
-___const.begin.initballsprite  = D20A1F
-_balls                         = D052CC
-_step.prev_six                 = D053FC
-_step.prev_nine                = D053FD
-_zero_counter                  = D053FE
-_.str                          = D20A4F
-_.str.1                        = D20A56
+.webaddress                    = D2132F
+__start                        = D1AA4E
+___exithl                      = D1AA7A
+skip._exit                     = D1AA7A
+skip.__Exit                    = D1AA7A
+skip._abort                    = D1AA7A
+_exit.sp                       = D1AA7B
+_exit.flash_wait_states        = D1AA85
+_collideballs                  = D1AF34
+_collidewalls                  = D1B12A
+_prune_sweep                   = D1B1E8
+_sort_x                        = D1B4AA
+_raycast                       = D1B503
+_ballcast                      = D1B749
+_init_table                    = D1BB89
+_draw_table                    = D1BBD0
+_draw_setup                    = D1BC8E
+_main                          = D1C108
+_begin                         = D1C149
+_step                          = D1C3DA
+_draw                          = D1C9F3
+_Table_l_data                  = D1CCCA
+_Table_tl_data                 = D1DD5A
+_Table_tr_data                 = D1E653
+_Table_r_data                  = D1EF4C
+_Table_r                       = D1FFDC
+_Table_br_data                 = D1FFDF
+_Table_br                      = D208D8
+_Table_bl_data                 = D208DB
+_Table_bl                      = D211D4
+_queue                         = D211D7
+_gamestate                     = D211DE
+_frame                         = D052C6
+_speedmult                     = D211E1
+_cpf                           = D211E5
+_global_palette                = D211E8
+_stripe_data                   = D2121A
+_solid_data                    = D2125C
+_eightball_data                = D2129E
+_qball_data                    = D212E0
+___const.begin.initballsprite  = D21344
+_balls                         = D052C9
+_step.prev_six                 = D053F9
+_step.prev_nine                = D053FA
+_zero_counter                  = D053FB
 lib.LibLoad                    = D1A9F5
 _#gfx_Begin                    = D1AA08
 _#gfx_End                      = D1AA0C
@@ -115,14 +115,12 @@ _#gfx_SetColor                 = D1AA10
 _#gfx_SetPalette               = D1AA14
 _#gfx_SetDraw                  = D1AA18
 _#gfx_SwapDraw                 = D1AA1C
-_#gfx_PrintInt                 = D1AA20
-_#gfx_PrintString              = D1AA24
-_#gfx_SetTextXY                = D1AA28
-_#gfx_SetTextFGColor           = D1AA2C
-_#gfx_Line                     = D1AA30
-_#gfx_Rectangle_NoClip         = D1AA34
-_#gfx_FillRectangle_NoClip     = D1AA38
-_#gfx_Sprite_NoClip            = D1AA3C
-_#gfx_TransparentSprite_NoClip = D1AA40
-_#gfx_RotateSpriteHalf         = D1AA44
-_#kb_Scan                      = D1AA52
+_#gfx_Line                     = D1AA20
+_#gfx_Circle                   = D1AA24
+_#gfx_Line_NoClip              = D1AA28
+_#gfx_Rectangle_NoClip         = D1AA2C
+_#gfx_FillRectangle_NoClip     = D1AA30
+_#gfx_Sprite_NoClip            = D1AA34
+_#gfx_TransparentSprite_NoClip = D1AA38
+_#gfx_RotateSpriteHalf         = D1AA3C
+_#kb_Scan                      = D1AA4A

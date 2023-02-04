@@ -12,7 +12,7 @@ void init_table(gfx_sprite_t* Table_r, gfx_sprite_t* Table_br, gfx_sprite_t* Tab
 
 void draw_table(gfx_sprite_t* Table_r, gfx_sprite_t* Table_br, gfx_sprite_t* Table_bl);
 
-void draw_setup(ball_data balls[16], float q_dir, int q_power);
+void draw_setup(ball_data balls[16], queue_data* queue);
 
 #if __cplusplus
 }

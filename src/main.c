@@ -26,11 +26,8 @@ gfx_sprite_t* Table_br = (gfx_sprite_t*) Table_br_data;
 uint8_t Table_bl_data[Table_tl_height * Table_tl_width + 2] = {Table_tl_height, Table_tl_width,};
 gfx_sprite_t* Table_bl = (gfx_sprite_t*) Table_bl_data;
 
-// queue power
-int q_power = 0;
-
-// queue starting pos
-float q_dir = PI;
+// queue
+queue_data queue = {PI, 0}; // direction is pi, power is 0
 
 // list of all of the balls - ball_data struct in collide.h
 ball_data balls[16];
@@ -117,20 +114,23 @@ bool step(void) {
 
         // change angle
         if (kb_Data[7] & kb_Up) {
-            q_dir += 0.04 * speedmult;
+            queue.dir += 0.02 * speedmult;
         }
         if (kb_Data[7] & kb_Down) {
-            q_dir -= 0.04 * speedmult;
+            queue.dir -= 0.02 * speedmult;
         }
+
+        // restrict direction range to (0, 2pi)
+        queue.dir -= (queue.dir > 2 * PI) ? 2 * PI : ((queue.dir < 0) ? -2 * PI : 0);
 
         // change power
         int pc = 2 * speedmult; // power change var
-        // fancy ternary power clamping
+        // power clamping
         if (kb_Data[7] & kb_Right)
-            q_power = (q_power + pc) > 100 ? 100 : (q_power + pc);
+            queue.pow = (queue.pow + pc) > 100 ? 100 : (queue.pow + pc);
 
         if (kb_Data[7] & kb_Left)
-            q_power = (q_power - pc) < 0 ? 0 : (q_power - pc);
+            queue.pow = (queue.pow - pc) < 0 ? 0 : (queue.pow - pc);
 
 
         // change checks per frame - Temporary, add to a menu later maybe
@@ -148,7 +148,7 @@ bool step(void) {
         prev_six = six;
 
         // ready
-        if (kb_Data[6] & kb_Enter && q_power > 0) {
+        if (kb_Data[6] & kb_Enter && queue.pow > 0) {
             frame = 0;
             gamestate = animate;
         }
@@ -160,8 +160,8 @@ bool step(void) {
         if (frame > 20) {
             frame = 0;
             gamestate = run;
-            balls[15].vx = cosf(q_dir) * (q_power/4 + 1);
-            balls[15].vy = sinf(q_dir) * (q_power/4 + 1);
+            balls[15].vx = cosf(queue.dir) * (queue.pow/4 + 1);
+            balls[15].vy = sinf(queue.dir) * (queue.pow/4 + 1);
         }
     }
 
@@ -229,22 +229,22 @@ void draw(void) {
     }
 
     // debug info
-    gfx_SetTextFGColor(3);
-    gfx_SetTextXY(10, 170);
-    gfx_PrintString("test: ");
-    gfx_PrintInt(zero_counter, 1);
-    gfx_SetTextXY(10, 180);
-    gfx_PrintString("Checks per frame: ");
-    gfx_PrintInt(cpf, 1);
+    // gfx_SetTextFGColor(3);
+    // gfx_SetTextXY(10, 170);
+    // gfx_PrintString("test: ");
+    // gfx_PrintInt((queue.dir / PI) * 100/*zero_counter*/, 1);
+    // gfx_SetTextXY(10, 180);
+    // gfx_PrintString("Checks per frame: ");
+    // gfx_PrintInt(cpf, 1);
 
     if (gamestate == setup) {
-        draw_setup(balls, q_dir, q_power);
+        draw_setup(balls, &queue);
     }
 
     // animate queue
     if (gamestate == animate) {
         gfx_SetColor(5);
-        gfx_Line(balls[15].x + cosf(q_dir) * (30 + q_power/4 - frame), balls[15].y + sinf(q_dir) * (30 + q_power/4 - frame), balls[15].x + cosf(q_dir) * (120 + q_power/4 - frame), balls[15].y + sinf(q_dir) * (120 + q_power/4 - frame));
+        gfx_Line(balls[15].x + cosf(queue.dir) * (30 + queue.pow/4 - frame), balls[15].y + sinf(queue.dir) * (30 + queue.pow/4 - frame), balls[15].x + cosf(queue.dir) * (120 + queue.pow/4 - frame), balls[15].y + sinf(queue.dir) * (120 + queue.pow/4 - frame));
     }
 }
 
