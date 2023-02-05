@@ -45,9 +45,8 @@ int zero_counter;
 // speed multiplier for power and angle change
 float speedmult = 1;
 
-// times to check collision per frame
-int cpf = 1;
-
+//debugging af
+float time;
 
 
 // basic funkies
@@ -92,6 +91,7 @@ void begin(void){
         balls[i].y = initbally[i];
         balls[i].vx = 0;
         balls[i].vy = 0;
+        balls[i].collided = false;
     }
 
 }
@@ -133,18 +133,18 @@ bool step(void) {
 
 
         // change checks per frame - Temporary, add to a menu later maybe
-        static bool prev_six, six, prev_nine, nine;
-        six = kb_Data[5] & kb_6;
-        nine = kb_Data[5] & kb_9;
+        // static bool prev_six, six, prev_nine, nine;
+        // six = kb_Data[5] & kb_6;
+        // nine = kb_Data[5] & kb_9;
 
-        if (!nine && prev_nine) {
-            cpf ++;
-        } 
-        if (!six && prev_six) {
-            cpf --;
-        }
-        prev_nine = nine;
-        prev_six = six;
+        // if (!nine && prev_nine) {
+        //     cpf ++;
+        // } 
+        // if (!six && prev_six) {
+        //     cpf --;
+        // }
+        // prev_nine = nine;
+        // prev_six = six;
 
         // ready
         if (kb_Data[6] & kb_Enter && queue.pow > 0) {
@@ -165,22 +165,20 @@ bool step(void) {
     }
 
     if (gamestate == run) {
-        while(!os_GetCSC());
+        //while(!os_GetCSC());
         // init the counter to zero
         zero_counter = 0;
         
-        // collisions and movement
-        for (int k = 0; k < cpf; k++) {
-            for (int i = 0; i < 16; i++) {
-                //movement
-                balls[i].x -= balls[i].vx/cpf;
-                balls[i].y -= balls[i].vy/cpf;
-            }
-
-            prune_sweep(balls);
-        }
+        // detect collisions
+        prune_sweep(balls, &time);
 
         for (int i = 0; i < 16; i++) {
+
+            // movement
+            if (!balls[i].collided) { // check if collided this frame because that changes things
+                balls[i].x -= balls[i].vx;
+                balls[i].y -= balls[i].vy;
+            }
 
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
@@ -195,6 +193,8 @@ bool step(void) {
             // increment the counter if the x and y velocities are zero
             if (!(balls[i].vx || balls[i].vy))
                 zero_counter ++;
+
+            balls[i].collided = false;
 
         }
 
@@ -228,10 +228,10 @@ void draw(void) {
     }
 
     // debug info
-    // gfx_SetTextFGColor(3);
-    // gfx_SetTextXY(10, 170);
+    gfx_SetTextFGColor(3);
+    gfx_SetTextXY(10, 170);
     // gfx_PrintString("test: ");
-    // gfx_PrintInt((queue.dir / PI) * 100/*zero_counter*/, 1);
+    gfx_PrintInt(time * 10000, 5);
     // gfx_SetTextXY(10, 180);
     // gfx_PrintString("Checks per frame: ");
     // gfx_PrintInt(cpf, 1);

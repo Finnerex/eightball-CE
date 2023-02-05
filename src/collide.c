@@ -8,6 +8,8 @@
 
 void collideballs(ball_data* ball1, ball_data* ball2) {
 
+    ball1->collided = true; ball2->collided = true;
+
     // change to local vars so they dont mutate the things outside
     float x1 = ball1->x; float x2 = ball2->x;
     float y1 = ball1->y; float y2 = ball2->y;
@@ -49,36 +51,29 @@ void collidewalls(ball_data* ball) {
 
 // im counting on you chat GPT 
 
-float time_of_collision(ball_data *ball1, ball_data *ball2) {
-    float dx = ball2->x - ball1->x;
-    float dy = ball2->y - ball1->y;
-    float dvx = ball2->vx - ball1->vx;
-    float dvy = ball2->vy - ball1->vy;
-    float a = 0;
-    float b = 2 * (dvx + dvy);
-    float c = dx*dx + dy*dy - 8;
-    float discriminant = b*b - 4*a*c;
-    if (discriminant < 0) {
-        // no collision
+float time_of_collision(ball_data* ball1, ball_data* ball2) {
+    float distance = 64;
+    float a = (-ball1->vx + ball2->vx) * (-ball1->vx + ball2->vx) + (-ball1->vy + ball2->vy) * (-ball1->vy + ball2->vy);
+    float b = 2 * ((ball1->x - ball2->x) * (-ball1->vx + ball2->vx) + (ball1->y - ball2->y) * (-ball1->vy + ball2->vy));
+    float c = (ball1->x - ball2->x) * (ball1->x - ball2->x) + (ball1->y - ball2->y) * (ball1->y - ball2->y) - distance;
+    float d = b * b - 4 * a * c;
+
+    if (b > 0 || d <= 0)
         return -1;
-    } else {
-        float t1 = (-b + sqrtf(discriminant)) / (2*a);
-        float t2 = (-b - sqrtf(discriminant)) / (2*a);
-        if (t1 >= 0 && t1 <= 1) {
-            // collision at t1
-            return t1;
-        } else if (t2 >= 0 && t2 <= 1) {
-            // collision at t2
-            return t2;
-        } else {
-            // no collision in the next time step
-            return -1;
-        }
-    }
+
+    float e = sqrt(d);
+    float t1 = (-b - e) / (2 * a);
+    float t2 = (-b + e) / (2 * a);
+
+    if (t1 < 0 && t2 > 0 && b <= 0)
+        return 0;
+
+    return t1;
 }
 
 
-void prune_sweep(ball_data balls[16]) {
+
+void prune_sweep(ball_data balls[16], float* time) {
     xyid s_balls[16];
     for (int i = 0; i < 16; i++) {
         s_balls[i].x = balls[i].x;
@@ -96,18 +91,25 @@ void prune_sweep(ball_data balls[16]) {
         //     collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
         // }
 
-        if (balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0) {
+        //if (balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0) {
             float t = time_of_collision(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+            
             if (t >= 0 && t <= 1) {
                 // move balls to time of collision
+                *time = t;
                 balls[s_balls[i].id].x -= balls[s_balls[i].id].vx * t;
                 balls[s_balls[i].id].y -= balls[s_balls[i].id].vy * t;
                 balls[s_balls[i + 1].id].x -= balls[s_balls[i + 1].id].vx * t;
                 balls[s_balls[i + 1].id].y -= balls[s_balls[i + 1].id].vy * t;
                 // resolve collision
                 collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+
+                balls[s_balls[i].id].x -= balls[s_balls[i].id].vx * (1 - t);
+                balls[s_balls[i].id].y -= balls[s_balls[i].id].vy * (1 - t);
+                balls[s_balls[i + 1].id].x -= balls[s_balls[i + 1].id].vx * (1 - t);
+                balls[s_balls[i + 1].id].y -= balls[s_balls[i + 1].id].vy * (1 - t);
             }
-        }
+        //}
     }
 
 }
