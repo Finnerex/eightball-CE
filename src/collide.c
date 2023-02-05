@@ -47,6 +47,37 @@ void collidewalls(ball_data* ball) {
     }
 }
 
+// im counting on you chat GPT 
+
+float time_of_collision(ball_data *ball1, ball_data *ball2) {
+    float dx = ball2->x - ball1->x;
+    float dy = ball2->y - ball1->y;
+    float dvx = ball2->vx - ball1->vx;
+    float dvy = ball2->vy - ball1->vy;
+    float a = 0;
+    float b = 2 * (dvx + dvy);
+    float c = dx*dx + dy*dy - 8;
+    float discriminant = b*b - 4*a*c;
+    if (discriminant < 0) {
+        // no collision
+        return -1;
+    } else {
+        float t1 = (-b + sqrtf(discriminant)) / (2*a);
+        float t2 = (-b - sqrtf(discriminant)) / (2*a);
+        if (t1 >= 0 && t1 <= 1) {
+            // collision at t1
+            return t1;
+        } else if (t2 >= 0 && t2 <= 1) {
+            // collision at t2
+            return t2;
+        } else {
+            // no collision in the next time step
+            return -1;
+        }
+    }
+}
+
+
 void prune_sweep(ball_data balls[16]) {
     xyid s_balls[16];
     for (int i = 0; i < 16; i++) {
@@ -60,9 +91,22 @@ void prune_sweep(ball_data balls[16]) {
     
     // check and execute collision
     for (int i = 0; i < 15; i++) {
-        if ((balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0)
-        && (powf(s_balls[i].x - s_balls[i + 1].x, 2) + powf(s_balls[i].y - s_balls[i + 1].y, 2) <= 64)) {
-            collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+        // if ((balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0)
+        // && (powf(s_balls[i].x - s_balls[i + 1].x, 2) + powf(s_balls[i].y - s_balls[i + 1].y, 2) <= 64)) {
+        //     collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+        // }
+
+        if (balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0) {
+            float t = time_of_collision(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+            if (t >= 0 && t <= 1) {
+                // move balls to time of collision
+                balls[s_balls[i].id].x -= balls[s_balls[i].id].vx * t;
+                balls[s_balls[i].id].y -= balls[s_balls[i].id].vy * t;
+                balls[s_balls[i + 1].id].x -= balls[s_balls[i + 1].id].vx * t;
+                balls[s_balls[i + 1].id].y -= balls[s_balls[i + 1].id].vy * t;
+                // resolve collision
+                collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+            }
         }
     }
 

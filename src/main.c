@@ -46,10 +46,9 @@ int zero_counter;
 float speedmult = 1;
 
 // times to check collision per frame
-int cpf = 4;
+int cpf = 1;
 
-// acceleration
-#define A 0.4
+
 
 // basic funkies
 void begin();
@@ -166,7 +165,7 @@ bool step(void) {
     }
 
     if (gamestate == run) {
-
+        while(!os_GetCSC());
         // init the counter to zero
         zero_counter = 0;
         

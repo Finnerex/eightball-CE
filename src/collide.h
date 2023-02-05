@@ -2,8 +2,11 @@
 
 #ifndef COLLIDE_H
 #define COLLIDE_H
-#define PI 3.14159265359
 #include <graphx.h>
+
+#define PI 3.14159265359
+// acceleration
+#define A 0.4
 
 #if __cplusplus
 extern "C" {
@@ -30,6 +33,8 @@ typedef struct xyid {
 
 void collideballs(ball_data* ball1, ball_data* ball2);
 void collidewalls(ball_data* ball);
+
+float time_of_collision(ball_data *ball1, ball_data *ball2);
 
 void prune_sweep(ball_data balls[16]);
 int sort_x(const void *a, const void *b);

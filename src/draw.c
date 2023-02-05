@@ -42,7 +42,7 @@ void draw_setup(ball_data balls[16], queue_data* queue) {
     for (int i = 14; i >= 0; i--) {
         //raycast(balls[i].x + sin_of * 4, balls[i].y - cos_of * 4, balls[i].x - sin_of * 4, balls[i].y + cos_of * 4, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y);
         //gfx_Line((balls[i].x + 4 * cos_of) - (sin_of * 1), (balls[i].y + 4 * sin_of) + (cos_of * 1), (balls[i].x + 4 * cos_of) + (sin_of * 1), (balls[i].y + 4 * sin_of) - (cos_of * 1));
-        ballcast(qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, balls[i].x, balls[i].y, 4, &i_x, &i_y);
+        ballcast(qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, balls[i].x, balls[i].y, 8, &i_x, &i_y);
         //gfx_Line(balls[i].x - (sin_of * 4), balls[i].y + (cos_of * 4), balls[i].x + (sin_of * 4), balls[i].y - (cos_of * 4));
     }
 
