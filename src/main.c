@@ -103,7 +103,7 @@ bool step(void) {
 
         // speed multiplier for power and angle
         if (kb_Data[1] & kb_2nd) {
-            speedmult = 2;
+            speedmult = 4;
         } else if (kb_Data[2] & kb_Math/*JUST FOR TESTING - change back to kb_Alpha*/) {
             speedmult = 0.5;
         } else {

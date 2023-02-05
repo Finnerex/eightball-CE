@@ -662,7 +662,7 @@ BB3_4:
 	add	ix, de
 	ld	(ix), hl
 	pop	ix
-	ld	de, -198
+	ld	de, -195
 	lea	hl, ix
 	add	hl, de
 	ld	(hl), iy
@@ -698,7 +698,7 @@ BB3_4:
 	ld	hl, (ix + 9)
 	lea	bc, iy
 	ld	(ix - 3), de
-	ld	de, -194
+	ld	de, -191
 	lea	iy, ix
 	add	iy, de
 	ld	(iy), bc
@@ -707,12 +707,12 @@ BB3_4:
 	ld	(iy), bc
 	ld	de, (ix - 3)
 	ld	(iy + 3), d
-	ld	bc, -198
+	ld	bc, -195
 	lea	hl, ix
 	add	hl, bc
 	ld	hl, (hl)
 	ld	hl, (hl)
-	ld	bc, -195
+	ld	bc, -192
 	lea	iy, ix
 	add	iy, bc
 	ld	(iy), d
@@ -726,51 +726,52 @@ BB3_4:
 	push	hl
 	pop	iy
 	add	iy, de
-	ld	de, -191
+	ld	de, -198
 	lea	hl, ix
 	add	hl, de
 	ld	(hl), iy
-	lea	hl, iy + 12
+	lea	de, iy + 12
 	ld	bc, (iy + 12)
-	lea	de, iy
-	push	hl
-	pop	iy
-	lea	hl, iy + 3
-	ld	(ix - 3), bc
-	ld	bc, -207
-	lea	iy, ix
-	add	iy, bc
-	ld	(iy), hl
+	lea	hl, iy
 	push	de
 	pop	iy
-	lea	hl, iy + 4
-	ld	de, (iy + 4)
-	ld	bc, -204
+	lea	de, iy + 3
+	ld	(ix - 3), bc
+	ld	bc, -207
 	lea	iy, ix
 	add	iy, bc
 	ld	(iy), de
 	push	hl
 	pop	iy
-	lea	iy, iy + 3
-	ld	bc, -201
-	lea	hl, ix
-	add	hl, bc
-	ld	(hl), iy
-	ld	d, (iy)
-	ld	bc, -207
+	lea	de, iy + 4
+	ld	hl, (iy + 4)
+	ld	bc, -204
 	lea	iy, ix
 	add	iy, bc
-	ld	hl, (iy)
+	ld	(iy), hl
+	push	de
+	pop	iy
+	lea	hl, iy + 3
+	ld	de, -201
+	lea	iy, ix
+	add	iy, de
+	ld	(iy), hl
+	ld	a, (hl)
+	ld	iyl, a
+	ld	de, -207
+	lea	hl, ix
+	add	hl, de
+	ld	hl, (hl)
 	ld	a, (hl)
 	ld	bc, (ix - 3)
 	call	__fneg
-	ld	(ix - 3), bc
-	ld	bc, -194
+	ld	de, -191
 	lea	hl, ix
-	add	hl, bc
+	add	hl, de
 	ld	hl, (hl)
+	ld	(ix - 3), bc
 	push	ix
-	dec	bc
+	ld	bc, -192
 	add	ix, bc
 	ld	e, (ix)
 	pop	ix
@@ -782,12 +783,12 @@ BB3_4:
 	add	ix, bc
 	ld	hl, (ix)
 	pop	ix
-	ld	e, d
+	ld	e, iyl
 	ld	bc, (ix - 3)
 	call	__fadd
 	ld	(ix - 3), de
 	push	ix
-	ld	de, -191
+	ld	de, -198
 	add	ix, de
 	ld	iy, (ix)
 	pop	ix
@@ -834,7 +835,7 @@ BB3_4:
 	ld	bc, (ix - 3)
 	call	__fneg
 	ld	(ix - 3), bc
-	ld	bc, -194
+	ld	bc, -191
 	lea	hl, ix
 	add	hl, bc
 	ld	hl, (hl)
@@ -856,7 +857,7 @@ BB3_4:
 	call	__fadd
 	ld	(ix - 3), de
 	push	ix
-	ld	de, -191
+	ld	de, -198
 	add	ix, de
 	ld	iy, (ix)
 	pop	ix
@@ -866,7 +867,7 @@ BB3_4:
 	add	iy, de
 	ld	hl, (iy)
 	ld	(hl), a
-	ld	de, -198
+	ld	de, -195
 	lea	hl, ix
 	add	hl, de
 	ld	iy, (hl)
@@ -879,7 +880,7 @@ BB3_4:
 	ld	iy, (ix + 6)
 	add	iy, de
 	push	ix
-	ld	de, -198
+	ld	de, -195
 	add	ix, de
 	ld	(ix), iy
 	pop	ix
@@ -918,13 +919,13 @@ BB3_4:
 	ld	a, (hl)
 	ld	bc, (ix - 3)
 	call	__fneg
-	ld	de, -194
+	ld	de, -191
 	lea	hl, ix
 	add	hl, de
 	ld	hl, (hl)
 	ld	(ix - 3), bc
 	push	ix
-	ld	bc, -195
+	ld	bc, -192
 	add	ix, bc
 	ld	e, (ix)
 	pop	ix
@@ -941,7 +942,7 @@ BB3_4:
 	call	__fadd
 	ld	(ix - 3), de
 	push	ix
-	ld	de, -198
+	ld	de, -195
 	add	ix, de
 	ld	iy, (ix)
 	pop	ix
@@ -988,7 +989,7 @@ BB3_4:
 	ld	bc, (ix - 3)
 	call	__fneg
 	ld	(ix - 3), bc
-	ld	bc, -194
+	ld	bc, -191
 	lea	hl, ix
 	add	hl, bc
 	ld	hl, (hl)
@@ -1010,7 +1011,7 @@ BB3_4:
 	call	__fadd
 	ld	(ix - 3), de
 	push	ix
-	ld	de, -198
+	ld	de, -195
 	add	ix, de
 	ld	iy, (ix)
 	pop	ix
@@ -1022,7 +1023,7 @@ BB3_4:
 	pop	ix
 	ld	(hl), a
 	push	iy
-	ld	bc, -191
+	ld	bc, -198
 	lea	hl, ix
 	add	hl, bc
 	ld	hl, (hl)
@@ -1031,7 +1032,7 @@ BB3_4:
 	call	_collideballs
 	pop	hl
 	pop	hl
-	ld	de, -191
+	ld	de, -198
 	lea	hl, ix
 	add	hl, de
 	ld	iy, (hl)
@@ -1049,13 +1050,13 @@ BB3_4:
 	ld	bc, -8388608
 	ld	a, 63
 	push	ix
-	ld	de, -194
+	ld	de, -191
 	add	ix, de
 	ld	hl, (ix)
 	pop	ix
 	ld	(ix - 3), bc
 	push	ix
-	ld	bc, -195
+	ld	bc, -192
 	add	ix, bc
 	ld	e, (ix)
 	pop	ix
@@ -1065,7 +1066,7 @@ BB3_4:
 	pop	de
 	ld	(ix - 3), bc
 	push	ix
-	ld	bc, -194
+	ld	bc, -191
 	add	ix, bc
 	ld	(ix), de
 	pop	ix
@@ -1101,7 +1102,7 @@ BB3_4:
 	ex	de, hl
 	ld	(ix - 3), bc
 	push	ix
-	ld	bc, -195
+	ld	bc, -192
 	add	ix, bc
 	ld	d, (ix)
 	pop	ix
@@ -1119,20 +1120,16 @@ BB3_4:
 	call	__fadd
 	ld	(ix - 3), de
 	push	ix
-	ld	de, -191
+	ld	de, -198
 	add	ix, de
 	ld	iy, (ix)
 	pop	ix
 	ld	(iy + 4), bc
-	push	ix
-	ld	de, -201
-	add	ix, de
-	ld	hl, (ix)
-	pop	ix
-	ld	(hl), a
+	ld	(iy + 7), a
 	ld	bc, (iy + 16)
 	ld	hl, (iy + 8)
 	push	ix
+	ld	de, -201
 	add	ix, de
 	ld	(ix), hl
 	pop	ix
@@ -1147,7 +1144,7 @@ BB3_4:
 	ld	a, (iy + 19)
 	call	__fneg
 	push	ix
-	ld	de, -194
+	ld	de, -191
 	add	ix, de
 	ld	hl, (ix)
 	pop	ix
@@ -1169,7 +1166,7 @@ BB3_4:
 	call	__fadd
 	ld	(iy + 8), bc
 	ld	(iy + 11), a
-	ld	bc, -198
+	ld	bc, -195
 	lea	iy, ix
 	add	iy, bc
 	ld	iy, (iy)
@@ -1177,7 +1174,7 @@ BB3_4:
 	ld	hl, (iy + 4)
 	ld	(ix - 3), de
 	push	ix
-	ld	de, -201
+	ld	de, -198
 	add	ix, de
 	ld	(ix), hl
 	pop	ix
@@ -1186,14 +1183,14 @@ BB3_4:
 	add	hl, de
 	ld	hl, (hl)
 	ld	a, (hl)
-	ld	de, -204
+	ld	de, -201
 	lea	hl, ix
 	add	hl, de
 	ld	(hl), a
 	ld	a, (iy + 15)
 	call	__fneg
 	push	ix
-	ld	de, -194
+	ld	de, -191
 	add	ix, de
 	ld	hl, (ix)
 	pop	ix
@@ -1202,12 +1199,12 @@ BB3_4:
 	call	__fmul
 	ld	(ix - 3), bc
 	push	ix
-	ld	bc, -201
+	ld	bc, -198
 	add	ix, bc
 	ld	hl, (ix)
 	pop	ix
 	push	ix
-	ld	bc, -204
+	ld	bc, -201
 	add	ix, bc
 	ld	e, (ix)
 	pop	ix
@@ -1219,7 +1216,7 @@ BB3_4:
 	ld	hl, (iy + 8)
 	ld	(ix - 3), bc
 	push	ix
-	ld	bc, -201
+	ld	bc, -198
 	add	ix, bc
 	ld	(ix), hl
 	pop	ix
@@ -1232,7 +1229,7 @@ BB3_4:
 	ld	bc, (ix - 3)
 	call	__fneg
 	ld	(ix - 3), bc
-	ld	bc, -194
+	ld	bc, -191
 	lea	hl, ix
 	add	hl, bc
 	ld	hl, (hl)
@@ -1245,7 +1242,7 @@ BB3_4:
 	call	__fmul
 	ld	(ix - 3), bc
 	push	ix
-	ld	bc, -201
+	ld	bc, -198
 	add	ix, bc
 	ld	hl, (ix)
 	pop	ix
@@ -1254,13 +1251,6 @@ BB3_4:
 	call	__fadd
 	ld	(iy + 8), bc
 	ld	(iy + 11), a
-	ld	hl, 2097152
-	ld	bc, -191
-	lea	iy, ix
-	add	iy, bc
-	ld	iy, (iy)
-	ld	(iy + 4), hl
-	ld	(iy + 7), c
 BB3_8:
 	ld	de, 11
 	ld	bc, -185
@@ -2869,6 +2859,7 @@ _step:
 	sbc	hl, bc
 	jr	nz, BB12_4
 	ld	hl, -720878
+	ld	bc, -8388608
 	ld	iy, -720866
 	ld	e, 64
 	push	de
@@ -2880,9 +2871,7 @@ _step:
 	pop	de
 	ld	a, l
 	bit	5, a
-	ld	bc, 0
-	ld	a, e
-	jp	nz, BB12_28
+	jp	nz, BB12_22
 	ld	hl, -720876
 	push	de
 	ld	e, (hl)
@@ -2893,9 +2882,9 @@ _step:
 	pop	de
 	ld	a, l
 	bit	6, a
-	jp	z, BB12_23
+	jp	z, BB12_24
 	ld	a, 0
-	jp	BB12_24
+	jp	BB12_25
 BB12_4:
 	ld	bc, 2
 	push	de
@@ -3004,7 +2993,7 @@ BB12_9:
 	lea	hl, iy
 	or	a, a
 	sbc	hl, de
-	jp	z, BB12_22
+	jp	z, BB12_23
 	lea	de, iy
 	ld	hl, _balls
 	add	hl, de
@@ -3214,6 +3203,9 @@ BB12_21:
 	ld	de, 320
 	jp	BB12_9
 BB12_22:
+	ld	a, e
+	jr	BB12_28
+BB12_23:
 	ld	hl, (_zero_counter)
 	ld	de, 16
 	or	a, a
@@ -3221,17 +3213,15 @@ BB12_22:
 	ld	iy, _gamestate
 	jp	z, BB12_63
 	jp	BB12_64
-BB12_23:
-	ld	a, -1
 BB12_24:
+	ld	a, -1
+BB12_25:
+	or	a, a
+	sbc	hl, hl
 	bit	0, a
-	ld	hl, 0
-	jr	nz, BB12_26
+	jr	nz, BB12_27
 	push	hl
 	pop	bc
-	jr	BB12_27
-BB12_26:
-	ld	bc, -8388608
 BB12_27:
 	bit	0, a
 	ld	a, 63

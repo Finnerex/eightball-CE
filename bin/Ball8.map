@@ -7,9 +7,9 @@ Section          Base   Top    High   Length
 .init.reruncheck D1AA5A D1AA5A             0h
 .init            D1AA5A D1AA86            2Ch
 .fini            D1AA86 D1AABA            34h
-.text            D1AABA D1D334          287Ah
-.data            D1D334 D21989          4655h
-.rodata          D21989 D219DB            52h
+.text            D1AABA D1D316          285Ch
+.data            D1D316 D2196B          4655h
+.rodata          D2196B D219BD            52h
 .init_array      000000 000000             0h
 .ctors           000000 000000             0h
 .dtors           000000 000000             0h
@@ -59,10 +59,10 @@ __ishru                        = 000184
 _sinf                          = 022118
 _sqrtf                         = 000298
 _sqrt                          = 000298
-.missingappvar                 = D21989
-.libloadname                   = D2198E
+.missingappvar                 = D2196B
+.libloadname                   = D21970
 .libloadnamelen                = 000007
-.webaddress                    = D21996
+.webaddress                    = D21978
 __start                        = D1AA5A
 ___exithl                      = D1AA86
 skip._exit                     = D1AA86
@@ -74,35 +74,35 @@ _collideballs                  = D1AF29
 _collidewalls                  = D1B12D
 _time_of_collision             = D1B1EB
 _prune_sweep                   = D1B45B
-_sort_x                        = D1BB92
-_raycast                       = D1BBEB
-_ballcast                      = D1BE31
-_init_table                    = D1C271
-_draw_table                    = D1C2B8
-_draw_setup                    = D1C376
-_main                          = D1C7F0
-_begin                         = D1C831
-_step                          = D1CAC5
-_draw                          = D1D020
-_Table_l_data                  = D1D334
-_Table_tl_data                 = D1E3C4
-_Table_tr_data                 = D1ECBD
-_Table_r_data                  = D1F5B6
-_Table_r                       = D20646
-_Table_br_data                 = D20649
-_Table_br                      = D20F42
-_Table_bl_data                 = D20F45
-_Table_bl                      = D2183E
-_queue                         = D21841
-_gamestate                     = D21848
+_sort_x                        = D1BB79
+_raycast                       = D1BBD2
+_ballcast                      = D1BE18
+_init_table                    = D1C258
+_draw_table                    = D1C29F
+_draw_setup                    = D1C35D
+_main                          = D1C7D7
+_begin                         = D1C818
+_step                          = D1CAAC
+_draw                          = D1D002
+_Table_l_data                  = D1D316
+_Table_tl_data                 = D1E3A6
+_Table_tr_data                 = D1EC9F
+_Table_r_data                  = D1F598
+_Table_r                       = D20628
+_Table_br_data                 = D2062B
+_Table_br                      = D20F24
+_Table_bl_data                 = D20F27
+_Table_bl                      = D21820
+_queue                         = D21823
+_gamestate                     = D2182A
 _frame                         = D052C6
-_speedmult                     = D2184B
-_global_palette                = D2184F
-_stripe_data                   = D21881
-_solid_data                    = D218C3
-_eightball_data                = D21905
-_qball_data                    = D21947
-___const.begin.initballsprite  = D219AB
+_speedmult                     = D2182D
+_global_palette                = D21831
+_stripe_data                   = D21863
+_solid_data                    = D218A5
+_eightball_data                = D218E7
+_qball_data                    = D21929
+___const.begin.initballsprite  = D2198D
 _balls                         = D052C9
 _zero_counter                  = D05409
 _time                          = D0540C
