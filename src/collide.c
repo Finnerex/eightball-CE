@@ -22,12 +22,17 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
     x2 *= y1 / x1;
     y1 *= y2 / x1;
 
-    temp = ball1->vx - x2;
+    // temp = ball1->vx - x2;
 
+    // ball1->vy -= y1;
+    // ball1->vx = ball2->vx + x2;
+    // ball2->vy += y1;
+    // ball2->vx = temp;
+
+    ball1->vx -= x2;
     ball1->vy -= y1;
-    ball1->vx = ball2->vx + x2;
+    ball2->vx += x2;
     ball2->vy += y1;
-    ball2->vx = temp;
 
 }
 
@@ -90,26 +95,28 @@ void prune_sweep(ball_data balls[16], float* time) {
         // && (powf(s_balls[i].x - s_balls[i + 1].x, 2) + powf(s_balls[i].y - s_balls[i + 1].y, 2) <= 64)) {
         //     collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
         // }
+        int b1 = s_balls[i].id;
+        int b2 = s_balls[i + 1].id;
 
-        //if (balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0) {
-            float t = time_of_collision(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+        if (balls[b1].vx != 0 || balls[b2].vx != 0 || balls[b1].vy != 0 || balls[b2].vy != 0) {
+            float t = time_of_collision(&balls[b1], &balls[b2]);
             
             if (t >= 0 && t <= 1) {
                 // move balls to time of collision
                 *time = t;
-                balls[s_balls[i].id].x -= balls[s_balls[i].id].vx * t;
-                balls[s_balls[i].id].y -= balls[s_balls[i].id].vy * t;
-                balls[s_balls[i + 1].id].x -= balls[s_balls[i + 1].id].vx * t;
-                balls[s_balls[i + 1].id].y -= balls[s_balls[i + 1].id].vy * t;
+                balls[b1].x -= balls[b1].vx * t;
+                balls[b1].y -= balls[b1].vy * t;
+                balls[b2].x -= balls[b2].vx * t;
+                balls[b2].y -= balls[b2].vy * t;
                 // resolve collision
                 collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
 
-                balls[s_balls[i].id].x -= balls[s_balls[i].id].vx * (1 - t);
-                balls[s_balls[i].id].y -= balls[s_balls[i].id].vy * (1 - t);
-                balls[s_balls[i + 1].id].x -= balls[s_balls[i + 1].id].vx * (1 - t);
-                balls[s_balls[i + 1].id].y -= balls[s_balls[i + 1].id].vy * (1 - t);
+                balls[b1].x -= balls[b1].vx * (1 - t);
+                balls[b1].y -= balls[b1].vy * (1 - t);
+                balls[b2].x -= balls[b2].vx * (1 - t);
+                balls[b2].y -= balls[b2].vy * (1 - t);
             }
-        //}
+        }
     }
 
 }

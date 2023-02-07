@@ -168,6 +168,7 @@ bool step(void) {
         //while(!os_GetCSC());
         // init the counter to zero
         zero_counter = 0;
+        while(!os_GetCSC());
         
         // detect collisions
         prune_sweep(balls, &time);
@@ -194,7 +195,7 @@ bool step(void) {
             if (!(balls[i].vx || balls[i].vy))
                 zero_counter ++;
 
-            balls[i].collided = false;
+            //balls[i].collided = false;
 
         }
 
@@ -223,8 +224,14 @@ void draw(void) {
     // draw balls
     for (int i = 0; i < 16; i++) {
         gfx_TransparentSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
+        if (balls[i].collided) {
+            gfx_SetColor(0);
+            gfx_FillCircle(balls[i].x, balls[i].y, 3);
+        }
+        balls[i].collided = false;
         //velocity vectors test
-        //gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
+        gfx_SetColor(1);
+        gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
     }
 
     // debug info
