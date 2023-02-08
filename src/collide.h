@@ -22,10 +22,10 @@ typedef struct ball_data {
     float vy;
 } ball_data;
 
-typedef struct queue_data {
+typedef struct cue_data {
     float dir; // direction
     int pow; // power
-} queue_data;
+} cue_data;
 
 typedef struct xyid {
     int id;

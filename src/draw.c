@@ -23,12 +23,12 @@ void draw_table(gfx_sprite_t* Table_r, gfx_sprite_t* Table_br, gfx_sprite_t* Tab
     gfx_Sprite_NoClip(Table_r, LCD_WIDTH - Table_l_width, 0);
 }
 
-void draw_setup(ball_data balls[16], queue_data* queue) {
-    float cos_of = cosf(queue->dir); float sin_of = sinf(queue->dir);
+void draw_setup(ball_data balls[16], cue_data* cue) {
+    float cos_of = cosf(cue->dir); float sin_of = sinf(cue->dir);
     float qbx = balls[15].x; float qby = balls[15].y;
-    // queue
+    // cue
     gfx_SetColor(5);
-    gfx_Line(qbx + cos_of * (10 + queue->pow/4), qby + sin_of * (10 + queue->pow/4), qbx + cos_of * (100 + queue->pow/4), qby + sin_of * (100 + queue->pow/4));
+    gfx_Line(qbx + cos_of * (10 + cue->pow/4), qby + sin_of * (10 + cue->pow/4), qbx + cos_of * (100 + cue->pow/4), qby + sin_of * (100 + cue->pow/4));
 
     // cast bounce prediction
     gfx_SetColor(1);
@@ -56,5 +56,5 @@ void draw_setup(ball_data balls[16], queue_data* queue) {
     gfx_SetColor(3);
     gfx_Rectangle_NoClip(LCD_WIDTH/2 - 51, LCD_HEIGHT - 10, 103, 5);
     gfx_SetColor(4);
-    gfx_FillRectangle_NoClip(LCD_WIDTH/2 - 50, LCD_HEIGHT - 9, queue->pow + 1, 3);
+    gfx_FillRectangle_NoClip(LCD_WIDTH/2 - 50, LCD_HEIGHT - 9, cue->pow + 1, 3);
 }
