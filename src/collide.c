@@ -100,10 +100,11 @@ void prune_sweep(ball_data balls[16], float* time) {
 
         if (balls[b1].vx != 0 || balls[b2].vx != 0 || balls[b1].vy != 0 || balls[b2].vy != 0) {
             float t = time_of_collision(&balls[b1], &balls[b2]);
-            
+            *time = t;
+
             if (t >= 0 && t <= 1) {
                 // move balls to time of collision
-                *time = t;
+                
                 balls[b1].x -= balls[b1].vx * t;
                 balls[b1].y -= balls[b1].vy * t;
                 balls[b2].x -= balls[b2].vx * t;
