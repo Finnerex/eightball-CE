@@ -16,16 +16,6 @@
 #include "draw.h"
 #include "gfx/gfx.h"
 
-// rotated side sprites
-uint8_t Table_r_data[Table_l_height * Table_l_width + 2] = {Table_l_width, Table_l_height,};
-gfx_sprite_t* Table_r = (gfx_sprite_t*) Table_r_data;
-
-uint8_t Table_br_data[Table_tr_height * Table_tr_width + 2] = {Table_tr_height, Table_tr_width,};
-gfx_sprite_t* Table_br = (gfx_sprite_t*) Table_br_data;
-
-uint8_t Table_bl_data[Table_tl_height * Table_tl_width + 2] = {Table_tl_height, Table_tl_width,};
-gfx_sprite_t* Table_bl = (gfx_sprite_t*) Table_bl_data;
-
 // cue
 cue_data cue = {PI, 0}; // direction is pi, power is 0
 
@@ -44,9 +34,6 @@ int zero_counter;
 
 // speed multiplier for power and angle change
 float speedmult = 1;
-
-//debugging af
-float time;
 
 
 // basic funkies
@@ -78,7 +65,7 @@ int main() {
 
 void begin(void){
     // initialize rotated table sprites
-    init_table(Table_r, Table_br, Table_bl);
+    init_table();
 
     // ball initilization
     gfx_sprite_t* initballsprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
@@ -168,10 +155,11 @@ bool step(void) {
         //while(!os_GetCSC());
         // init the counter to zero
         zero_counter = 0;
-        while(!os_GetCSC());
+        //while(!os_GetCSC());
         
         // detect collisions
-        prune_sweep(balls, &time);
+        // prune_sweep(balls);
+        not_prune_sweep(balls);
 
         for (int i = 0; i < 16; i++) {
 
@@ -214,7 +202,7 @@ bool step(void) {
 
 void draw(void) {
     // draw table
-    draw_table(Table_r, Table_br, Table_bl);
+    draw_table();
 
     // bottom background
     gfx_SetColor(1);
@@ -224,24 +212,11 @@ void draw(void) {
     // draw balls
     for (int i = 0; i < 16; i++) {
         gfx_TransparentSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
-        if (balls[i].collided) {
-            gfx_SetColor(0);
-            gfx_FillCircle(balls[i].x, balls[i].y, 3);
-        }
         balls[i].collided = false;
         //velocity vectors test
-        gfx_SetColor(1);
-        gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
+        // gfx_SetColor(1);
+        // gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
     }
-
-    // debug info
-    gfx_SetTextFGColor(3);
-    gfx_SetTextXY(10, 170);
-    // gfx_PrintString("test: ");
-    gfx_PrintInt(time * 10000, 5);
-    // gfx_SetTextXY(10, 180);
-    // gfx_PrintString("Checks per frame: ");
-    // gfx_PrintInt(cpf, 1);
 
     if (gamestate == setup) {
         draw_setup(balls, &cue);

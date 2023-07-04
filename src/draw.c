@@ -5,14 +5,24 @@
 #include "gfx/gfx.h"
 #include "collide.h"
 
+// rotated side sprites
+uint8_t Table_r_data[Table_l_height * Table_l_width + 2] = {Table_l_width, Table_l_height,};
+gfx_sprite_t* Table_r = (gfx_sprite_t*) Table_r_data;
+
+uint8_t Table_br_data[Table_tr_height * Table_tr_width + 2] = {Table_tr_height, Table_tr_width,};
+gfx_sprite_t* Table_br = (gfx_sprite_t*) Table_br_data;
+
+uint8_t Table_bl_data[Table_tl_height * Table_tl_width + 2] = {Table_tl_height, Table_tl_width,};
+gfx_sprite_t* Table_bl = (gfx_sprite_t*) Table_bl_data;
+
 // create the rotated sprites
-void init_table(gfx_sprite_t* Table_r, gfx_sprite_t* Table_br, gfx_sprite_t* Table_bl) {
+void init_table() {
     gfx_RotateSpriteHalf(Table_l, Table_r);
     gfx_RotateSpriteHalf(Table_tl, Table_br);
     gfx_RotateSpriteHalf(Table_tr, Table_bl);
 }
 
-void draw_table(gfx_sprite_t* Table_r, gfx_sprite_t* Table_br, gfx_sprite_t* Table_bl) {
+void draw_table() {
     gfx_SetColor(2);
     gfx_FillRectangle_NoClip(Table_l_width, Table_tr_height, LCD_WIDTH - 2 * Table_l_width, (LCD_HEIGHT - 2 * Table_tr_height) - 77);
     gfx_Sprite_NoClip(Table_l, 0, 0);

@@ -8,9 +8,9 @@
 extern "C" {
 #endif
 
-void init_table(gfx_sprite_t* Table_r, gfx_sprite_t* Table_br, gfx_sprite_t* Table_bl);
+void init_table();
 
-void draw_table(gfx_sprite_t* Table_r, gfx_sprite_t* Table_br, gfx_sprite_t* Table_bl);
+void draw_table();
 
 void draw_setup(ball_data balls[16], cue_data* queue);
 

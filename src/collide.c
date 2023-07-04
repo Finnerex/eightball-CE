@@ -57,10 +57,9 @@ void collidewalls(ball_data* ball) {
 // im counting on you chat GPT 
 
 float time_of_collision(ball_data* ball1, ball_data* ball2) {
-    float distance = 64;
     float a = (-ball1->vx + ball2->vx) * (-ball1->vx + ball2->vx) + (-ball1->vy + ball2->vy) * (-ball1->vy + ball2->vy);
     float b = 2 * ((ball1->x - ball2->x) * (-ball1->vx + ball2->vx) + (ball1->y - ball2->y) * (-ball1->vy + ball2->vy));
-    float c = (ball1->x - ball2->x) * (ball1->x - ball2->x) + (ball1->y - ball2->y) * (ball1->y - ball2->y) - distance;
+    float c = (ball1->x - ball2->x) * (ball1->x - ball2->x) + (ball1->y - ball2->y) * (ball1->y - ball2->y) - 64;
     float d = b * b - 4 * a * c;
 
     if (b > 0 || d <= 0)
@@ -78,16 +77,16 @@ float time_of_collision(ball_data* ball1, ball_data* ball2) {
 
 
 
-void prune_sweep(ball_data balls[16], float* time) {
-    xyid s_balls[16];
+void prune_sweep(ball_data balls[16]) {
+    xyid sorted_balls[16];
     for (int i = 0; i < 16; i++) {
-        s_balls[i].x = balls[i].x;
-        s_balls[i].y = balls[i].y;
-        s_balls[i].id = i;
+        sorted_balls[i].x = balls[i].x;
+        sorted_balls[i].y = balls[i].y;
+        sorted_balls[i].id = i;
     }
 
     // sort the balls by their x val
-    qsort(s_balls, sizeof(s_balls)/sizeof(*s_balls), sizeof(*s_balls), sort_x);
+    qsort(sorted_balls, sizeof(sorted_balls)/sizeof(*sorted_balls), sizeof(*sorted_balls), sort_x);
     
     // check and execute collision
     for (int i = 0; i < 15; i++) {
@@ -95,31 +94,60 @@ void prune_sweep(ball_data balls[16], float* time) {
         // && (powf(s_balls[i].x - s_balls[i + 1].x, 2) + powf(s_balls[i].y - s_balls[i + 1].y, 2) <= 64)) {
         //     collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
         // }
-        int b1 = s_balls[i].id;
-        int b2 = s_balls[i + 1].id;
+        int b1_id = sorted_balls[i].id;
+        int b2_id = sorted_balls[i + 1].id;
 
-        if (balls[b1].vx != 0 || balls[b2].vx != 0 || balls[b1].vy != 0 || balls[b2].vy != 0) {
-            float t = time_of_collision(&balls[b1], &balls[b2]);
-            *time = t;
+        if (balls[b1_id].vx != 0 || balls[b2_id].vx != 0 || balls[b1_id].vy != 0 || balls[b2_id].vy != 0) {
+            float t = time_of_collision(&balls[b1_id], &balls[b2_id]);
 
             if (t >= 0 && t <= 1) {
                 // move balls to time of collision
                 
-                balls[b1].x -= balls[b1].vx * t;
-                balls[b1].y -= balls[b1].vy * t;
-                balls[b2].x -= balls[b2].vx * t;
-                balls[b2].y -= balls[b2].vy * t;
+                balls[b1_id].x -= balls[b1_id].vx * t;
+                balls[b1_id].y -= balls[b1_id].vy * t;
+                balls[b2_id].x -= balls[b2_id].vx * t;
+                balls[b2_id].y -= balls[b2_id].vy * t;
                 // resolve collision
-                collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
+                collideballs(&balls[sorted_balls[i].id], &balls[sorted_balls[i + 1].id]);
 
-                balls[b1].x -= balls[b1].vx * (1 - t);
-                balls[b1].y -= balls[b1].vy * (1 - t);
-                balls[b2].x -= balls[b2].vx * (1 - t);
-                balls[b2].y -= balls[b2].vy * (1 - t);
+                balls[b1_id].x -= balls[b1_id].vx * (1 - t);
+                balls[b1_id].y -= balls[b1_id].vy * (1 - t);
+                balls[b2_id].x -= balls[b2_id].vx * (1 - t);
+                balls[b2_id].y -= balls[b2_id].vy * (1 - t);
             }
         }
     }
 
+}
+
+void not_prune_sweep(ball_data balls[16]) {
+    for (int i = 0; i < 16; i++) {
+
+        for (int j = 0; j < 16; j++) {
+
+
+            if (i != j && (balls[i].vx != 0 || balls[j].vx != 0 || balls[i].vy != 0 || balls[j].vy != 0)) {
+                float t = time_of_collision(&balls[i], &balls[j]);
+
+                if (t >= 0 && t <= 1) {
+                    // move balls to time of collision
+                    balls[i].x -= balls[i].vx * t;
+                    balls[i].y -= balls[i].vy * t;
+                    balls[j].x -= balls[j].vx * t;
+                    balls[j].y -= balls[j].vy * t;
+
+                    // resolve collision
+                    collideballs(&balls[i], &balls[j]);
+
+                    balls[i].x -= balls[i].vx * (1 - t);
+                    balls[i].y -= balls[i].vy * (1 - t);
+                    balls[j].x -= balls[j].vx * (1 - t);
+                    balls[j].y -= balls[j].vy * (1 - t);
+                }
+            }
+        }
+
+    }
 }
 
 int sort_x(const void *a, const void *b) {
