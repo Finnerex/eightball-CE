@@ -69,8 +69,8 @@ void begin(void){
 
     // ball initilization
     gfx_sprite_t* init_ball_sprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
-    float init_ball_x[16] = {LCD_WIDTH/2 + Table_tr_width/2 + 10, init_ball_x[0] + stripe_width, init_ball_x[0] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, Table_tl_width/2};
-    float init_ball_y[16] = {Table_l_height/2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] - (5.0/3.0) * stripe_height + 2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] + (5.0/3.0) * stripe_height - 1, init_ball_y[0] - 2 * stripe_height, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] + 2 * stripe_height, Table_l_height/2};
+    float init_ball_x[16] = {LCD_WIDTH/2 + table_tl_width/2 + 10, init_ball_x[0] + stripe_width, init_ball_x[0] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, table_tl_width/2};
+    float init_ball_y[16] = {table_l_height/2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] - (5.0/3.0) * stripe_height + 2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] + (5.0/3.0) * stripe_height - 1, init_ball_y[0] - 2 * stripe_height, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] + 2 * stripe_height, table_l_height/2};
     
     for (int i = 0; i < 16; i++) {
         balls[i].sprite = init_ball_sprite[i];
@@ -206,7 +206,7 @@ void draw(void) {
 
     // bottom background
     gfx_SetColor(1);
-    gfx_FillRectangle_NoClip(0, Table_l_height, LCD_WIDTH, LCD_HEIGHT - Table_l_height);
+    gfx_FillRectangle_NoClip(0, table_l_height, LCD_WIDTH, LCD_HEIGHT - table_l_height);
 
 
     // draw balls

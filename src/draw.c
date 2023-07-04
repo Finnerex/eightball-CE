@@ -6,31 +6,35 @@
 #include "collide.h"
 
 // rotated side sprites
-uint8_t Table_r_data[Table_l_height * Table_l_width + 2] = {Table_l_width, Table_l_height,};
-gfx_sprite_t* Table_r = (gfx_sprite_t*) Table_r_data;
+uint8_t table_tr_data[table_tl_height * table_tl_width + 2] = {table_tl_height, table_tl_width,};
+gfx_sprite_t* table_tr = (gfx_sprite_t*) table_tr_data;
 
-uint8_t Table_br_data[Table_tr_height * Table_tr_width + 2] = {Table_tr_height, Table_tr_width,};
-gfx_sprite_t* Table_br = (gfx_sprite_t*) Table_br_data;
+uint8_t table_r_data[table_l_height * table_l_width + 2] = {table_l_width, table_l_height,};
+gfx_sprite_t* table_r = (gfx_sprite_t*) table_r_data;
 
-uint8_t Table_bl_data[Table_tl_height * Table_tl_width + 2] = {Table_tl_height, Table_tl_width,};
-gfx_sprite_t* Table_bl = (gfx_sprite_t*) Table_bl_data;
+uint8_t table_br_data[table_tl_height * table_tl_width + 2] = {table_tl_height, table_tl_width,};
+gfx_sprite_t* table_br = (gfx_sprite_t*) table_br_data;
+
+uint8_t table_bl_data[table_tl_height * table_tl_width + 2] = {table_tl_height, table_tl_width,};
+gfx_sprite_t* table_bl = (gfx_sprite_t*) table_bl_data;
 
 // create the rotated sprites
 void init_table() {
-    gfx_RotateSpriteHalf(Table_l, Table_r);
-    gfx_RotateSpriteHalf(Table_tl, Table_br);
-    gfx_RotateSpriteHalf(Table_tr, Table_bl);
+    gfx_RotateSpriteHalf(table_l, table_r);
+    gfx_FlipSpriteY(table_tl, table_tr);
+    gfx_RotateSpriteHalf(table_tl, table_br);
+    gfx_RotateSpriteHalf(table_tr, table_bl);
 }
 
 void draw_table() {
     gfx_SetColor(2);
-    gfx_FillRectangle_NoClip(Table_l_width, Table_tr_height, LCD_WIDTH - 2 * Table_l_width, (LCD_HEIGHT - 2 * Table_tr_height) - 77);
-    gfx_Sprite_NoClip(Table_l, 0, 0);
-    gfx_Sprite_NoClip(Table_tl, Table_l_width, 0);
-    gfx_Sprite_NoClip(Table_tr, Table_l_width + Table_tl_width, 0);
-    gfx_Sprite_NoClip(Table_bl, Table_l_width, (LCD_HEIGHT - Table_tr_height) - 77);
-    gfx_Sprite_NoClip(Table_br, Table_l_width + Table_tl_width, (LCD_HEIGHT - Table_tr_height) - 77);
-    gfx_Sprite_NoClip(Table_r, LCD_WIDTH - Table_l_width, 0);
+    gfx_FillRectangle_NoClip(table_l_width, table_tl_height, LCD_WIDTH - 2 * table_l_width, (LCD_HEIGHT - 2 * table_tl_height) - 77);
+    gfx_Sprite_NoClip(table_l, 0, 0);
+    gfx_Sprite_NoClip(table_tl, table_l_width, 0);
+    gfx_Sprite_NoClip(table_tr, table_l_width + table_tl_width, 0);
+    gfx_Sprite_NoClip(table_bl, table_l_width, (LCD_HEIGHT - table_tl_height) - 77);
+    gfx_Sprite_NoClip(table_br, table_l_width + table_tl_width, (LCD_HEIGHT - table_tl_height) - 77);
+    gfx_Sprite_NoClip(table_r, LCD_WIDTH - table_l_width, 0);
 }
 
 void draw_setup(ball_data balls[16], cue_data* cue) {

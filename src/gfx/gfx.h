@@ -7,9 +7,8 @@ extern "C" {
 
 #include "global_palette.h"
 #define sprites_palette_offset 0
-#include "Table_l.h"
-#include "Table_tr.h"
-#include "Table_tl.h"
+#include "table_l.h"
+#include "table_tl.h"
 #include "eightball.h"
 #include "stripe.h"
 #include "solid.h"

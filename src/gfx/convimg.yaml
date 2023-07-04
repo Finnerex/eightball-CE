@@ -15,9 +15,8 @@ converts:
     palette: global_palette
     transparent-color-index: 0
     images:
-      - Table_l
-      - Table_tr
-      - Table_tl
+      - table_l
+      - table_tl
       - eightball
       - stripe
       - solid
