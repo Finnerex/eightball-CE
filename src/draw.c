@@ -36,6 +36,7 @@ void draw_table() {
 void draw_setup(ball_data balls[16], cue_data* cue) {
     float cos_of = cosf(cue->dir); float sin_of = sinf(cue->dir);
     float qbx = balls[15].x; float qby = balls[15].y;
+
     // cue
     gfx_SetColor(5);
     gfx_Line(qbx + cos_of * (10 + cue->pow/4), qby + sin_of * (10 + cue->pow/4), qbx + cos_of * (100 + cue->pow/4), qby + sin_of * (100 + cue->pow/4));
@@ -43,21 +44,24 @@ void draw_setup(ball_data balls[16], cue_data* cue) {
     // cast bounce prediction
     gfx_SetColor(1);
     float i_x, i_y;
+    float end_x, end_y;
+    float min_distance;
 
-    raycast(20, 20, LCD_WIDTH - 20, 20, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y);//top edge
-    raycast(20, 142, LCD_WIDTH - 20, 142, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y);//bottom
-    raycast(20, 20, 20, 142, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y);//left
-    raycast(LCD_WIDTH - 20, 20, LCD_WIDTH - 20, 142, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y);//right
+    raycast(20, 20, LCD_WIDTH - 20, 20, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y); // top edge
+    raycast(20, 142, LCD_WIDTH - 20, 142, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y); // bottom
+    raycast(20, 20, 20, 142, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y); // left
+    raycast(LCD_WIDTH - 20, 20, LCD_WIDTH - 20, 142, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y); // right
+
+    end_x = i_x; end_y = i_y;
+    min_distance = sqrtf(powf(qbx - end_x, 2) + powf(qby - end_y, 2));
 
     for (int i = 14; i >= 0; i--) {
-        //raycast(balls[i].x + sin_of * 4, balls[i].y - cos_of * 4, balls[i].x - sin_of * 4, balls[i].y + cos_of * 4, qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, &i_x, &i_y);
-        //gfx_Line((balls[i].x + 4 * cos_of) - (sin_of * 1), (balls[i].y + 4 * sin_of) + (cos_of * 1), (balls[i].x + 4 * cos_of) + (sin_of * 1), (balls[i].y + 4 * sin_of) - (cos_of * 1));
         ballcast(qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, balls[i].x, balls[i].y, 8, &i_x, &i_y);
-        //gfx_Line(balls[i].x - (sin_of * 4), balls[i].y + (cos_of * 4), balls[i].x + (sin_of * 4), balls[i].y - (cos_of * 4));
+        min_distance = closest_pos(i_x, i_y, qbx, qby, min_distance, &end_x, &end_y);
     }
 
-    gfx_Line_NoClip(qbx + cos_of * -5, qby + sin_of * -5, i_x + cos_of * 5, i_y + sin_of * 4);
-    gfx_Circle(i_x, i_y, 4);
+    gfx_Line_NoClip(qbx + cos_of * -5, qby + sin_of * -5, end_x + cos_of * 5, end_y + sin_of * 4);
+    gfx_Circle(end_x, end_y, 4);
 
     // gfx_SetColor(0);
     // gfx_Line(qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH);
@@ -67,4 +71,17 @@ void draw_setup(ball_data balls[16], cue_data* cue) {
     gfx_Rectangle_NoClip(LCD_WIDTH/2 - 51, LCD_HEIGHT - 10, 103, 5);
     gfx_SetColor(4);
     gfx_FillRectangle_NoClip(LCD_WIDTH/2 - 50, LCD_HEIGHT - 9, cue->pow + 1, 3);
+}
+
+float closest_pos(float x, float y, float o_x, float o_y, float min_distance, float* end_x, float* end_y) {
+    float distance = sqrtf(powf(o_x - x, 2) + powf(o_y - y, 2));
+
+    if (distance < min_distance) {
+        *end_x = x;
+        *end_y = y;
+        return distance;
+    }
+
+    return min_distance;
+
 }

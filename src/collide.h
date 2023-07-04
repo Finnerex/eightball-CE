@@ -27,12 +27,6 @@ typedef struct cue_data {
     int pow; // power
 } cue_data;
 
-typedef struct xyid {
-    int id;
-    float x;
-    float y;
-} xyid;
-
 void collideballs(ball_data* ball1, ball_data* ball2);
 void collidewalls(ball_data* ball);
 

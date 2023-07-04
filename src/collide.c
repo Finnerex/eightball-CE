@@ -13,7 +13,6 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
     // change to local vars so they dont mutate the things outside
     float x1 = ball1->x; float x2 = ball2->x;
     float y1 = ball1->y; float y2 = ball2->y;
-    float temp;
 
     // stole this from somewhere, have no idea how or why it might work
     x2 -= x1;
@@ -21,13 +20,6 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
     x1 = x2 * x2 + y2 * y2, y1 = ball1->vx * x2 + ball1->vy * y2 - ball2->vx * x2 - ball2->vy * y2;
     x2 *= y1 / x1;
     y1 *= y2 / x1;
-
-    // temp = ball1->vx - x2;
-
-    // ball1->vy -= y1;
-    // ball1->vx = ball2->vx + x2;
-    // ball2->vy += y1;
-    // ball2->vx = temp;
 
     ball1->vx -= x2;
     ball1->vy -= y1;
@@ -54,8 +46,6 @@ void collidewalls(ball_data* ball) {
     }
 }
 
-// im counting on you chat GPT 
-
 float time_of_collision(ball_data* ball1, ball_data* ball2) {
     float a = (-ball1->vx + ball2->vx) * (-ball1->vx + ball2->vx) + (-ball1->vy + ball2->vy) * (-ball1->vy + ball2->vy);
     float b = 2 * ((ball1->x - ball2->x) * (-ball1->vx + ball2->vx) + (ball1->y - ball2->y) * (-ball1->vy + ball2->vy));
@@ -75,50 +65,21 @@ float time_of_collision(ball_data* ball1, ball_data* ball2) {
     return t1;
 }
 
+// void prune_sweep(ball_data balls[16]) {
+//     xyid sorted_balls[16];
+//     for (int i = 0; i < 16; i++) {
+//         sorted_balls[i].x = balls[i].x;
+//         sorted_balls[i].y = balls[i].y;
+//         sorted_balls[i].id = i;
+//     }
 
-
-void prune_sweep(ball_data balls[16]) {
-    xyid sorted_balls[16];
-    for (int i = 0; i < 16; i++) {
-        sorted_balls[i].x = balls[i].x;
-        sorted_balls[i].y = balls[i].y;
-        sorted_balls[i].id = i;
-    }
-
-    // sort the balls by their x val
-    qsort(sorted_balls, sizeof(sorted_balls)/sizeof(*sorted_balls), sizeof(*sorted_balls), sort_x);
+//     // sort the balls by their x val
+//     qsort(sorted_balls, sizeof(sorted_balls)/sizeof(*sorted_balls), sizeof(*sorted_balls), sort_x);
     
-    // check and execute collision
-    for (int i = 0; i < 15; i++) {
-        // if ((balls[s_balls[i].id].vx != 0 || balls[s_balls[i + 1].id].vx != 0 || balls[s_balls[i].id].vy != 0 || balls[s_balls[i + 1].id].vy != 0)
-        // && (powf(s_balls[i].x - s_balls[i + 1].x, 2) + powf(s_balls[i].y - s_balls[i + 1].y, 2) <= 64)) {
-        //     collideballs(&balls[s_balls[i].id], &balls[s_balls[i + 1].id]);
-        // }
-        int b1_id = sorted_balls[i].id;
-        int b2_id = sorted_balls[i + 1].id;
+//     // check and execute collision
+    
 
-        if (balls[b1_id].vx != 0 || balls[b2_id].vx != 0 || balls[b1_id].vy != 0 || balls[b2_id].vy != 0) {
-            float t = time_of_collision(&balls[b1_id], &balls[b2_id]);
-
-            if (t >= 0 && t <= 1) {
-                // move balls to time of collision
-                
-                balls[b1_id].x -= balls[b1_id].vx * t;
-                balls[b1_id].y -= balls[b1_id].vy * t;
-                balls[b2_id].x -= balls[b2_id].vx * t;
-                balls[b2_id].y -= balls[b2_id].vy * t;
-                // resolve collision
-                collideballs(&balls[sorted_balls[i].id], &balls[sorted_balls[i + 1].id]);
-
-                balls[b1_id].x -= balls[b1_id].vx * (1 - t);
-                balls[b1_id].y -= balls[b1_id].vy * (1 - t);
-                balls[b2_id].x -= balls[b2_id].vx * (1 - t);
-                balls[b2_id].y -= balls[b2_id].vy * (1 - t);
-            }
-        }
-    }
-
-}
+// }
 
 void not_prune_sweep(ball_data balls[16]) {
     for (int i = 0; i < 16; i++) {
@@ -150,17 +111,17 @@ void not_prune_sweep(ball_data balls[16]) {
     }
 }
 
-int sort_x(const void *a, const void *b) {
-    xyid* b1 = (xyid *) a;
-    xyid* b2 = (xyid *) b;
+// int sort_x(const void *a, const void *b) {
+//     xyid* b1 = (xyid *) a;
+//     xyid* b2 = (xyid *) b;
 
-    if (b1->x < b2->x)
-        return 1;
-    else if (b1->x > b2->x)
-        return -1;
+//     if (b1->x < b2->x)
+//         return 1;
+//     else if (b1->x > b2->x)
+//         return -1;
 
-    return 0;
-}
+//     return 0;
+// }
 
 
 bool raycast(float p0_x, float p0_y, float p1_x, float p1_y, 

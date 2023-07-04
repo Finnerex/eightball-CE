@@ -68,14 +68,14 @@ void begin(void){
     init_table();
 
     // ball initilization
-    gfx_sprite_t* initballsprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
-    float initballx[16] = {LCD_WIDTH/2 + Table_tr_width/2 + 10, initballx[0] + stripe_width, initballx[0] + stripe_width, initballx[2] + stripe_width, initballx[2] + stripe_width, initballx[2] + stripe_width, initballx[5] + stripe_width, initballx[5] + stripe_width, initballx[5] + stripe_width, initballx[5] + stripe_width, initballx[9] + stripe_width, initballx[9] + stripe_width, initballx[9] + stripe_width, initballx[9] + stripe_width, initballx[9] + stripe_width, Table_tl_width/2};
-    float initbally[16] = {Table_l_height/2, initbally[0] - stripe_height/2, initbally[0] + stripe_height/2, initbally[0] - stripe_height, initbally[0], initbally[0] + stripe_height, initbally[0] - (5.0/3.0) * stripe_height + 2, initbally[0] - stripe_height/2, initbally[0] + stripe_height/2, initbally[0] + (5.0/3.0) * stripe_height - 1, initbally[0] - 2 * stripe_height, initbally[0] - stripe_height, initbally[0], initbally[0] + stripe_height, initbally[0] + 2 * stripe_height, Table_l_height/2};
+    gfx_sprite_t* init_ball_sprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
+    float init_ball_x[16] = {LCD_WIDTH/2 + Table_tr_width/2 + 10, init_ball_x[0] + stripe_width, init_ball_x[0] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, Table_tl_width/2};
+    float init_ball_y[16] = {Table_l_height/2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] - (5.0/3.0) * stripe_height + 2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] + (5.0/3.0) * stripe_height - 1, init_ball_y[0] - 2 * stripe_height, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] + 2 * stripe_height, Table_l_height/2};
     
     for (int i = 0; i < 16; i++) {
-        balls[i].sprite = initballsprite[i];
-        balls[i].x = initballx[i];
-        balls[i].y = initbally[i];
+        balls[i].sprite = init_ball_sprite[i];
+        balls[i].x = init_ball_x[i];
+        balls[i].y = init_ball_y[i];
         balls[i].vx = 0;
         balls[i].vy = 0;
         balls[i].collided = false;
