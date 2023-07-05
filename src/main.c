@@ -22,7 +22,7 @@ cue_data cue = {PI, 0}; // direction is pi, power is 0
 // list of all of the balls - ball_data struct in collide.h
 ball_data balls[16];
 
-//game states
+// game states
 enum gamestates{start, setup, animate, run};
 int gamestate = setup;
 
@@ -30,7 +30,7 @@ int gamestate = setup;
 int frame = 0;
 
 // counter for ending run state
-int zero_counter;
+int num_stopped;
 
 // speed multiplier for power and angle change
 float speedmult = 1;
@@ -79,6 +79,7 @@ void begin(void){
         balls[i].vx = 0;
         balls[i].vy = 0;
         balls[i].collided = false;
+        balls[i].pocketed = false;
     }
 
 }
@@ -87,6 +88,13 @@ bool step(void) {
     kb_Scan();
 
     if (gamestate == setup) {
+
+        // scratch
+        if (balls[15].pocketed) {
+            balls[15].x = 67;
+            balls[15].y = 81;
+            balls[15].pocketed = false;
+        }
 
         // speed multiplier for power and angle
         if (kb_Data[1] & kb_2nd) {
@@ -118,21 +126,6 @@ bool step(void) {
         if (kb_Data[7] & kb_Left)
             cue.pow = (cue.pow - pc) < 0 ? 0 : (cue.pow - pc);
 
-
-        // change checks per frame - Temporary, add to a menu later maybe
-        // static bool prev_six, six, prev_nine, nine;
-        // six = kb_Data[5] & kb_6;
-        // nine = kb_Data[5] & kb_9;
-
-        // if (!nine && prev_nine) {
-        //     cpf ++;
-        // } 
-        // if (!six && prev_six) {
-        //     cpf --;
-        // }
-        // prev_nine = nine;
-        // prev_six = six;
-
         // ready
         if (kb_Data[6] & kb_Enter && cue.pow > 0) {
             frame = 0;
@@ -152,10 +145,8 @@ bool step(void) {
     }
 
     if (gamestate == run) {
-        //while(!os_GetCSC());
         // init the counter to zero
-        zero_counter = 0;
-        //while(!os_GetCSC());
+        num_stopped = 0;
         
         // detect collisions
         // prune_sweep(balls);
@@ -169,6 +160,8 @@ bool step(void) {
                 balls[i].y -= balls[i].vy;
             }
 
+            check_pockets(&balls[i]);
+
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
             // do the decceleration
@@ -181,15 +174,14 @@ bool step(void) {
 
             // increment the counter if the x and y velocities are zero
             if (!(balls[i].vx || balls[i].vy))
-                zero_counter ++;
-
-            //balls[i].collided = false;
+                num_stopped ++;
 
         }
 
         // if the counter it equal to the number of balls, end the run state
-        if (zero_counter == 16)
+        if (num_stopped == 16) 
             gamestate = setup;
+
     } 
 
     if (kb_Data[6] & kb_Clear)
@@ -198,16 +190,22 @@ bool step(void) {
     return true;
 }
 
-
-
 void draw(void) {
     // draw table
     draw_table();
 
     // bottom background
     gfx_SetColor(1);
-    gfx_FillRectangle_NoClip(0, table_l_height, LCD_WIDTH, LCD_HEIGHT - table_l_height);
+    gfx_FillRectangle_NoClip(0, TABLE_HEIGHT, LCD_WIDTH, LCD_HEIGHT - TABLE_HEIGHT);
 
+    // pocket locations test
+    // static const int pocket_x[] = {15, LCD_WIDTH / 2, LCD_WIDTH - 15, 15,                LCD_WIDTH / 2,     LCD_WIDTH - 15};
+    // static const int pocket_y[] = {15, 10,            15,             TABLE_HEIGHT - 15, TABLE_HEIGHT - 10, TABLE_HEIGHT - 15};
+
+    // gfx_SetColor(0);
+    // for (int i = 0; i < 6; i++) {
+    //     gfx_Circle(pocket_x[i], pocket_y[i], 8);
+    // }
 
     // draw balls
     for (int i = 0; i < 16; i++) {

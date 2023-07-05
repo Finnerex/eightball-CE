@@ -1,6 +1,7 @@
 //I sure do love collisions, hopefully this is how they work
 
 #include "collide.h"
+#include "gfx/gfx.h"
 #include <graphx.h>
 #include <tice.h>
 #include <math.h>
@@ -28,7 +29,51 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
 
 }
 
+int num_stripes = 7;
+int num_solids = 7;
+
+void check_pockets(ball_data* ball) {
+
+    static const int pocket_x[] = {15, LCD_WIDTH / 2, LCD_WIDTH - 15, 15,                LCD_WIDTH / 2,     LCD_WIDTH - 15};
+    static const int pocket_y[] = {15, 10,            15,             TABLE_HEIGHT - 15, TABLE_HEIGHT - 10, TABLE_HEIGHT - 15};
+    static int next_pocketed_x = 8;
+    
+    for (int i = 0; i < 6; i++) {
+        if (sqrtf(pow(ball->x - pocket_x[i], 2) + pow(ball->y - pocket_y[i], 2)) < 14) {
+
+            ball->pocketed = true;
+
+            ball->vx = 0;
+            ball->vy = 0;
+
+            if (ball->sprite == eightball) {
+
+                ball->x = LCD_WIDTH / 2;
+                ball->y = TABLE_HEIGHT + 16;
+
+            } else if (ball->sprite == qball) {
+            
+                ball->x = LCD_WIDTH - 10;
+                ball->y = TABLE_HEIGHT + 10;
+            
+            } else {
+
+                (ball->sprite == stripe) ? num_stripes-- : num_solids-- ;
+
+                ball->x = next_pocketed_x;
+                ball->y = TABLE_HEIGHT + 8;
+
+                next_pocketed_x += 8;
+            }
+        }
+    }
+}
+
 void collidewalls(ball_data* ball) {
+
+    if (ball->pocketed)
+        return;
+
     if (ball->x < 20) {
         ball->x = 20;
         ball->vx = -ball->vx;
@@ -40,8 +85,8 @@ void collidewalls(ball_data* ball) {
     if (ball->y < 20) {
         ball->y = 20;
         ball->vy = -ball->vy;
-    } else if (ball->y > 143) {
-        ball->y = 143;
+    } else if (ball->y > TABLE_HEIGHT - 20) {
+        ball->y = TABLE_HEIGHT - 20;
         ball->vy = -ball->vy;
     }
 }
@@ -55,7 +100,7 @@ float time_of_collision(ball_data* ball1, ball_data* ball2) {
     if (b > 0 || d <= 0)
         return -1;
 
-    float e = sqrt(d);
+    float e = sqrtf(d);
     float t1 = (-b - e) / (2 * a);
     float t2 = (-b + e) / (2 * a);
 

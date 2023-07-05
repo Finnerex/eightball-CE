@@ -9,6 +9,8 @@
 // acceleration
 #define A 0.4
 
+#define TABLE_HEIGHT 163
+
 #if __cplusplus
 extern "C" {
 #endif
@@ -16,6 +18,7 @@ extern "C" {
 typedef struct ball_data {
     gfx_sprite_t* sprite;
     bool collided;
+    bool pocketed;
     float x;
     float y;
     float vx;
@@ -29,6 +32,8 @@ typedef struct cue_data {
 
 void collideballs(ball_data* ball1, ball_data* ball2);
 void collidewalls(ball_data* ball);
+
+void check_pockets(ball_data* ball);
 
 float time_of_collision(ball_data *ball1, ball_data *ball2);
 
