@@ -38,7 +38,7 @@ void check_pockets(ball_data* ball, bool* next_turn, int* num_solids, int* num_s
     static int next_pocketed_x = 8;
     
     for (int i = 0; i < 6; i++) {
-        if (sqrtf(pow(ball->x - pocket_x[i], 2) + pow(ball->y - pocket_y[i], 2)) < 14) {
+        if (sqrtf(powf(ball->x - pocket_x[i], 2) + powf(ball->y - pocket_y[i], 2)) < 12) {
 
             ball->pocketed = true;
 

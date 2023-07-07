@@ -102,13 +102,13 @@ void draw_players(gfx_sprite_t* player_1_type, bool is_player_1_turn) {
     gfx_PrintStringXY("Player 2", LCD_WIDTH - 60, TABLE_HEIGHT + 20);
 
     if (player_1_type != NULL) {
-        gfx_TransparentSprite_NoClip(player_1_type, 66, TABLE_HEIGHT + 19);
-        gfx_TransparentSprite_NoClip((player_1_type == solid) ? stripe : solid, LCD_WIDTH - 72, TABLE_HEIGHT + 19);
+        gfx_TransparentSprite_NoClip(player_1_type, 66, TABLE_HEIGHT + 20);
+        gfx_TransparentSprite_NoClip((player_1_type == solid) ? stripe : solid, LCD_WIDTH - 72, TABLE_HEIGHT + 20);
     }
 
     if (is_player_1_turn)
-        gfx_Line_NoClip(8, TABLE_HEIGHT + 30, 60, TABLE_HEIGHT + 30);
+        gfx_HorizLine_NoClip(8, TABLE_HEIGHT + 29, 54);
     else
-        gfx_Line_NoClip(LCD_WIDTH - 60, TABLE_HEIGHT + 30, LCD_WIDTH - 8, TABLE_HEIGHT + 30);
+        gfx_HorizLine_NoClip(LCD_WIDTH - 60, TABLE_HEIGHT + 29, 55);
     
 }

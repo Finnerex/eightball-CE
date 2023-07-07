@@ -23,8 +23,8 @@ cue_data cue = {PI, 0}; // direction is pi, power is 0
 ball_data balls[16];
 
 // game states
-enum gamestates{start, setup, animate, run};
-int gamestate = setup;
+enum gamestates{start, setup, animate, run, scratch};
+int gamestate = scratch;
 
 bool start_of_setup = false;
 
@@ -32,6 +32,8 @@ bool start_of_setup = false;
 bool is_player_1_turn = true;
 bool extra_turn = false;
 gfx_sprite_t* player_1_type = NULL;
+
+bool start_of_game = true;
 
 int num_stripes = 7;
 int num_solids = 7;
@@ -79,7 +81,7 @@ void begin(void){
 
     // ball initilization
     gfx_sprite_t* init_ball_sprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
-    float init_ball_x[16] = {LCD_WIDTH/2 + table_tl_width/2 + 10, init_ball_x[0] + stripe_width, init_ball_x[0] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, table_tl_width/2};
+    float init_ball_x[16] = {LCD_WIDTH/2 + table_tl_width/2 + 10, init_ball_x[0] + stripe_width, init_ball_x[0] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, 85};
     float init_ball_y[16] = {table_l_height/2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] - (5.0/3.0) * stripe_height + 2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] + (5.0/3.0) * stripe_height - 1, init_ball_y[0] - 2 * stripe_height, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] + 2 * stripe_height, table_l_height/2};
     
     for (int i = 0; i < 16; i++) {
@@ -97,15 +99,31 @@ void begin(void){
 bool step(void) {
     kb_Scan();
 
+    if (gamestate == setup || gamestate == scratch) {
+        // speed multiplier for power, angle, and cue ball movement
+        if (kb_Data[1] & kb_2nd)
+            speedmult = 4;
+        
+        else if (kb_Data[2] & kb_Math/*JUST FOR TESTING - change back to kb_Alpha*/)
+            speedmult = 0.3;
+
+        else
+            speedmult = 1;
+        
+    }
+
     if (gamestate == setup) {
 
         if (start_of_setup) {
 
             if (balls[15].pocketed) { // scratch
-                balls[15].x = 67;
+                balls[15].x = 85;
                 balls[15].y = 81;
+
+                gamestate = scratch;
                 balls[15].pocketed = false;
                 extra_turn = false;
+                
             }
 
             // if player sunk own ball, dont switch  
@@ -117,25 +135,13 @@ bool step(void) {
             start_of_setup = false;
         }
 
-        
-
-        // speed multiplier for power and angle
-        if (kb_Data[1] & kb_2nd) {
-            speedmult = 4;
-        } else if (kb_Data[2] & kb_Math/*JUST FOR TESTING - change back to kb_Alpha*/) {
-            speedmult = 0.5;
-        } else {
-            speedmult = 1;
-        }
-
-
         // change angle
-        if (kb_Data[7] & kb_Up) {
+        if (kb_Data[7] & kb_Up)
             cue.dir += 0.02 * speedmult;
-        }
-        if (kb_Data[7] & kb_Down) {
+
+        else if (kb_Data[7] & kb_Down)
             cue.dir -= 0.02 * speedmult;
-        }
+        
 
         // restrict direction range to (0, 2pi)
         cue.dir -= (cue.dir > 2 * PI) ? 2 * PI : ((cue.dir < 0) ? -2 * PI : 0);
@@ -146,7 +152,7 @@ bool step(void) {
         if (kb_Data[7] & kb_Right)
             cue.pow = (cue.pow + pc) > 100 ? 100 : (cue.pow + pc);
 
-        if (kb_Data[7] & kb_Left)
+        else if (kb_Data[7] & kb_Left)
             cue.pow = (cue.pow - pc) < 0 ? 0 : (cue.pow - pc);
 
         // ready
@@ -154,6 +160,46 @@ bool step(void) {
             frame = 0;
             gamestate = animate;
         }
+    }
+
+    if (gamestate == scratch) {
+
+        if (kb_Data[7] & kb_Up)
+            balls[15].y -= 0.5 * speedmult;
+
+        else if (kb_Data[7] & kb_Down)
+            balls[15].y += 0.5 * speedmult;
+        
+
+        if (kb_Data[7] & kb_Left)
+            balls[15].x -= 0.5 * speedmult;
+        
+        else if (kb_Data[7] & kb_Right)
+            balls[15].x += 0.5 * speedmult;
+
+        collidewalls(&balls[15]);
+
+        if (start_of_game && balls[15].x > 90)
+            balls[15].x = 90;
+
+
+        if (kb_Data[6] & kb_Enter) {
+            bool change_state = true;
+
+            for (int i = 0; i < 15; i++) { // check if this ball is overlapping
+                if (sqrtf(powf(balls[15].x - balls[i].x, 2) + powf(balls[15].y - balls[i].y, 2)) < 8) {
+                    change_state = false;
+                    break;
+                }
+            }
+
+            if (change_state) {
+                gamestate = setup;
+                cue.pow = 0;
+                start_of_game = false;
+            }
+        }
+
     }
 
     if (gamestate == animate) {
@@ -223,16 +269,6 @@ void draw(void) {
     gfx_SetColor(1);
     gfx_FillRectangle_NoClip(0, TABLE_HEIGHT, LCD_WIDTH, LCD_HEIGHT - TABLE_HEIGHT);
 
-    // pocket locations test
-    // static const int pocket_x[] = {15, LCD_WIDTH / 2, LCD_WIDTH - 15, 15,                LCD_WIDTH / 2,     LCD_WIDTH - 15};
-    // static const int pocket_y[] = {15, 10,            15,             TABLE_HEIGHT - 15, TABLE_HEIGHT - 10, TABLE_HEIGHT - 15};
-
-    // gfx_SetColor(0);
-    // for (int i = 0; i < 6; i++) {
-    //     gfx_Circle(pocket_x[i], pocket_y[i], 8);
-    // }
-    
-
     // draw player stuff
     draw_players(player_1_type, is_player_1_turn);
 
@@ -240,9 +276,6 @@ void draw(void) {
     for (int i = 0; i < 16; i++) {
         gfx_TransparentSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
         balls[i].collided = false;
-        //velocity vectors test
-        // gfx_SetColor(1);
-        // gfx_Line(balls[i].x, balls[i].y, balls[i].x - balls[i].vx, balls[i].y - balls[i].vy);
     }
 
     if (gamestate == setup) {
