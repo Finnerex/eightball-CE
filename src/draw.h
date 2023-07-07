@@ -16,6 +16,8 @@ float closest_pos(float x, float y, float o_x, float o_y, float min_distance, fl
 
 void draw_setup(ball_data balls[16], cue_data* queue);
 
+void draw_players(gfx_sprite_t* player_1_type, bool is_player_1_turn);
+
 #if __cplusplus
 }
 #endif

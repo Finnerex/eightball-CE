@@ -26,6 +26,16 @@ ball_data balls[16];
 enum gamestates{start, setup, animate, run};
 int gamestate = setup;
 
+bool start_of_setup = false;
+
+// player turns
+bool is_player_1_turn = true;
+bool extra_turn = false;
+gfx_sprite_t* player_1_type = NULL;
+
+int num_stripes = 7;
+int num_solids = 7;
+
 // frame for animation of cue
 int frame = 0;
 
@@ -89,12 +99,25 @@ bool step(void) {
 
     if (gamestate == setup) {
 
-        // scratch
-        if (balls[15].pocketed) {
-            balls[15].x = 67;
-            balls[15].y = 81;
-            balls[15].pocketed = false;
+        if (start_of_setup) {
+
+            if (balls[15].pocketed) { // scratch
+                balls[15].x = 67;
+                balls[15].y = 81;
+                balls[15].pocketed = false;
+                extra_turn = false;
+            }
+
+            // if player sunk own ball, dont switch  
+            if (!extra_turn)
+                is_player_1_turn = !is_player_1_turn;
+            else
+                extra_turn = false;
+
+            start_of_setup = false;
         }
+
+        
 
         // speed multiplier for power and angle
         if (kb_Data[1] & kb_2nd) {
@@ -160,7 +183,7 @@ bool step(void) {
                 balls[i].y -= balls[i].vy;
             }
 
-            check_pockets(&balls[i]);
+            check_pockets(&balls[i], &extra_turn, &num_solids, &num_stripes, is_player_1_turn, &player_1_type);
 
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
@@ -179,8 +202,10 @@ bool step(void) {
         }
 
         // if the counter it equal to the number of balls, end the run state
-        if (num_stopped == 16) 
+        if (num_stopped == 16) {
             gamestate = setup;
+            start_of_setup = true;
+        }
 
     } 
 
@@ -206,6 +231,10 @@ void draw(void) {
     // for (int i = 0; i < 6; i++) {
     //     gfx_Circle(pocket_x[i], pocket_y[i], 8);
     // }
+    
+
+    // draw player stuff
+    draw_players(player_1_type, is_player_1_turn);
 
     // draw balls
     for (int i = 0; i < 16; i++) {

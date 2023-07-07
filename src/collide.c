@@ -29,13 +29,12 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
 
 }
 
-int num_stripes = 7;
-int num_solids = 7;
 
-void check_pockets(ball_data* ball) {
 
-    static const int pocket_x[] = {15, LCD_WIDTH / 2, LCD_WIDTH - 15, 15,                LCD_WIDTH / 2,     LCD_WIDTH - 15};
-    static const int pocket_y[] = {15, 10,            15,             TABLE_HEIGHT - 15, TABLE_HEIGHT - 10, TABLE_HEIGHT - 15};
+void check_pockets(ball_data* ball, bool* next_turn, int* num_solids, int* num_stripes, bool is_player_1_turn, gfx_sprite_t** player_1_type) {
+
+    static const int pocket_x[] = {14, LCD_WIDTH / 2, LCD_WIDTH - 14, 14,                LCD_WIDTH / 2,     LCD_WIDTH - 14};
+    static const int pocket_y[] = {14, 10,            14,             TABLE_HEIGHT - 14, TABLE_HEIGHT - 10, TABLE_HEIGHT - 14};
     static int next_pocketed_x = 8;
     
     for (int i = 0; i < 6; i++) {
@@ -58,7 +57,13 @@ void check_pockets(ball_data* ball) {
             
             } else {
 
-                (ball->sprite == stripe) ? num_stripes-- : num_solids-- ;
+                if (*player_1_type == NULL)
+                    *player_1_type = (is_player_1_turn) ? ball->sprite : (ball->sprite == solid) ? stripe : solid;
+
+                if ((*player_1_type == ball->sprite && is_player_1_turn) || (*player_1_type != ball->sprite && !is_player_1_turn))
+                    *next_turn = true;
+
+                (ball->sprite == stripe) ? *num_stripes-- : *num_solids-- ;
 
                 ball->x = next_pocketed_x;
                 ball->y = TABLE_HEIGHT + 8;
