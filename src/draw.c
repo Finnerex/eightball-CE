@@ -122,3 +122,11 @@ void draw_winning(int winning_player) {
     gfx_SetColor(3);
     gfx_HorizLine_NoClip(LCD_WIDTH / 2 - 45, TABLE_HEIGHT + 40, 90);
 }
+
+void draw_pocket_picking(int picked_pocket) {
+    static const int pocket_x[] = {12, LCD_WIDTH / 2, LCD_WIDTH - 13, 12,                LCD_WIDTH / 2,     LCD_WIDTH - 13};
+    static const int pocket_y[] = {12, 8,             12,             TABLE_HEIGHT - 13, TABLE_HEIGHT - 9,  TABLE_HEIGHT - 13};
+
+    gfx_SetColor(4);
+    gfx_Circle_NoClip(pocket_x[picked_pocket], pocket_y[picked_pocket], 4);
+}

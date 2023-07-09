@@ -20,6 +20,8 @@ void draw_players(gfx_sprite_t* player_1_type, bool is_player_1_turn);
 
 void draw_winning(int winning_player);
 
+void draw_pocket_picking(int picked_pocket);
+
 #if __cplusplus
 }
 #endif

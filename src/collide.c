@@ -29,10 +29,8 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
 
 }
 
-int num_stripes = 7;
-int num_solids = 7;
-
-void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_sprite_t** player_1_type, int* winning_player) {
+void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_sprite_t** player_1_type, int* winning_player, 
+                    int* num_solids, int* num_stripes, int picked_pocket, bool win_attempt) {
 
     static const int pocket_x[] = {14, LCD_WIDTH / 2, LCD_WIDTH - 14, 14,                LCD_WIDTH / 2,     LCD_WIDTH - 14};
     static const int pocket_y[] = {14, 10,            14,             TABLE_HEIGHT - 14, TABLE_HEIGHT - 10, TABLE_HEIGHT - 14};
@@ -51,15 +49,15 @@ void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_
                 ball->x = LCD_WIDTH / 2;
                 ball->y = TABLE_HEIGHT + 16;
 
-                if ((num_solids == 0 && *player_1_type == solid) || (num_stripes == 0 && *player_1_type == stripe))
-                    *winning_player = 1;
+                *winning_player = is_player_1_turn ? 2 : 1; // the player who didnt sink the eightball wins in default state
 
-                else if ((num_solids == 0 && *player_1_type == stripe) || (num_stripes == 0 && *player_1_type == solid))
-                    *winning_player = 2;
+                if (win_attempt && i == picked_pocket) {
+                    if ((*num_solids == 0 && *player_1_type == solid) || (*num_stripes == 0 && *player_1_type == stripe))
+                        *winning_player = 1;
 
-                else
-                    *winning_player = is_player_1_turn ? 2 : 1; // the player who didnt sink the eightball wins
-                
+                    else if ((*num_solids == 0 && *player_1_type == stripe) || (*num_stripes == 0 && *player_1_type == solid))
+                        *winning_player = 2;
+                }
 
             } else if (ball->sprite == qball) {
             
@@ -74,13 +72,18 @@ void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_
                 if ((*player_1_type == ball->sprite && is_player_1_turn) || (*player_1_type != ball->sprite && !is_player_1_turn))
                     *next_turn = true;
 
-                (ball->sprite == stripe) ? num_stripes-- : num_solids-- ;
+
+                if (ball->sprite == stripe)
+                    --*num_stripes;
+                else
+                    --*num_solids;
 
                 ball->x = next_pocketed_x;
                 ball->y = TABLE_HEIGHT + 8;
 
                 next_pocketed_x += 8;
             }
+
         }
     }
 }

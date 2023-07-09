@@ -23,10 +23,16 @@ cue_data cue = {PI, 0}; // direction is pi, power is 0
 ball_data balls[16];
 
 // game states
-enum gamestates{start, setup, animate, run, scratch};
+enum gamestates{start, setup, animate, run, scratch, pick_pocket};
 int gamestate = scratch;
 
-bool start_of_setup = false;
+bool start_of_setup = true;
+
+int picked_pocket = 0;
+bool win_attempt = false;
+
+int num_stripes = 7;
+int num_solids = 7;
 
 // player turns
 bool is_player_1_turn = true;
@@ -115,7 +121,6 @@ bool step(void) {
 
         else
             speedmult = 1;
-        
     }
 
     if (gamestate == setup) {
@@ -129,7 +134,8 @@ bool step(void) {
                 gamestate = scratch;
                 balls[15].pocketed = false;
                 extra_turn = false;
-                
+
+                return true;
             }
 
             // if player sunk own ball, dont switch  
@@ -139,6 +145,8 @@ bool step(void) {
                 extra_turn = false;
 
             start_of_setup = false;
+
+            return true;
         }
 
         // change angle
@@ -203,7 +211,38 @@ bool step(void) {
                 gamestate = setup;
                 cue.pow = 0;
                 start_of_game = false;
+                start_of_setup = true;
             }
+        }
+
+    }
+
+    else if (gamestate == pick_pocket) {
+
+        static bool lr, ll, lu, ld, r, l, u, d;
+        r = kb_Data[7] & kb_Right;
+        l = kb_Data[7] & kb_Left;
+        u = kb_Data[7] & kb_Up;
+        d = kb_Data[7] & kb_Down;
+
+        if ((!r && lr) && picked_pocket < 5)
+            picked_pocket ++;
+        else if ((!l && ll) && picked_pocket > 0)
+            picked_pocket --;
+        else if ((!d && ld) && picked_pocket < 3)
+            picked_pocket += 3;
+        else if ((!u && lu) && picked_pocket > 2)
+            picked_pocket -= 3;
+
+        lr = r;
+        ll = l;
+        lu = u;
+        ld = d;
+
+        if (kb_Data[6] & kb_Enter) {
+            gamestate = setup;
+            cue.pow = 0;
+            start_of_setup = true;
         }
 
     }
@@ -235,7 +274,7 @@ bool step(void) {
                 balls[i].y -= balls[i].vy;
             }
 
-            check_pockets(&balls[i], &extra_turn, is_player_1_turn, &player_1_type, &winning_player);
+            check_pockets(&balls[i], &extra_turn, is_player_1_turn, &player_1_type, &winning_player, &num_solids, &num_stripes, picked_pocket, win_attempt);
 
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
@@ -256,6 +295,15 @@ bool step(void) {
         // if the counter it equal to the number of balls, end the run state
         if (num_stopped == 16) {
             gamestate = setup;
+
+            // dont mind this
+            win_attempt = (extra_turn ? is_player_1_turn : !is_player_1_turn) ?
+            (player_1_type == solid ? num_solids == 0 : num_stripes == 0) :
+            (player_1_type == stripe ? num_solids == 0 : num_stripes == 0);
+
+            if (win_attempt)
+                gamestate = pick_pocket;
+
             start_of_setup = true;
         }
 
@@ -289,6 +337,10 @@ void draw(void) {
     else if (gamestate == animate) {
         gfx_SetColor(5);
         gfx_Line(balls[15].x + cosf(cue.dir) * (30 + cue.pow/4 - frame), balls[15].y + sinf(cue.dir) * (30 + cue.pow/4 - frame), balls[15].x + cosf(cue.dir) * (120 + cue.pow/4 - frame), balls[15].y + sinf(cue.dir) * (120 + cue.pow/4 - frame));
+    }
+
+    else if (gamestate == pick_pocket) {
+        draw_pocket_picking(picked_pocket);
     }
 
     if (winning_player != 0) {
