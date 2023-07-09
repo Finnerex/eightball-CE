@@ -5,8 +5,10 @@ Physics are not 100% perfect but are alright considering the limitations.
 
 #### Controls:
 
-↑ / ↓ - rotate cue clockwise / counterclockwise  
-← / → - decrease / increase cue power  
-Hold 2nd / math - increase / decrease rotation speed  
-enter - shoot  
-clear - quit  
+↑ / ↓ - Rotate cue clockwise / counterclockwise  
+← / → - Decrease / increase cue power  
+Arrows move the cue ball on scratch and at the start of a game.  
+  
+Hold 2nd / math - Increase / decrease rotation and movement speed  
+Enter - Shoot / ready to shoot  
+Clear - Quit  
