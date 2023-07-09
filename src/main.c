@@ -33,10 +33,9 @@ bool is_player_1_turn = true;
 bool extra_turn = false;
 gfx_sprite_t* player_1_type = NULL;
 
-bool start_of_game = true;
+int winning_player = 0;
 
-int num_stripes = 7;
-int num_solids = 7;
+bool start_of_game = true;
 
 // frame for animation of cue
 int frame = 0;
@@ -98,6 +97,13 @@ void begin(void){
 
 bool step(void) {
     kb_Scan();
+
+    // quit
+    if (kb_Data[6] & kb_Clear)
+        return false;
+
+    if (winning_player != 0)
+        return true;
 
     if (gamestate == setup || gamestate == scratch) {
         // speed multiplier for power, angle, and cue ball movement
@@ -162,7 +168,7 @@ bool step(void) {
         }
     }
 
-    if (gamestate == scratch) {
+    else if (gamestate == scratch) {
 
         if (kb_Data[7] & kb_Up)
             balls[15].y -= 0.5 * speedmult;
@@ -202,7 +208,7 @@ bool step(void) {
 
     }
 
-    if (gamestate == animate) {
+    else if (gamestate == animate) {
         frame ++;
 
         if (frame > 20) {
@@ -213,7 +219,7 @@ bool step(void) {
         }
     }
 
-    if (gamestate == run) {
+    else if (gamestate == run) {
         // init the counter to zero
         num_stopped = 0;
         
@@ -229,7 +235,7 @@ bool step(void) {
                 balls[i].y -= balls[i].vy;
             }
 
-            check_pockets(&balls[i], &extra_turn, &num_solids, &num_stripes, is_player_1_turn, &player_1_type);
+            check_pockets(&balls[i], &extra_turn, is_player_1_turn, &player_1_type, &winning_player);
 
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
@@ -253,10 +259,7 @@ bool step(void) {
             start_of_setup = true;
         }
 
-    } 
-
-    if (kb_Data[6] & kb_Clear)
-        return false;
+    }
 
     return true;
 }
@@ -283,9 +286,13 @@ void draw(void) {
     }
 
     // animate cue
-    if (gamestate == animate) {
+    else if (gamestate == animate) {
         gfx_SetColor(5);
         gfx_Line(balls[15].x + cosf(cue.dir) * (30 + cue.pow/4 - frame), balls[15].y + sinf(cue.dir) * (30 + cue.pow/4 - frame), balls[15].x + cosf(cue.dir) * (120 + cue.pow/4 - frame), balls[15].y + sinf(cue.dir) * (120 + cue.pow/4 - frame));
+    }
+
+    if (winning_player != 0) {
+        draw_winning(winning_player);
     }
 }
 

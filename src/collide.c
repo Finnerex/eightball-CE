@@ -29,9 +29,12 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
 
 }
 
+int num_stripes = 7;
+int num_solids = 7;
 
+#include <debug.h>
 
-void check_pockets(ball_data* ball, bool* next_turn, int* num_solids, int* num_stripes, bool is_player_1_turn, gfx_sprite_t** player_1_type) {
+void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_sprite_t** player_1_type, int* winning_player) {
 
     static const int pocket_x[] = {14, LCD_WIDTH / 2, LCD_WIDTH - 14, 14,                LCD_WIDTH / 2,     LCD_WIDTH - 14};
     static const int pocket_y[] = {14, 10,            14,             TABLE_HEIGHT - 14, TABLE_HEIGHT - 10, TABLE_HEIGHT - 14};
@@ -50,6 +53,18 @@ void check_pockets(ball_data* ball, bool* next_turn, int* num_solids, int* num_s
                 ball->x = LCD_WIDTH / 2;
                 ball->y = TABLE_HEIGHT + 16;
 
+                dbg_printf("num solids: %i\nnum stripes: %i\n", num_solids, num_stripes);
+
+                if ((num_solids == 0 && *player_1_type == solid) || (num_stripes == 0 && *player_1_type == stripe))
+                    *winning_player = 1;
+
+                else if ((num_solids == 0 && *player_1_type == stripe) || (num_stripes == 0 && *player_1_type == solid))
+                    *winning_player = 2;
+
+                else
+                    *winning_player = is_player_1_turn ? 2 : 1; // the player who didnt sink the eightball wins
+                
+
             } else if (ball->sprite == qball) {
             
                 ball->x = LCD_WIDTH - 10;
@@ -63,7 +78,7 @@ void check_pockets(ball_data* ball, bool* next_turn, int* num_solids, int* num_s
                 if ((*player_1_type == ball->sprite && is_player_1_turn) || (*player_1_type != ball->sprite && !is_player_1_turn))
                     *next_turn = true;
 
-                (ball->sprite == stripe) ? *num_stripes-- : *num_solids-- ;
+                (ball->sprite == stripe) ? num_stripes-- : num_solids-- ;
 
                 ball->x = next_pocketed_x;
                 ball->y = TABLE_HEIGHT + 8;
@@ -160,19 +175,6 @@ void not_prune_sweep(ball_data balls[16]) {
 
     }
 }
-
-// int sort_x(const void *a, const void *b) {
-//     xyid* b1 = (xyid *) a;
-//     xyid* b2 = (xyid *) b;
-
-//     if (b1->x < b2->x)
-//         return 1;
-//     else if (b1->x > b2->x)
-//         return -1;
-
-//     return 0;
-// }
-
 
 bool raycast(float p0_x, float p0_y, float p1_x, float p1_y, 
     float p2_x, float p2_y, float p3_x, float p3_y, float *i_x, float *i_y) {

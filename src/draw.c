@@ -112,3 +112,13 @@ void draw_players(gfx_sprite_t* player_1_type, bool is_player_1_turn) {
         gfx_HorizLine_NoClip(LCD_WIDTH - 60, TABLE_HEIGHT + 29, 55);
     
 }
+
+void draw_winning(int winning_player) {
+    gfx_SetTextFGColor(4);
+    gfx_SetTextXY(LCD_WIDTH / 2 - 45, TABLE_HEIGHT + 30);
+    gfx_PrintString("Player ");
+    gfx_PrintInt(winning_player, 1);
+    gfx_PrintString(" Wins!");
+    gfx_SetColor(3);
+    gfx_HorizLine_NoClip(LCD_WIDTH / 2 - 45, TABLE_HEIGHT + 40, 90);
+}

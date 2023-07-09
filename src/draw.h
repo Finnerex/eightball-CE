@@ -18,6 +18,8 @@ void draw_setup(ball_data balls[16], cue_data* queue);
 
 void draw_players(gfx_sprite_t* player_1_type, bool is_player_1_turn);
 
+void draw_winning(int winning_player);
+
 #if __cplusplus
 }
 #endif
