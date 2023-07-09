@@ -32,8 +32,6 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
 int num_stripes = 7;
 int num_solids = 7;
 
-#include <debug.h>
-
 void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_sprite_t** player_1_type, int* winning_player) {
 
     static const int pocket_x[] = {14, LCD_WIDTH / 2, LCD_WIDTH - 14, 14,                LCD_WIDTH / 2,     LCD_WIDTH - 14};
@@ -52,8 +50,6 @@ void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_
 
                 ball->x = LCD_WIDTH / 2;
                 ball->y = TABLE_HEIGHT + 16;
-
-                dbg_printf("num solids: %i\nnum stripes: %i\n", num_solids, num_stripes);
 
                 if ((num_solids == 0 && *player_1_type == solid) || (num_stripes == 0 && *player_1_type == stripe))
                     *winning_player = 1;
