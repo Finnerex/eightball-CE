@@ -210,8 +210,8 @@ bool step(void) {
             if (change_state) {
                 gamestate = setup;
                 cue.pow = 0;
+                start_of_setup =! start_of_game;
                 start_of_game = false;
-                start_of_setup = true;
             }
         }
 
