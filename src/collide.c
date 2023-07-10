@@ -52,7 +52,10 @@ void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_
                 *winning_player = is_player_1_turn ? 2 : 1; // the player who didnt sink the eightball wins in default state
 
                 if (win_attempt && i == picked_pocket) {
-                    if ((*num_solids == 0 && *player_1_type == solid) || (*num_stripes == 0 && *player_1_type == stripe))
+                    if (*num_solids == 0 && *num_stripes == 0)
+                        *winning_player = is_player_1_turn ? 1 : 2;
+                        
+                    else if ((*num_solids == 0 && *player_1_type == solid) || (*num_stripes == 0 && *player_1_type == stripe))
                         *winning_player = 1;
 
                     else if ((*num_solids == 0 && *player_1_type == stripe) || (*num_stripes == 0 && *player_1_type == solid))

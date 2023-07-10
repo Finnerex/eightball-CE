@@ -134,8 +134,6 @@ bool step(void) {
                 gamestate = scratch;
                 balls[15].pocketed = false;
                 extra_turn = false;
-
-                return true;
             }
 
             // if player sunk own ball, dont switch  
@@ -210,7 +208,6 @@ bool step(void) {
             if (change_state) {
                 gamestate = setup;
                 cue.pow = 0;
-                start_of_setup =! start_of_game;
                 start_of_game = false;
             }
         }
