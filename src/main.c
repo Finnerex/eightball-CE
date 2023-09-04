@@ -503,7 +503,26 @@ void try_load_settings(void) {
 
     is_player_1_turn = loaded_settings.is_player_1_turn;
     should_change_turn = loaded_settings.should_change_turn;
-    player_1_type = loaded_settings.player_1_type == PLAYER_1_TYPE_SOLID ? solid : loaded_settings.player_1_type == PLAYER_1_TYPE_STRIPE ? stripe : NULL;
+
+    //player_1_type = loaded_settings.player_1_type == PLAYER_1_TYPE_SOLID ? solid : loaded_settings.player_1_type == PLAYER_1_TYPE_STRIPE ? stripe : NULL;
+    switch (loaded_settings.player_1_type) {
+        case PLAYER_1_TYPE_NONE:
+            player_1_type = NULL;
+            break;
+        case PLAYER_1_TYPE_SOLID:
+            player_1_type = solid;
+            break;
+        case PLAYER_1_TYPE_STRIPE:
+            player_1_type = stripe;
+            break;
+    }
+
+    /*if (loaded_settings.player_1_type == PLAYER_1_TYPE_NONE)
+        player_1_type = NULL;
+    else if (loaded_settings.player_1_type == PLAYER_1_TYPE_SOLID)
+        player_1_type = solid;
+    else if (loaded_settings.player_1_type == PLAYER_1_TYPE_STRIPE)
+        player_1_type = stripe;*/
 
     winning_player = loaded_settings.winning_player;
 
@@ -538,6 +557,12 @@ void save_settings(void) {
     saved_settings.is_player_1_turn = is_player_1_turn;
     saved_settings.should_change_turn = should_change_turn;
     saved_settings.player_1_type = player_1_type == solid ? PLAYER_1_TYPE_SOLID : player_1_type == stripe ? PLAYER_1_TYPE_STRIPE : PLAYER_1_TYPE_NONE;
+    /*if (player_1_type == NULL)
+        saved_settings.player_1_type = PLAYER_1_TYPE_NONE;
+    else if (player_1_type == solid)
+        saved_settings.player_1_type = PLAYER_1_TYPE_SOLID;
+    else if (player_1_type == stripe)
+        saved_settings.player_1_type = PLAYER_1_TYPE_STRIPE;*/
 
     saved_settings.winning_player = winning_player;
 
