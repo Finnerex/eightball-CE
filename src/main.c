@@ -7,6 +7,7 @@
  *--------------------------------------
 */
 
+#include <debug.h>
 #include <stdbool.h>
 #include <math.h>
 #include <tice.h>
@@ -97,7 +98,8 @@ void begin(void){
         balls[i].collided = false;
         balls[i].pocketed = false;
     }
-
+    
+    try_load_settings();
 }
 
 bool step(void) {
@@ -364,22 +366,107 @@ void end(void) {
 typedef struct {
     cue_data cue;
     ball_data balls[16];
+
     int gamestate;
+
+    int picked_pocket;
+    bool win_attempt;
+
+    int num_stripes;
+    int num_solids;
+
+    // player turns
+    bool is_player_1_turn;
+    bool should_change_turn;
+    gfx_sprite_t* player_1_type;
+
+    int winning_player;
+
+    bool start_of_game;
+    int frame;
+    int num_stopped;
 } game_settings;
 
 void try_load_settings(void) {
     uint8_t file_handle;
 
     // open file
-    if (!(file_handle = ti_Open("8BALLCES", "r")))
+    // if file not exist then skip this function
+    if (!(file_handle = ti_Open("BALL8CES", "r")))
         return;
     
     // do stuff
+
+    // variable to hold settings
+    game_settings loaded_settings;
+
+    // load data to the variable
+    ti_Read(&loaded_settings, sizeof(game_settings), 1, file_handle);
+
+    // save the settings back
+    cue = loaded_settings.cue;
+    for (int i = 0; i < 16; i++) {
+        balls[i] = loaded_settings.balls[i];
+    }
+
+    gamestate = loaded_settings.gamestate;
+
+    picked_pocket = loaded_settings.picked_pocket;
+    win_attempt = loaded_settings.win_attempt;
+
+    num_stripes = loaded_settings.num_stripes;
+    num_solids = loaded_settings.num_solids;
+
+    is_player_1_turn = loaded_settings.is_player_1_turn;
+    should_change_turn = loaded_settings.should_change_turn;
+    player_1_type = loaded_settings.player_1_type;
+
+    winning_player = loaded_settings.winning_player;
+
+    start_of_game = loaded_settings.start_of_game;
+    frame = loaded_settings.frame;
+    num_stopped = loaded_settings.num_stopped;
 
     // close file
     ti_Close(file_handle);
 }
 
 void save_settings(void) {
+    game_settings saved_settings;
 
+    // save each setting
+    saved_settings.cue = cue;
+    for (int i = 0; i < 16; i++) {
+        saved_settings.balls[i] = balls[i];
+    }
+
+    saved_settings.gamestate = gamestate;
+
+    saved_settings.picked_pocket = picked_pocket;
+    saved_settings.win_attempt = win_attempt;
+
+    saved_settings.num_stripes = num_stripes;
+    saved_settings.num_solids = num_solids;
+
+    // player turns
+    saved_settings.is_player_1_turn = is_player_1_turn;
+    saved_settings.should_change_turn = should_change_turn;
+    saved_settings.player_1_type = player_1_type;
+
+    saved_settings.winning_player = winning_player;
+
+    saved_settings.start_of_game = start_of_game;
+    saved_settings.frame = frame;
+    saved_settings.num_stopped = num_stopped;
+
+    // save to a file
+    uint8_t file_handle;
+    if (!(file_handle = ti_Open("BALL8CES", "w"))) {
+        dbg_printf("no file_handle");
+
+        return;
+    }
+    
+    ti_Write(&saved_settings, sizeof(game_settings), 1, file_handle);
+    ti_Close(file_handle);
 }
