@@ -12,6 +12,7 @@
 #include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
+#include <fileioc.h>
 #include "collide.h"
 #include "draw.h"
 #include "gfx/gfx.h"
@@ -78,7 +79,7 @@ int main() {
     return 0;
 }
 
-
+void try_load_settings(void);
 
 void begin(void){
     // initialize rotated table sprites
@@ -345,7 +346,31 @@ void draw(void) {
     }
 }
 
+void save_settings(void);
 
 void end(void) {
+    save_settings();
+}
+
+typedef struct {
+    cue_data cue;
+    ball_data balls[16];
+    int gamestate;
+} game_settings;
+
+void try_load_settings(void) {
+    uint8_t file_handle;
+
+    // open file
+    if (!(file_handle = ti_Open("8BALLCES", "r")))
+        return;
     
+    // do stuff
+
+    // close file
+    ti_Close(file_handle);
+}
+
+void save_settings(void) {
+
 }
