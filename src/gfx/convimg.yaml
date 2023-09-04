@@ -7,6 +7,7 @@ palettes:
       - color: {index: 3, r: 54, g: 54, b: 58}
       - color: {index: 4, r: 63, g: 170, b: 166}
       - color: {index: 5, r: 194, g: 136, b: 62}
+      - color: {index: 6, r: 200, g: 200, b: 200}
     images: automatic
 
 converts:
