@@ -24,10 +24,8 @@ cue_data cue = {PI, 0}; // direction is pi, power is 0
 ball_data balls[16];
 
 // game states
-enum gamestates{start, setup, animate, run, scratch, pick_pocket};
+enum gamestates{start, setup, animate, run, scratch, pick_pocket, pick_state};
 int gamestate = scratch;
-
-bool start_of_setup = true;
 
 int picked_pocket = 0;
 bool win_attempt = false;
@@ -37,7 +35,7 @@ int num_solids = 7;
 
 // player turns
 bool is_player_1_turn = true;
-bool extra_turn = false;
+bool should_change_turn = false;
 gfx_sprite_t* player_1_type = NULL;
 
 int winning_player = 0;
@@ -112,41 +110,56 @@ bool step(void) {
     if (winning_player != 0)
         return true;
 
+    if (gamestate == pick_state) {
+
+        if (win_attempt) {
+            gamestate = pick_pocket;
+
+            if (should_change_turn) {
+                is_player_1_turn = !is_player_1_turn;
+                should_change_turn = false;
+            }
+
+        } else if (balls[15].pocketed) {
+            gamestate = scratch;
+
+            balls[15].pocketed = false;
+            balls[15].x = 85;
+            balls[15].y = TABLE_HEIGHT / 2;
+
+            is_player_1_turn = !is_player_1_turn;
+            should_change_turn = false;
+
+        } else {
+            gamestate = setup;
+
+            win_attempt = (should_change_turn ? !is_player_1_turn : is_player_1_turn) ?
+            (player_1_type == solid ? num_solids == 0 : num_stripes == 0) :
+            (player_1_type == stripe ? num_solids == 0 : num_stripes == 0);
+
+            if (should_change_turn) {
+                is_player_1_turn = !is_player_1_turn;
+            }
+
+            should_change_turn = true;
+        }
+        
+        
+    }
+
     if (gamestate == setup || gamestate == scratch) {
         // speed multiplier for power, angle, and cue ball movement
         if (kb_Data[1] & kb_2nd)
             speedmult = 4;
         
         else if (kb_Data[2] & kb_Math/*JUST FOR TESTING - change back to kb_Alpha*/)
-            speedmult = 0.3;
+            speedmult = 0.2;
 
         else
             speedmult = 1;
     }
 
     if (gamestate == setup) {
-
-        if (start_of_setup) {
-
-            if (balls[15].pocketed) { // scratch
-                balls[15].x = 85;
-                balls[15].y = 81;
-
-                gamestate = scratch;
-                balls[15].pocketed = false;
-                extra_turn = false;
-            }
-
-            // if player sunk own ball, dont switch  
-            if (!extra_turn)
-                is_player_1_turn = !is_player_1_turn;
-            else
-                extra_turn = false;
-
-            start_of_setup = false;
-
-            return true;
-        }
 
         // change angle
         if (kb_Data[7] & kb_Up)
@@ -160,7 +173,7 @@ bool step(void) {
         cue.dir -= (cue.dir > 2 * PI) ? 2 * PI : ((cue.dir < 0) ? -2 * PI : 0);
 
         // change power
-        int pc = 2 * speedmult; // power change var
+        int pc = 2 * speedmult + 0.5; // power change var
         // power clamping
         if (kb_Data[7] & kb_Right)
             cue.pow = (cue.pow + pc) > 100 ? 100 : (cue.pow + pc);
@@ -207,7 +220,7 @@ bool step(void) {
             }
 
             if (change_state) {
-                gamestate = setup;
+                gamestate = pick_state;
                 cue.pow = 0;
                 start_of_game = false;
             }
@@ -238,9 +251,9 @@ bool step(void) {
         ld = d;
 
         if (kb_Data[6] & kb_Enter) {
-            gamestate = setup;
+            gamestate = pick_state;
             cue.pow = 0;
-            start_of_setup = true;
+            win_attempt = false;
         }
 
     }
@@ -272,7 +285,7 @@ bool step(void) {
                 balls[i].y -= balls[i].vy;
             }
 
-            check_pockets(&balls[i], &extra_turn, is_player_1_turn, &player_1_type, &winning_player, &num_solids, &num_stripes, picked_pocket, win_attempt);
+            check_pockets(&balls[i], &should_change_turn, is_player_1_turn, &player_1_type, &winning_player, &num_solids, &num_stripes, picked_pocket, win_attempt);
 
             collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
 
@@ -292,17 +305,13 @@ bool step(void) {
 
         // if the counter it equal to the number of balls, end the run state
         if (num_stopped == 16) {
-            gamestate = setup;
+            gamestate = pick_state;
 
             // dont mind this
-            win_attempt = (extra_turn ? is_player_1_turn : !is_player_1_turn) ?
+            win_attempt = (should_change_turn ? !is_player_1_turn : is_player_1_turn) ?
             (player_1_type == solid ? num_solids == 0 : num_stripes == 0) :
             (player_1_type == stripe ? num_solids == 0 : num_stripes == 0);
 
-            if (win_attempt)
-                gamestate = pick_pocket;
-
-            start_of_setup = true;
         }
 
     }

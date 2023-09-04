@@ -29,7 +29,7 @@ void collideballs(ball_data* ball1, ball_data* ball2) {
 
 }
 
-void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_sprite_t** player_1_type, int* winning_player, 
+void check_pockets(ball_data* ball, bool* should_change_turn, bool is_player_1_turn, gfx_sprite_t** player_1_type, int* winning_player, 
                     int* num_solids, int* num_stripes, int picked_pocket, bool win_attempt) {
 
     static const int pocket_x[] = {14, LCD_WIDTH / 2, LCD_WIDTH - 14, 14,                LCD_WIDTH / 2,     LCD_WIDTH - 14};
@@ -73,7 +73,9 @@ void check_pockets(ball_data* ball, bool* next_turn, bool is_player_1_turn, gfx_
                     *player_1_type = (is_player_1_turn) ? ball->sprite : (ball->sprite == solid) ? stripe : solid;
 
                 if ((*player_1_type == ball->sprite && is_player_1_turn) || (*player_1_type != ball->sprite && !is_player_1_turn))
-                    *next_turn = true;
+                    *should_change_turn = false;
+                else
+                    *should_change_turn = true;
 
 
                 if (ball->sprite == stripe)
