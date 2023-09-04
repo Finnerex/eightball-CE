@@ -380,10 +380,24 @@ void end(void) {
 }
 
 typedef struct {
+    enum {
+        SERIALIZED_BALL_SPRITE_SOLID,
+        SERIALIZED_BALL_SPRITE_STRIPE,
+        SERIALIZED_BALL_SPRITE_EIGHTBALL
+    } sprite;
+    bool collided;
+    bool pocketed;
+    float x;
+    float y;
+    float vx;
+    float vy;
+} serialized_ball_data_t;
+
+typedef struct {
     int version;
 
     cue_data cue;
-    ball_data balls[16];
+    serialized_ball_data_t balls[16];
 
     int gamestate;
 
@@ -396,7 +410,11 @@ typedef struct {
     // player turns
     bool is_player_1_turn;
     bool should_change_turn;
-    gfx_sprite_t* player_1_type;
+    enum {
+        PLAYER_1_TYPE_NONE,
+        PLAYER_1_TYPE_SOLID,
+        PLAYER_1_TYPE_STRIPE,
+    } player_1_type;
 
     int winning_player;
 
@@ -404,6 +422,48 @@ typedef struct {
     int frame;
     int num_stopped;
 } game_settings;
+
+void unserialize_ball(serialized_ball_data_t* in, ball_data* out) {
+    // unserialize sprite
+    switch (in->sprite) {
+        case SERIALIZED_BALL_SPRITE_SOLID:
+            out->sprite = solid;
+            break;
+        case SERIALIZED_BALL_SPRITE_STRIPE:
+            out->sprite = stripe;
+            break;
+        case SERIALIZED_BALL_SPRITE_EIGHTBALL:
+            out->sprite = eightball;
+            break;
+    }
+
+    // everything else
+    out->collided = in->collided;
+    out->pocketed = in->pocketed;
+    out->x = in->x;
+    out->y = in->y;
+    out->vx = in->vx;
+    out->vy = in->vy;
+}
+
+void serialize_ball(ball_data* in, serialized_ball_data_t* out) {
+    // serialize sprite
+    if (in->sprite == solid) {
+        out->sprite = SERIALIZED_BALL_SPRITE_SOLID;
+    } else if (in->sprite == stripe) {
+        out->sprite = SERIALIZED_BALL_SPRITE_STRIPE;
+    } else if (in->sprite == eightball) {
+        out->sprite = SERIALIZED_BALL_SPRITE_EIGHTBALL;
+    }
+    
+    // everything else
+    out->collided = in->collided;
+    out->pocketed = in->pocketed;
+    out->x = in->x;
+    out->y = in->y;
+    out->vx = in->vx;
+    out->vy = in->vy;
+}
 
 void try_load_settings(void) {
     uint8_t file_handle;
@@ -421,14 +481,16 @@ void try_load_settings(void) {
     // load data to the variable
     ti_Read(&loaded_settings, sizeof(game_settings), 1, file_handle);
 
-    // check if the version is right
-    if (loaded_settings.version != 0)
+    // exit if the version is wrong
+    if (loaded_settings.version != 0) {
+        ti_Close(file_handle);
         return;
+    }
 
     // save the settings back
     cue = loaded_settings.cue;
     for (int i = 0; i < 16; i++) {
-        balls[i] = loaded_settings.balls[i];
+        unserialize_ball(&loaded_settings.balls[i], &balls[i]);
     }
 
     gamestate = loaded_settings.gamestate;
@@ -441,7 +503,7 @@ void try_load_settings(void) {
 
     is_player_1_turn = loaded_settings.is_player_1_turn;
     should_change_turn = loaded_settings.should_change_turn;
-    player_1_type = loaded_settings.player_1_type;
+    player_1_type = loaded_settings.player_1_type == PLAYER_1_TYPE_SOLID ? solid : loaded_settings.player_1_type == PLAYER_1_TYPE_STRIPE ? stripe : NULL;
 
     winning_player = loaded_settings.winning_player;
 
@@ -461,7 +523,7 @@ void save_settings(void) {
     // save each setting
     saved_settings.cue = cue;
     for (int i = 0; i < 16; i++) {
-        saved_settings.balls[i] = balls[i];
+        serialize_ball(&balls[i], &saved_settings.balls[i]);
     }
 
     saved_settings.gamestate = gamestate;
@@ -475,7 +537,7 @@ void save_settings(void) {
     // player turns
     saved_settings.is_player_1_turn = is_player_1_turn;
     saved_settings.should_change_turn = should_change_turn;
-    saved_settings.player_1_type = player_1_type;
+    saved_settings.player_1_type = player_1_type == solid ? PLAYER_1_TYPE_SOLID : player_1_type == stripe ? PLAYER_1_TYPE_STRIPE : PLAYER_1_TYPE_NONE;
 
     saved_settings.winning_player = winning_player;
 

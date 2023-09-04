@@ -1,0 +1,15 @@
+global_palette.h
+global_palette.c
+table_l.h
+table_l.c
+table_tl.h
+table_tl.c
+eightball.h
+eightball.c
+stripe.h
+stripe.c
+solid.h
+solid.c
+qball.h
+qball.c
+gfx.h
