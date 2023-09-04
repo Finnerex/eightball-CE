@@ -16,7 +16,10 @@
 #include <fileioc.h>
 #include "collide.h"
 #include "draw.h"
+#include "lockout_menu.h"
 #include "gfx/gfx.h"
+
+#define SAVE_APPVAR_NAME ("BALL8CES")
 
 // cue
 cue_data cue = {PI, 0}; // direction is pi, power is 0
@@ -58,6 +61,9 @@ void begin();
 void end();
 bool step();
 void draw();
+void try_load_settings(void);
+void save_settings(void);
+void clear_settings(void);
 
 int main() {
     begin();                // No rendering allowed!
@@ -77,8 +83,6 @@ int main() {
 
     return 0;
 }
-
-void try_load_settings(void);
 
 void begin(void){
     // initialize rotated table sprites
@@ -106,8 +110,22 @@ bool step(void) {
     kb_Scan();
 
     // quit
-    if (kb_Data[6] & kb_Clear)
+    if (kb_Data[6] & kb_Clear) {
+        // show quit menu
+        char *save_message_lines[2] = {"Would you like", "to save this game?"};
+        menu_result_t result = lockout_menu_yes_no(215, 160, save_message_lines, 2);
+
+        if (result == MENU_RESULT_CANCEL) {
+            return true;
+        }
+        else if (result == MENU_RESULT_YES) {
+            save_settings();
+        } else {
+            clear_settings();
+        }
+
         return false;
+    }
 
     if (winning_player != 0)
         return true;
@@ -357,13 +375,13 @@ void draw(void) {
     }
 }
 
-void save_settings(void);
-
 void end(void) {
-    save_settings();
+
 }
 
 typedef struct {
+    int version;
+
     cue_data cue;
     ball_data balls[16];
 
@@ -392,7 +410,7 @@ void try_load_settings(void) {
 
     // open file
     // if file not exist then skip this function
-    if (!(file_handle = ti_Open("BALL8CES", "r")))
+    if (!(file_handle = ti_Open(SAVE_APPVAR_NAME, "r")))
         return;
     
     // do stuff
@@ -402,6 +420,10 @@ void try_load_settings(void) {
 
     // load data to the variable
     ti_Read(&loaded_settings, sizeof(game_settings), 1, file_handle);
+
+    // check if the version is right
+    if (loaded_settings.version != 0)
+        return;
 
     // save the settings back
     cue = loaded_settings.cue;
@@ -434,6 +456,8 @@ void try_load_settings(void) {
 void save_settings(void) {
     game_settings saved_settings;
 
+    saved_settings.version = 0;
+
     // save each setting
     saved_settings.cue = cue;
     for (int i = 0; i < 16; i++) {
@@ -461,7 +485,7 @@ void save_settings(void) {
 
     // save to a file
     uint8_t file_handle;
-    if (!(file_handle = ti_Open("BALL8CES", "w"))) {
+    if (!(file_handle = ti_Open(SAVE_APPVAR_NAME, "w"))) {
         dbg_printf("no file_handle");
 
         return;
@@ -469,4 +493,8 @@ void save_settings(void) {
     
     ti_Write(&saved_settings, sizeof(game_settings), 1, file_handle);
     ti_Close(file_handle);
+}
+
+void clear_settings(void) {
+    ti_Delete(SAVE_APPVAR_NAME);
 }
