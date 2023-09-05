@@ -7,14 +7,19 @@
  *--------------------------------------
 */
 
+#include <debug.h>
 #include <stdbool.h>
 #include <math.h>
 #include <tice.h>
 #include <graphx.h>
 #include <keypadc.h>
+#include <fileioc.h>
 #include "collide.h"
 #include "draw.h"
+#include "lockout_menu.h"
 #include "gfx/gfx.h"
+
+#define SAVE_APPVAR_NAME ("BALL8CES")
 
 // cue
 cue_data cue = {PI, 0}; // direction is pi, power is 0
@@ -56,6 +61,9 @@ void begin();
 void end();
 bool step();
 void draw();
+void try_load_settings(void);
+void save_settings(void);
+void clear_settings(void);
 
 int main() {
     begin();                // No rendering allowed!
@@ -76,8 +84,6 @@ int main() {
     return 0;
 }
 
-
-
 void begin(void){
     // initialize rotated table sprites
     init_table();
@@ -96,15 +102,30 @@ void begin(void){
         balls[i].collided = false;
         balls[i].pocketed = false;
     }
-
+    
+    try_load_settings();
 }
 
 bool step(void) {
     kb_Scan();
 
     // quit
-    if (kb_Data[6] & kb_Clear)
+    if (kb_Data[6] & kb_Clear) {
+        // show quit menu
+        char *save_message_lines[2] = {"Would you like", "to save this game?"};
+        menu_result_t result = lockout_menu_yes_no(215, 160, save_message_lines, 2);
+
+        if (result == MENU_RESULT_CANCEL) {
+            return true;
+        }
+        else if (result == MENU_RESULT_YES) {
+            save_settings();
+        } else {
+            clear_settings();
+        }
+
         return false;
+    }
 
     if (winning_player != 0)
         return true;
@@ -354,7 +375,213 @@ void draw(void) {
     }
 }
 
-
 void end(void) {
+
+}
+
+typedef struct {
+    enum {
+        SERIALIZED_BALL_SPRITE_SOLID,
+        SERIALIZED_BALL_SPRITE_STRIPE,
+        SERIALIZED_BALL_SPRITE_EIGHTBALL
+    } sprite;
+    bool collided;
+    bool pocketed;
+    float x;
+    float y;
+    float vx;
+    float vy;
+} serialized_ball_data_t;
+
+typedef struct {
+    int version;
+
+    cue_data cue;
+    serialized_ball_data_t balls[16];
+
+    int gamestate;
+
+    int picked_pocket;
+    bool win_attempt;
+
+    int num_stripes;
+    int num_solids;
+
+    // player turns
+    bool is_player_1_turn;
+    bool should_change_turn;
+    enum {
+        PLAYER_1_TYPE_NONE,
+        PLAYER_1_TYPE_SOLID,
+        PLAYER_1_TYPE_STRIPE,
+    } player_1_type;
+
+    int winning_player;
+
+    bool start_of_game;
+    int frame;
+    int num_stopped;
+} game_settings;
+
+void unserialize_ball(serialized_ball_data_t* in, ball_data* out) {
+    // unserialize sprite
+    switch (in->sprite) {
+        case SERIALIZED_BALL_SPRITE_SOLID:
+            out->sprite = solid;
+            break;
+        case SERIALIZED_BALL_SPRITE_STRIPE:
+            out->sprite = stripe;
+            break;
+        case SERIALIZED_BALL_SPRITE_EIGHTBALL:
+            out->sprite = eightball;
+            break;
+    }
+
+    // everything else
+    out->collided = in->collided;
+    out->pocketed = in->pocketed;
+    out->x = in->x;
+    out->y = in->y;
+    out->vx = in->vx;
+    out->vy = in->vy;
+}
+
+void serialize_ball(ball_data* in, serialized_ball_data_t* out) {
+    // serialize sprite
+    if (in->sprite == solid) {
+        out->sprite = SERIALIZED_BALL_SPRITE_SOLID;
+    } else if (in->sprite == stripe) {
+        out->sprite = SERIALIZED_BALL_SPRITE_STRIPE;
+    } else if (in->sprite == eightball) {
+        out->sprite = SERIALIZED_BALL_SPRITE_EIGHTBALL;
+    }
     
+    // everything else
+    out->collided = in->collided;
+    out->pocketed = in->pocketed;
+    out->x = in->x;
+    out->y = in->y;
+    out->vx = in->vx;
+    out->vy = in->vy;
+}
+
+void try_load_settings(void) {
+    uint8_t file_handle;
+
+    // open file
+    // if file not exist then skip this function
+    if (!(file_handle = ti_Open(SAVE_APPVAR_NAME, "r")))
+        return;
+    
+    // do stuff
+
+    // variable to hold settings
+    game_settings loaded_settings;
+
+    // load data to the variable
+    ti_Read(&loaded_settings, sizeof(game_settings), 1, file_handle);
+
+    // exit if the version is wrong
+    if (loaded_settings.version != 0) {
+        ti_Close(file_handle);
+        return;
+    }
+
+    // save the settings back
+    cue = loaded_settings.cue;
+    for (int i = 0; i < 16; i++) {
+        unserialize_ball(&loaded_settings.balls[i], &balls[i]);
+    }
+
+    gamestate = loaded_settings.gamestate;
+
+    picked_pocket = loaded_settings.picked_pocket;
+    win_attempt = loaded_settings.win_attempt;
+
+    num_stripes = loaded_settings.num_stripes;
+    num_solids = loaded_settings.num_solids;
+
+    is_player_1_turn = loaded_settings.is_player_1_turn;
+    should_change_turn = loaded_settings.should_change_turn;
+
+    //player_1_type = loaded_settings.player_1_type == PLAYER_1_TYPE_SOLID ? solid : loaded_settings.player_1_type == PLAYER_1_TYPE_STRIPE ? stripe : NULL;
+    switch (loaded_settings.player_1_type) {
+        case PLAYER_1_TYPE_NONE:
+            player_1_type = NULL;
+            break;
+        case PLAYER_1_TYPE_SOLID:
+            player_1_type = solid;
+            break;
+        case PLAYER_1_TYPE_STRIPE:
+            player_1_type = stripe;
+            break;
+    }
+
+    /*if (loaded_settings.player_1_type == PLAYER_1_TYPE_NONE)
+        player_1_type = NULL;
+    else if (loaded_settings.player_1_type == PLAYER_1_TYPE_SOLID)
+        player_1_type = solid;
+    else if (loaded_settings.player_1_type == PLAYER_1_TYPE_STRIPE)
+        player_1_type = stripe;*/
+
+    winning_player = loaded_settings.winning_player;
+
+    start_of_game = loaded_settings.start_of_game;
+    frame = loaded_settings.frame;
+    num_stopped = loaded_settings.num_stopped;
+
+    // close file
+    ti_Close(file_handle);
+}
+
+void save_settings(void) {
+    game_settings saved_settings;
+
+    saved_settings.version = 0;
+
+    // save each setting
+    saved_settings.cue = cue;
+    for (int i = 0; i < 16; i++) {
+        serialize_ball(&balls[i], &saved_settings.balls[i]);
+    }
+
+    saved_settings.gamestate = gamestate;
+
+    saved_settings.picked_pocket = picked_pocket;
+    saved_settings.win_attempt = win_attempt;
+
+    saved_settings.num_stripes = num_stripes;
+    saved_settings.num_solids = num_solids;
+
+    // player turns
+    saved_settings.is_player_1_turn = is_player_1_turn;
+    saved_settings.should_change_turn = should_change_turn;
+    saved_settings.player_1_type = player_1_type == solid ? PLAYER_1_TYPE_SOLID : player_1_type == stripe ? PLAYER_1_TYPE_STRIPE : PLAYER_1_TYPE_NONE;
+    /*if (player_1_type == NULL)
+        saved_settings.player_1_type = PLAYER_1_TYPE_NONE;
+    else if (player_1_type == solid)
+        saved_settings.player_1_type = PLAYER_1_TYPE_SOLID;
+    else if (player_1_type == stripe)
+        saved_settings.player_1_type = PLAYER_1_TYPE_STRIPE;*/
+
+    saved_settings.winning_player = winning_player;
+
+    saved_settings.start_of_game = start_of_game;
+    saved_settings.frame = frame;
+    saved_settings.num_stopped = num_stopped;
+
+    // save to a file
+    uint8_t file_handle;
+    if (!(file_handle = ti_Open(SAVE_APPVAR_NAME, "w"))) {
+        dbg_printf("no file_handle");
+
+        return;
+    }
+    
+    ti_Write(&saved_settings, sizeof(game_settings), 1, file_handle);
+    ti_Close(file_handle);
+}
+
+void clear_settings(void) {
+    ti_Delete(SAVE_APPVAR_NAME);
 }
