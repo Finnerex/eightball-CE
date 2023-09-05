@@ -7,7 +7,6 @@
  *--------------------------------------
 */
 
-#include <debug.h>
 #include <stdbool.h>
 #include <math.h>
 #include <tice.h>
@@ -16,7 +15,6 @@
 #include <fileioc.h>
 #include "collide.h"
 #include "draw.h"
-#include "lockout_menu.h"
 #include "gfx/gfx.h"
 
 #define SAVE_APPVAR_NAME ("BALL8CES")
@@ -110,14 +108,14 @@ bool step(void) {
     kb_Scan();
 
     // quit
-    if (kb_Data[6] & kb_Clear) {
-        save_settings();
-        return false;
-        
-    } else if (kb_Data[1] & kb_Del) {
+    if (kb_Data[1] & kb_Del || ((kb_Data[6] & kb_Clear) && winning_player != 0)) { // if someone has won, dont save
         clear_settings();
         return false;
-    }
+
+    } else if (kb_Data[6] & kb_Clear) {
+        save_settings();
+        return false;
+    } 
     
 
     if (winning_player != 0)
@@ -165,8 +163,8 @@ bool step(void) {
         if (kb_Data[1] & kb_2nd)
             speedmult = 4;
         
-        else if (kb_Data[2] & kb_Math/*JUST FOR TESTING - change back to kb_Alpha*/)
-            speedmult = 0.2;
+        else if (kb_Data[2] & kb_Alpha)
+            speedmult = 0.2f;
 
         else
             speedmult = 1;
@@ -176,17 +174,17 @@ bool step(void) {
 
         // change angle
         if (kb_Data[7] & kb_Up)
-            cue.dir += 0.02 * speedmult;
+            cue.dir += 0.02f * speedmult;
 
         else if (kb_Data[7] & kb_Down)
-            cue.dir -= 0.02 * speedmult;
+            cue.dir -= 0.02f * speedmult;
         
 
         // restrict direction range to (0, 2pi)
         cue.dir -= (cue.dir > 2 * PI) ? 2 * PI : ((cue.dir < 0) ? -2 * PI : 0);
 
         // change power
-        int pc = 2 * speedmult + 0.5; // power change var
+        int pc = 2 * (speedmult + 0.3f); // power change var
         // power clamping
         if (kb_Data[7] & kb_Right)
             cue.pow = (cue.pow + pc) > 100 ? 100 : (cue.pow + pc);
@@ -204,17 +202,17 @@ bool step(void) {
     else if (gamestate == scratch) {
 
         if (kb_Data[7] & kb_Up)
-            balls[15].y -= 0.5 * speedmult;
+            balls[15].y -= 0.5f * speedmult;
 
         else if (kb_Data[7] & kb_Down)
-            balls[15].y += 0.5 * speedmult;
+            balls[15].y += 0.5f * speedmult;
         
 
         if (kb_Data[7] & kb_Left)
-            balls[15].x -= 0.5 * speedmult;
+            balls[15].x -= 0.5f * speedmult;
         
         else if (kb_Data[7] & kb_Right)
-            balls[15].x += 0.5 * speedmult;
+            balls[15].x += 0.5f * speedmult;
 
         collidewalls(&balls[15]);
 
@@ -441,13 +439,15 @@ void unserialize_ball(serialized_ball_data_t* in, ball_data* out) {
 
 void serialize_ball(ball_data* in, serialized_ball_data_t* out) {
     // serialize sprite
-    if (in->sprite == solid) {
+    if (in->sprite == solid)
         out->sprite = SERIALIZED_BALL_SPRITE_SOLID;
-    } else if (in->sprite == stripe) {
+
+    else if (in->sprite == stripe)
         out->sprite = SERIALIZED_BALL_SPRITE_STRIPE;
-    } else if (in->sprite == eightball) {
+
+    else if (in->sprite == eightball)
         out->sprite = SERIALIZED_BALL_SPRITE_EIGHTBALL;
-    }
+    
     
     // everything else
     out->collided = in->collided;
@@ -565,11 +565,9 @@ void save_settings(void) {
 
     // save to a file
     uint8_t file_handle;
-    if (!(file_handle = ti_Open(SAVE_APPVAR_NAME, "w"))) {
-        dbg_printf("no file_handle");
-
+    if (!(file_handle = ti_Open(SAVE_APPVAR_NAME, "w")))
         return;
-    }
+
     
     ti_Write(&saved_settings, sizeof(game_settings), 1, file_handle);
     ti_Close(file_handle);
