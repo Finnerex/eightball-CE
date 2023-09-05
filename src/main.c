@@ -111,21 +111,14 @@ bool step(void) {
 
     // quit
     if (kb_Data[6] & kb_Clear) {
-        // show quit menu
-        char *save_message_lines[2] = {"Would you like", "to save this game?"};
-        menu_result_t result = lockout_menu_yes_no(215, 160, save_message_lines, 2);
-
-        if (result == MENU_RESULT_CANCEL) {
-            return true;
-        }
-        else if (result == MENU_RESULT_YES) {
-            save_settings();
-        } else {
-            clear_settings();
-        }
-
+        save_settings();
+        return false;
+        
+    } else if (kb_Data[1] & kb_Del) {
+        clear_settings();
         return false;
     }
+    
 
     if (winning_player != 0)
         return true;
