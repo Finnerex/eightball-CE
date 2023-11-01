@@ -26,8 +26,8 @@ cue_data cue = {PI, 0}; // direction is pi, power is 0
 ball_data balls[16];
 
 // game states
-enum gamestates{start, setup, animate, run, scratch, pick_pocket, pick_state};
-int gamestate = scratch;
+enum game_states{start, setup, animate, run, scratch, pick_pocket, pick_state};
+int game_state = scratch;
 
 int picked_pocket = 0;
 bool win_attempt = false;
@@ -51,7 +51,7 @@ int frame = 0;
 int num_stopped;
 
 // speed multiplier for power and angle change
-float speedmult = 1;
+float speed_mult = 1;
 
 
 // basic funkies
@@ -121,10 +121,10 @@ bool step(void) {
     if (winning_player != 0)
         return true;
 
-    if (gamestate == pick_state) {
+    if (game_state == pick_state) {
 
         if (win_attempt) {
-            gamestate = pick_pocket;
+            game_state = pick_pocket;
 
             if (should_change_turn) {
                 is_player_1_turn = !is_player_1_turn;
@@ -132,7 +132,7 @@ bool step(void) {
             }
 
         } else if (balls[15].pocketed) {
-            gamestate = scratch;
+            game_state = scratch;
 
             balls[15].pocketed = false;
             balls[15].x = 85;
@@ -142,7 +142,7 @@ bool step(void) {
             should_change_turn = false;
 
         } else {
-            gamestate = setup;
+            game_state = setup;
 
             win_attempt = (should_change_turn ? !is_player_1_turn : is_player_1_turn) ?
             (player_1_type == solid ? num_solids == 0 : num_stripes == 0) :
@@ -158,33 +158,33 @@ bool step(void) {
         
     }
 
-    if (gamestate == setup || gamestate == scratch) {
+    if (game_state == setup || game_state == scratch) {
         // speed multiplier for power, angle, and cue ball movement
         if (kb_Data[1] & kb_2nd)
-            speedmult = 4;
+            speed_mult = 4;
         
         else if (kb_Data[2] & kb_Alpha)
-            speedmult = 0.2f;
+            speed_mult = 0.2f;
 
         else
-            speedmult = 1;
+            speed_mult = 1;
     }
 
-    if (gamestate == setup) {
+    if (game_state == setup) {
 
         // change angle
         if (kb_Data[7] & kb_Up)
-            cue.dir += 0.02f * speedmult;
+            cue.dir += 0.02f * speed_mult;
 
         else if (kb_Data[7] & kb_Down)
-            cue.dir -= 0.02f * speedmult;
+            cue.dir -= 0.02f * speed_mult;
         
 
         // restrict direction range to (0, 2pi)
         cue.dir -= (cue.dir > 2 * PI) ? 2 * PI : ((cue.dir < 0) ? -2 * PI : 0);
 
         // change power
-        int pc = 2 * (speedmult + 0.3f); // power change var
+        int pc = 2 * (speed_mult + 0.3f); // power change var
         // power clamping
         if (kb_Data[7] & kb_Right)
             cue.pow = (cue.pow + pc) > 100 ? 100 : (cue.pow + pc);
@@ -195,26 +195,26 @@ bool step(void) {
         // ready
         if (kb_Data[6] & kb_Enter && cue.pow > 0) {
             frame = 0;
-            gamestate = animate;
+            game_state = animate;
         }
     }
 
-    else if (gamestate == scratch) {
+    else if (game_state == scratch) {
 
         if (kb_Data[7] & kb_Up)
-            balls[15].y -= 0.5f * speedmult;
+            balls[15].y -= 0.5f * speed_mult;
 
         else if (kb_Data[7] & kb_Down)
-            balls[15].y += 0.5f * speedmult;
+            balls[15].y += 0.5f * speed_mult;
         
 
         if (kb_Data[7] & kb_Left)
-            balls[15].x -= 0.5f * speedmult;
+            balls[15].x -= 0.5f * speed_mult;
         
         else if (kb_Data[7] & kb_Right)
-            balls[15].x += 0.5f * speedmult;
+            balls[15].x += 0.5f * speed_mult;
 
-        collidewalls(&balls[15]);
+        collide_walls(&balls[15]);
 
         if (start_of_game && balls[15].x > 90)
             balls[15].x = 90;
@@ -231,7 +231,7 @@ bool step(void) {
             }
 
             if (change_state) {
-                gamestate = pick_state;
+                game_state = pick_state;
                 cue.pow = 0;
                 start_of_game = false;
             }
@@ -239,7 +239,7 @@ bool step(void) {
 
     }
 
-    else if (gamestate == pick_pocket) {
+    else if (game_state == pick_pocket) {
 
         static bool lr, ll, lu, ld, r, l, u, d;
         r = kb_Data[7] & kb_Right;
@@ -262,25 +262,25 @@ bool step(void) {
         ld = d;
 
         if (kb_Data[6] & kb_Enter) {
-            gamestate = pick_state;
+            game_state = pick_state;
             cue.pow = 0;
             win_attempt = false;
         }
 
     }
 
-    else if (gamestate == animate) {
+    else if (game_state == animate) {
         frame ++;
 
         if (frame > 20) {
             frame = 0;
-            gamestate = run;
+            game_state = run;
             balls[15].vx = cosf(cue.dir) * (cue.pow/4 + 1);
             balls[15].vy = sinf(cue.dir) * (cue.pow/4 + 1);
         }
     }
 
-    else if (gamestate == run) {
+    else if (game_state == run) {
         // init the counter to zero
         num_stopped = 0;
         
@@ -298,9 +298,9 @@ bool step(void) {
 
             check_pockets(&balls[i], &should_change_turn, is_player_1_turn, &player_1_type, &winning_player, &num_solids, &num_stripes, picked_pocket, win_attempt);
 
-            collidewalls(&balls[i]); // this jawn worked well enough without multiple per frame
+            collide_walls(&balls[i]); // this jawn worked well enough without multiple per frame
 
-            // do the decceleration
+            // do the deceleration
             float atan_of = atan2f(balls[i].vy, balls[i].vx);
             float ax = A * fabsf(cosf(atan_of));
             float ay = A * fabsf(sinf(atan_of));
@@ -316,7 +316,7 @@ bool step(void) {
 
         // if the counter it equal to the number of balls, end the run state
         if (num_stopped == 16) {
-            gamestate = pick_state;
+            game_state = pick_state;
 
             // dont mind this
             win_attempt = (should_change_turn ? !is_player_1_turn : is_player_1_turn) ?
@@ -347,17 +347,17 @@ void draw(void) {
         balls[i].collided = false;
     }
 
-    if (gamestate == setup) {
+    if (game_state == setup) {
         draw_setup(balls, &cue);
     }
 
     // animate cue
-    else if (gamestate == animate) {
+    else if (game_state == animate) {
         gfx_SetColor(5);
         gfx_Line(balls[15].x + cosf(cue.dir) * (30 + cue.pow/4 - frame), balls[15].y + sinf(cue.dir) * (30 + cue.pow/4 - frame), balls[15].x + cosf(cue.dir) * (120 + cue.pow/4 - frame), balls[15].y + sinf(cue.dir) * (120 + cue.pow/4 - frame));
     }
 
-    else if (gamestate == pick_pocket) {
+    else if (game_state == pick_pocket) {
         draw_pocket_picking(picked_pocket);
     }
 
@@ -390,7 +390,7 @@ typedef struct {
     cue_data cue;
     serialized_ball_data_t balls[16];
 
-    int gamestate;
+    int game_state;
 
     int picked_pocket;
     bool win_attempt;
@@ -486,7 +486,7 @@ void try_load_settings(void) {
         unserialize_ball(&loaded_settings.balls[i], &balls[i]);
     }
 
-    gamestate = loaded_settings.gamestate;
+    game_state = loaded_settings.game_state;
 
     picked_pocket = loaded_settings.picked_pocket;
     win_attempt = loaded_settings.win_attempt;
@@ -538,7 +538,7 @@ void save_settings(void) {
         serialize_ball(&balls[i], &saved_settings.balls[i]);
     }
 
-    saved_settings.gamestate = gamestate;
+    saved_settings.game_state = game_state;
 
     saved_settings.picked_pocket = picked_pocket;
     saved_settings.win_attempt = win_attempt;

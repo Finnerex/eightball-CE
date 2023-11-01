@@ -7,7 +7,7 @@
 #include <math.h>
 #include <stdbool.h>
 
-void collideballs(ball_data* ball1, ball_data* ball2) {
+void collide_balls(ball_data* ball1, ball_data* ball2) {
 
     ball1->collided = true; ball2->collided = true;
 
@@ -93,7 +93,7 @@ void check_pockets(ball_data* ball, bool* should_change_turn, bool is_player_1_t
     }
 }
 
-void collidewalls(ball_data* ball) {
+void collide_walls(ball_data* ball) {
 
     if (ball->pocketed)
         return;
@@ -134,22 +134,6 @@ float time_of_collision(ball_data* ball1, ball_data* ball2) {
     return t1;
 }
 
-// void prune_sweep(ball_data balls[16]) {
-//     xyid sorted_balls[16];
-//     for (int i = 0; i < 16; i++) {
-//         sorted_balls[i].x = balls[i].x;
-//         sorted_balls[i].y = balls[i].y;
-//         sorted_balls[i].id = i;
-//     }
-
-//     // sort the balls by their x val
-//     qsort(sorted_balls, sizeof(sorted_balls)/sizeof(*sorted_balls), sizeof(*sorted_balls), sort_x);
-    
-//     // check and execute collision
-    
-
-// }
-
 void not_prune_sweep(ball_data balls[16]) {
     for (int i = 0; i < 16; i++) {
 
@@ -167,7 +151,7 @@ void not_prune_sweep(ball_data balls[16]) {
                     balls[j].y -= balls[j].vy * t;
 
                     // resolve collision
-                    collideballs(&balls[i], &balls[j]);
+                    collide_balls(&balls[i], &balls[j]);
 
                     balls[i].x -= balls[i].vx * (1 - t);
                     balls[i].y -= balls[i].vy * (1 - t);
@@ -203,49 +187,20 @@ bool raycast(float p0_x, float p0_y, float p1_x, float p1_y,
     return false; // No collision
 }
 
-bool ballcast(float x1, float y1, float x2, float y2, float cx, float cy, float r, float *i_x, float *i_y) {
-    float dx = x2 - x1;
-    float dy = y2 - y1;
-    float fx = x1 - cx;
-    float fy = y1 - cy;
-    float a = dx*dx + dy*dy;
-    float b = 2*fx*dx + 2*fy*dy;
-    float c = fx*fx + fy*fy - r*r;
-    float discriminant = b*b - 4*a*c;
-    if (discriminant < 0) {
-        return false;  // no intersection
-    } else {
-        float t1 = (-b + sqrtf(discriminant)) / (2*a);
-        float t2 = (-b - sqrtf(discriminant)) / (2*a);
-        float ix1 = x1 + t1*dx;
-        float iy1 = y1 + t1*dy;
-        float ix2 = x1 + t2*dx;
-        float iy2 = y1 + t2*dy;
+bool ballcast(float bx, float by, float cx, float cy, cue_data* cue, float* i_x, float* i_y) {
+    float vx = cosf(cue->dir); float vy = sinf(cue->dir);
 
-        if (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1) {
-            // Two intersections
-            float dist1 = sqrtf((x1 - ix1)*(x1 - ix1) + (y1 - iy1)*(y1 - iy1));
-            float dist2 = sqrtf((x1 - ix2)*(x1 - ix2) + (y1 - iy2)*(y1 - iy2));
-            if (dist1 < dist2) {
-                *i_x = ix1;
-                *i_y = iy1;
-            } else {
-                *i_x = ix2;
-                *i_y = iy2;
-            }
-            return true;
-        } else if (t1 >= 0 && t1 <= 1) {
-            // One intersection
-            *i_x = ix1;
-            *i_y = iy1;
-            return true;
-        } else if (t2 >= 0 && t2 <= 1) {
-            // One intersection
-            *i_x = ix2;
-            *i_y = iy2;
-            return true;
-        } else {
-            return false;  // no intersection
-        }
-    }
+    ball_data cue_ball = { NULL, false, false, cx, cy, vx, vy }; // times ten bc idk
+    ball_data ball2 = { NULL, false, false, bx, by, 0, 0 };
+
+    float t = time_of_collision(&cue_ball, &ball2);
+
+    if (t < 0)
+        return false;
+
+    *i_x = cx + vx * -t;
+    *i_y = cy + vy * -t;
+
+    return true;
+
 }

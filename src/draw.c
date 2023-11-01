@@ -68,7 +68,7 @@ void draw_setup(ball_data balls[16], cue_data* cue) {
     min_distance = sqrtf(powf(qbx - end_x, 2) + powf(qby - end_y, 2));
 
     for (int i = 14; i >= 0; i--) {
-        ballcast(qbx, qby, qbx + cos_of * -LCD_WIDTH, qby + sin_of * -LCD_WIDTH, balls[i].x, balls[i].y, 8, &i_x, &i_y);
+        ballcast(balls[i].x, balls[i].y, qbx, qby, cue, &i_x, &i_y);
         min_distance = closest_pos(i_x, i_y, qbx, qby, min_distance, &end_x, &end_y);
     }
 
