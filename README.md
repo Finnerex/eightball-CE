@@ -13,5 +13,3 @@ Hold 2nd / Alpha - Increase / decrease rotation and movement speed
 Enter - Shoot / ready to shoot  
 Clear - Save and quit  
 Delete - Quit without saving  
-  
-(Eightball-CE is revolutionary)
