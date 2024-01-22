@@ -7,9 +7,9 @@ extern "C" {
 
 #define stripe_width 8
 #define stripe_height 8
-#define stripe_size 66
-#define stripe ((gfx_sprite_t*)stripe_data)
-extern unsigned char stripe_data[66];
+#define stripe_size 74
+#define stripe ((gfx_rletsprite_t*)stripe_data)
+extern unsigned char stripe_data[74];
 
 #ifdef __cplusplus
 }

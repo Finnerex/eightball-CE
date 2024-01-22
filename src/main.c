@@ -38,7 +38,7 @@ int num_solids = 7;
 // player turns
 bool is_player_1_turn = true;
 bool should_change_turn = false;
-gfx_sprite_t* player_1_type = NULL;
+gfx_rletsprite_t* player_1_type = NULL;
 
 int winning_player = 0;
 
@@ -87,7 +87,7 @@ void begin(void){
     init_table();
 
     // ball initilization
-    gfx_sprite_t* init_ball_sprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
+    gfx_rletsprite_t* init_ball_sprite[16] = {stripe, solid, stripe, stripe, eightball, solid, stripe, solid, solid, stripe, solid, stripe, solid, stripe, solid, qball};
     float init_ball_x[16] = {LCD_WIDTH/2 + table_tl_width/2 + 10, init_ball_x[0] + stripe_width, init_ball_x[0] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[2] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[5] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, init_ball_x[9] + stripe_width, 85};
     float init_ball_y[16] = {table_l_height/2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] - (5.0/3.0) * stripe_height + 2, init_ball_y[0] - stripe_height/2, init_ball_y[0] + stripe_height/2, init_ball_y[0] + (5.0/3.0) * stripe_height - 1, init_ball_y[0] - 2 * stripe_height, init_ball_y[0] - stripe_height, init_ball_y[0], init_ball_y[0] + stripe_height, init_ball_y[0] + 2 * stripe_height, table_l_height/2};
     
@@ -343,7 +343,7 @@ void draw(void) {
 
     // draw balls
     for (int i = 0; i < 16; i++) {
-        gfx_TransparentSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
+        gfx_RLETSprite_NoClip(balls[i].sprite, balls[i].x - balls[i].sprite->width/2, balls[i].y - balls[i].sprite->height/2);
         balls[i].collided = false;
     }
 

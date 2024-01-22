@@ -29,7 +29,7 @@ void collide_balls(ball_data* ball1, ball_data* ball2) {
 
 }
 
-void check_pockets(ball_data* ball, bool* should_change_turn, bool is_player_1_turn, gfx_sprite_t** player_1_type, int* winning_player, 
+void check_pockets(ball_data* ball, bool* should_change_turn, bool is_player_1_turn, gfx_rletsprite_t** player_1_type, int* winning_player, 
                     int* num_solids, int* num_stripes, int picked_pocket, bool win_attempt) {
 
     static const int pocket_x[] = {14, LCD_WIDTH / 2, LCD_WIDTH - 14, 14,                LCD_WIDTH / 2,     LCD_WIDTH - 14};

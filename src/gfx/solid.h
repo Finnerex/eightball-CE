@@ -7,9 +7,9 @@ extern "C" {
 
 #define solid_width 8
 #define solid_height 8
-#define solid_size 66
-#define solid ((gfx_sprite_t*)solid_data)
-extern unsigned char solid_data[66];
+#define solid_size 74
+#define solid ((gfx_rletsprite_t*)solid_data)
+extern unsigned char solid_data[74];
 
 #ifdef __cplusplus
 }

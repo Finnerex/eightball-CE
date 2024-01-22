@@ -11,6 +11,15 @@ palettes:
     images: automatic
 
 converts:
+  - name: rlet_sprites
+    style: rlet
+    palette: global_palette
+    transparent-color-index: 0
+    images:
+      - eightball
+      - stripe
+      - solid
+      - qball
 
   - name: sprites
     palette: global_palette
@@ -18,12 +27,6 @@ converts:
     images:
       - table_l
       - table_tl
-      - eightball
-      - stripe
-      - solid
-      - qball
-
-
 
 outputs:
   - type: c
@@ -32,3 +35,4 @@ outputs:
       - global_palette
     converts:
       - sprites
+      - rlet_sprites
